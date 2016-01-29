@@ -5,8 +5,8 @@ Splash.prototype = {
     loadScripts: function () {
         game.load.script("MenuScript", "js/States/menu.js");
         game.load.script("GameScript", "js/States/game.js");
-        game.load.script("GameScript", "js/Objects/world.js");
-        game.load.script("GameScript", "js/Objects/wall.js");
+        game.load.script("WorldScript", "js/Objects/world.js");
+        game.load.script("WallScript", "js/Objects/wall.js");
 
     },
 

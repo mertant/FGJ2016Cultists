@@ -16,6 +16,7 @@ function Map() {
 
     //group for player-collideable objects - walls, boulder
     this.collideableGroup = game.add.group();
+    this.collideableGroup.enableBody = true;
     //group for other objects that spawn in the map - resources, bunny
     this.noncollideableGroup = game.add.group();
 }
@@ -23,7 +24,10 @@ function Map() {
 Map.prototype.add = function(x, y, obj) {
     //this.data[x][y] = obj;
     this.objects.push(obj);
-
+    if (obj.collidable){
+      this.collideableGroup.add(obj.sprite);
+      obj.sprite.body.immovable = true;
+    }
     // add object to proper collision group
 }
 

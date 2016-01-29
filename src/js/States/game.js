@@ -41,12 +41,15 @@ Game.prototype = {
             left: game.input.keyboard.addKey(Phaser.KeyCode.A),
             right: game.input.keyboard.addKey(Phaser.KeyCode.D)
         };
-        //Initialize game objects, world etc.
-
         //Init clock
         this.clock = 0;
         this.clockText = game.add.text(10, 10, 'Time: ');
         game.time.events.loop(Phaser.Timer.SECOND, this.updateCounter, this);
+
+        //Le Cartography section
+        this.map = new Map();
+        var wall = new Wall(0,0);
+        this.map.add(0,0,wall);
     },
 
     updateCounter: function() {
@@ -81,6 +84,10 @@ Game.prototype = {
 
         //Le Mage Collision Checker
         game.physics.arcade.collide(this.mage1, this.mage2);
+
+        //Le Boulder Blocking part of the Code
+        game.physics.arcade.collide(this.mage1, this.map.collideableGroup);
+        game.physics.arcade.collide(this.mage2, this.map.collideableGroup);
 
     },
 

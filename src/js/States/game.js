@@ -31,8 +31,10 @@ Game.prototype = {
         this.mage1.body.collideWorldBounds = true;
         this.mage2.body.collideWorldBounds = true;
 
-
+        //Le Cursor
         this.cursors = game.input.keyboard.createCursorKeys();
+
+        //Le Keys
         this.keys = {
             up: game.input.keyboard.addKey(Phaser.KeyCode.W),
             down: game.input.keyboard.addKey(Phaser.KeyCode.S),

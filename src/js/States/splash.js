@@ -5,6 +5,8 @@ Splash.prototype = {
     loadScripts: function () {
         game.load.script("MenuScript", "js/States/menu.js");
         game.load.script("GameScript", "js/States/game.js");
+        game.load.script("GameScript", "js/Objects/world.js");
+        game.load.script("GameScript", "js/Objects/wall.js");
 
     },
 
@@ -18,6 +20,7 @@ Splash.prototype = {
         game.load.image('background', 'content/bg/bg001.png');
         game.load.image('mage1', 'content/sprites/mage1.png');
         game.load.image('mage2', 'content/sprites/mage2.png');
+        game.load.image('boulder', 'content/sprites/boulder.png');
 
         // Sprites
     },

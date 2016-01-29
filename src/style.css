@@ -1,0 +1,11 @@
+body {
+    background-color: #1C140A; /* 28 20 10 */
+    /*
+        2E421A  46 66 26
+    */
+}
+
+#content {
+    margin: 0 auto;
+    max-width:800px;
+}

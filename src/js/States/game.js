@@ -4,16 +4,10 @@ var cursors;
 
 Game.prototype = {
 
-    init: function () {
-
-    },
-
-    preload: function () {
-
-    }, 
+    // PRELOAD GOES TO SPLASH.JS
 
     create: function() {
-       
+        //Initialize game objects, world etc.
     },
 
     update: function() {
@@ -34,10 +28,7 @@ Game.prototype = {
     render: function() {
         //game.debug.cameraInfo(game.camera, 32, 32);
 
+        //for custom rendering and debug, no need to render each sprite etc.
     }
 
-}
-
-function choice(list) {
-    return list[Math.floor(Math.random()*list.length)];
 }

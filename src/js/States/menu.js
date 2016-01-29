@@ -7,16 +7,18 @@ Menu.prototype = {
     },
 
     preload: function () {
-
+        //Preload assets for the main menu in splash.js
     }, 
 
     create: function() {
-        //this.bg = game.add.sprite(0, 0, "gamebg");
+        //this.bg = game.add.sprite(0, 0, "menubg");
 
-        game.state.start("Game");
+        //create menu objects
+
     },
 
     update: function() {
-
+        // Instantly goes to game - implement menu
+        game.state.start("Game");
     }
 }

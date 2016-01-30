@@ -72,6 +72,30 @@ Game.prototype = {
             }
         }
 
+        // FIXME: Don't hardcode resource info list here?
+        var resourceInfos = [
+            new Skull(),
+            new Mercury(),
+            new Sulphur(),
+        ];
+
+        // Generate initial resources on the map
+        for (var i = 0; i < 20; ++i) {
+            var x = 0;
+            var y = 0;
+
+            // Generate random coordinates until an empty spot is found
+            do {
+                x = Math.random() * (this.map.width * (this.map.tilesize - 2));
+                y = Math.random() * (this.map.height * (this.map.tilesize - 2));
+                x += this.map.x;
+                y += this.map.y;
+            } while (this.map.getAt(x, y) != null);
+
+            var resourceInfo = resourceInfos[Math.floor(Math.random() * resourceInfos.length)];
+            var resource = new Resource(x, y, resourceInfo);
+            this.map.add(x, y, resource);
+        }
     },
 
     updateCounter: function() {

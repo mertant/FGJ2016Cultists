@@ -44,6 +44,7 @@ Game.prototype = {
         //  Player 1
         this.keys1 = {
             pick: game.input.keyboard.addKey(Phaser.KeyCode.Q),
+            toss: game.input.keyboard.addKey(Phaser.KeyCode.E),
             up: game.input.keyboard.addKey(Phaser.KeyCode.W),
             down: game.input.keyboard.addKey(Phaser.KeyCode.S),
             left: game.input.keyboard.addKey(Phaser.KeyCode.A),
@@ -53,6 +54,7 @@ Game.prototype = {
         //  Player 2
         this.keys2 = {
             pick: game.input.keyboard.addKey(Phaser.KeyCode.U),
+            toss: game.input.keyboard.addKey(Phaser.KeyCode.O),
             up: game.input.keyboard.addKey(Phaser.KeyCode.I),
             down: game.input.keyboard.addKey(Phaser.KeyCode.K),
             left: game.input.keyboard.addKey(Phaser.KeyCode.J),
@@ -146,6 +148,17 @@ Game.prototype = {
             this.map.add(x, y, resource);
         }
 
+
+        //TEMP
+        //make a test boulder to toss
+        var boulder = new Boulder(128, 128);
+        this.map.add(128, 128, boulder);
+
+        // Active boulders to update
+        this.activeWeapons = []; //list that contains any active/flying boulders
+
+
+
         //bring player sprites on top of others
         game.world.bringToTop(this.mage1.sprite);
         game.world.bringToTop(this.mage2.sprite);
@@ -162,6 +175,64 @@ Game.prototype = {
 
     update: function() {
 
+        //Update flying objects
+        for (var i = 0; i < this.activeWeapons.length; i++) {
+            this.activeWeapons[i].update();
+        }
+
+        var inputSystems = [[this.mage1, this.keys1], [this.mage2, this.keys2]];
+
+        for (var i = 0; i < inputSystems.length; i++) {
+            var curMage = inputSystems[i][0];
+            var curKeys = inputSystems[i][1];
+
+            curMage.sprite.body.velocity.x = 0;
+            curMage.sprite.body.velocity.y = 0;
+
+            var curMageVelocity = curMage.getMovementSpeed();
+            if (curKeys.up.isDown) {
+                curMage.sprite.body.velocity.y = -curMageVelocity; //PIXELS PER SECOND
+                curMage.lastDirection = curMage.directions.UP;
+            } else if (curKeys.down.isDown) {
+                curMage.sprite.body.velocity.y = curMageVelocity;
+                curMage.lastDirection = curMage.directions.DOWN;
+            }
+            if (curKeys.left.isDown) {
+                curMage.sprite.body.velocity.x = -curMageVelocity;
+                curMage.sprite.scale.x = 1;
+                curMage.lastDirection = curMage.directions.LEFT;
+            } else if (curKeys.right.isDown) {
+                curMage.sprite.body.velocity.x = curMageVelocity;
+                curMage.sprite.scale.x = -1;
+                curMage.lastDirection = curMage.directions.RIGHT;
+            }
+            if (curKeys.pick.isDown) {
+                var obj = this.map.getAt(curMage.sprite.x, curMage.sprite.y)
+                if (obj != null && obj.constructor.name == 'Resource') {
+                    if (curMage.weapon == null) {
+                        curMage.pickUp(obj);
+                        this.map.remove(obj);
+                        obj.pick();
+                    }
+                }
+                if (obj != null && obj.constructor.name == "Boulder") {
+                    if (curMage.weapon == null) { //can only pick up if not already carrying
+                        curMage.pickWeapon(obj);
+                        this.map.remove(obj);
+                        obj.pick(curMage); //NOTE: Boulder.pick
+                    }
+                }
+            }
+            if (curKeys.toss.isDown) {
+                if (curMage.weapon != null) {
+                    var weapon = curMage.useWeapon();
+                }
+            }
+
+            //animate running and stuff
+            curMage.updateAnim();
+        }
+        /*
         //Reset velocity
         //PIXELS PER SECOND
         this.mage1.sprite.body.velocity.x = 0;
@@ -189,9 +260,23 @@ Game.prototype = {
         if (this.keys1.pick.isDown) {
             var obj = this.map.getAt(this.mage1.sprite.x, this.mage1.sprite.y)
             if (obj != null && obj.constructor.name == 'Resource') {
-                this.mage1.pickUp(obj);
-                this.map.remove(obj);
-                obj.pick();
+                if (this.mage1.weapon == null) {
+                    this.mage1.pickUp(obj);
+                    this.map.remove(obj);
+                    obj.pick();
+                }
+            }
+            if (obj != null && obj.constructor.name == "Boulder") {
+                if (this.mage1.weapon == null) { //can only pick up if not already carrying
+                    this.mage1.pickWeapon(obj);
+                    this.map.remove(obj);
+                    obj.pick(); //NOTE: Boulder.pick
+                }
+            }
+        }
+        if (this.keys1.toss.isDown) {
+            if (this.mage1.weapon != null) {
+                var weapon = this.mage1.useWeapon();
             }
         }
 
@@ -227,6 +312,7 @@ Game.prototype = {
 
         //animate running and stuff
         this.mage2.updateAnim();
+        */
 
         // Player <-> Map edge collision
         //game.physics.arcade.collide(this.mage1.sprite, this.mapBoundary);

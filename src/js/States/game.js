@@ -72,7 +72,7 @@ Game.prototype = {
             right: game.input.keyboard.addKey(Phaser.KeyCode.L)
         };
 
-        this.clock = 5;
+        this.clock = 15;
         this.clockText = game.add.text(10, 10, 'Time: ' + this.clock);
         game.time.events.loop(Phaser.Timer.SECOND, this.updateCounter, this);
 
@@ -254,6 +254,10 @@ Game.prototype = {
                 curMage.sprite.body.velocity.x = 0;
                 curMage.sprite.body.velocity.y = 0;
 
+                if (curMage.isStunned) {
+                    continue;
+                }
+
                 var curMageVelocity = curMage.getMovementSpeed();
                 if (curKeys.up.isDown) {
                     curMage.sprite.body.velocity.y = -curMageVelocity; //PIXELS PER SECOND
@@ -349,8 +353,28 @@ Game.prototype = {
         game.physics.arcade.collide(this.mage1.sprite, this.map.collideableGroup);
         game.physics.arcade.collide(this.mage2.sprite, this.map.collideableGroup);
 
-        //reforce map boundaries
+        //check boulder <-> player collision
+        for (var i = 0; i < this.activeWeapons.length; i++) {
+            if (!this.activeWeapons[i].destroyed && this.activeWeapons[i].thrower != this.mage1) {
+                var wasHit = checkOverlap(this.mage1.sprite, this.activeWeapons[i].sprite);
+                if (wasHit) {
+                    this.activeWeapons[i].destroy();
+                    //TODO sound effect and gfx(dust?)
+                    this.mage1.stun();
+                }
+            }
+            if (!this.activeWeapons[i].destroyed && this.activeWeapons[i].thrower != this.mage2) {
+                var wasHit = checkOverlap(this.mage2.sprite, this.activeWeapons[i].sprite);
+                if (wasHit) {
+                    this.activeWeapons[i].destroy();
+                    //TODO sound effect and gfx(dust?)
+                    this.mage2.stun();
+                }
+            }
+        }
+        
 
+        //reforce map boundaries
         for (var i = 0; i < this.players.children.length; i++) {
             if (this.players.children[i].x < this.map.x + this.players.children[i].width/2) {
                 this.players.children[i].x = this.map.x + this.players.children[i].width/2;

@@ -6,3 +6,13 @@ function Resource(x, y, resourceInfo) {
     this.healthImprovement = resourceInfo.healthImprovement;
     this.damageImprovement = resourceInfo.damageImprovement;
 }
+
+Resource.prototype.pick = function() {
+    this.sprite.visible = false;
+}
+
+Resource.prototype.drop = function(x, y) {
+    this.sprite.visible = true;
+    this.sprite.x = x;
+    this.sprite.y = y;
+}

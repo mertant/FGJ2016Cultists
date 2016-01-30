@@ -42,10 +42,17 @@ Game.prototype = {
 
         //Input
         //  Player 1
-        this.cursors = game.input.keyboard.createCursorKeys();
+        this.keys1 = {
+            pick: game.input.keyboard.addKey(Phaser.KeyCode.U),
+            up: game.input.keyboard.addKey(Phaser.KeyCode.I),
+            down: game.input.keyboard.addKey(Phaser.KeyCode.K),
+            left: game.input.keyboard.addKey(Phaser.KeyCode.J),
+            right: game.input.keyboard.addKey(Phaser.KeyCode.L)
+        };
 
         //  Player 2
-        this.keys = {
+        this.keys2 = {
+            pick: game.input.keyboard.addKey(Phaser.KeyCode.Q),
             up: game.input.keyboard.addKey(Phaser.KeyCode.W),
             down: game.input.keyboard.addKey(Phaser.KeyCode.S),
             left: game.input.keyboard.addKey(Phaser.KeyCode.A),
@@ -129,21 +136,29 @@ Game.prototype = {
         this.mage2.sprite.body.velocity.y = 0;
         // Input P1
         var mage1velocity = this.mage1.getMovementSpeed();
-        if (this.cursors.up.isDown) {
+        if (this.keys1.up.isDown) {
             this.mage1.sprite.body.velocity.y = -mage1velocity; //PIXELS PER SECOND
             this.mage1.lastDirection = this.mage1.directions.UP;
-        } else if (this.cursors.down.isDown) {
+        } else if (this.keys1.down.isDown) {
             this.mage1.sprite.body.velocity.y = mage1velocity;
             this.mage1.lastDirection = this.mage1.directions.DOWN;
         }
-        if (this.cursors.left.isDown) {
+        if (this.keys1.left.isDown) {
             this.mage1.sprite.body.velocity.x = -mage1velocity;
             this.mage1.sprite.scale.x = 1;
             this.mage1.lastDirection = this.mage1.directions.LEFT;
-        } else if (this.cursors.right.isDown) {
+        } else if (this.keys1.right.isDown) {
             this.mage1.sprite.body.velocity.x = mage1velocity;
             this.mage1.sprite.scale.x = -1;
             this.mage1.lastDirection = this.mage1.directions.RIGHT;
+        }
+        if (this.keys1.pick.isDown) {
+            var obj = this.map.getAt(this.mage1.sprite.x, this.mage1.sprite.y)
+            if (obj != null && obj.constructor.name == 'Resource') {
+                this.mage1.pickUp(obj);
+                this.map.remove(obj);
+                obj.pick();
+            }
         }
 
         //animate running and stuff
@@ -151,21 +166,29 @@ Game.prototype = {
 
         // Input P2
         var mage2velocity = this.mage2.getMovementSpeed();
-        if (this.keys.up.isDown) {
+        if (this.keys2.up.isDown) {
             this.mage2.sprite.body.velocity.y = -mage2velocity;
             this.mage2.lastDirection = this.mage2.directions.UP;
-        } else if (this.keys.down.isDown) {
+        } else if (this.keys2.down.isDown) {
             this.mage2.sprite.body.velocity.y = mage2velocity;
             this.mage2.lastDirection = this.mage2.directions.DOWN;
         }
-        if (this.keys.left.isDown) {
+        if (this.keys2.left.isDown) {
             this.mage2.sprite.body.velocity.x = -mage2velocity;
             this.mage2.sprite.scale.x = 1;
             this.mage2.lastDirection = this.mage2.directions.LEFT;
-        } else if (this.keys.right.isDown) {
+        } else if (this.keys2.right.isDown) {
             this.mage2.sprite.body.velocity.x = mage2velocity;
             this.mage2.sprite.scale.x = -1;
             this.mage2.lastDirection = this.mage2.directions.RIGHT;
+        }
+        if (this.keys2.pick.isDown) {
+            var obj = this.map.getAt(this.mage2.sprite.x, this.mage2.sprite.y)
+            if (obj != null && obj.constructor.name == 'Resource') {
+                this.mage2.pickUp(obj);
+                this.map.remove(obj);
+                obj.pick();
+            }
         }
 
         //animate running and stuff

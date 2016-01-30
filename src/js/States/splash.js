@@ -23,10 +23,10 @@ Splash.prototype = {
 
         game.load.image('background', 'content/bg/bg001.png');
         game.load.image("backgroundtrees", "content/bg/backgroundtrees.png");
-        
 
-        
-        
+
+
+
 
         // Sprites
         //TEMP
@@ -38,10 +38,11 @@ Splash.prototype = {
         game.load.image("mercury", "content/sprites/mercury.png");
         game.load.image("orb", "content/sprites/orb.png");
         game.load.image("orb2", "content/sprites/orb2.png");
-        game.load.image("risu", "content/sprites/risu0000.png");
-        game.load.image("rock", "content/sprites/rock10000.png");
+        game.load.image("risu", "content/sprites/risu.png");
+        game.load.image("rock", "content/sprites/rock.png");
         game.load.image("skull", "content/sprites/skull.png");
         game.load.image("sulphur", "content/sprites/sulphur.png");
+        game.load.image("altar", "content/sprites/altar.png");
 
         //ESIMERKKI: game.load.spritesheet(key, sprite file, frame width, frame height, frame count);
         //TEMP

@@ -73,6 +73,7 @@ Game.prototype = {
             new Skull(),
             new Mercury(),
             new Sulphur(),
+            new Chicken(),
         ];
 
         // Generate initial resources on the map

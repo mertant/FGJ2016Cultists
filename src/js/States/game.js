@@ -143,13 +143,17 @@ Game.prototype = {
                 if (i == 0 || j == 0 || i == this.map.width + 1 || j == this.map.height + 1) {
                     var x = this.map.x - this.map.tilesize;
                     var y = this.map.y - this.map.tilesize;
+
                     x += i*this.map.tilesize;
                     y += j*this.map.tilesize;
+
+                    this.map.add(0,0,new Wall(x,y));
+
                     var spr = game.add.sprite(x, y, "boulder");
                     //spr.enableBody = true;
                     //game.physics.arcade.enable(spr);
                     //spr.body.immovable = true;
-                    //spr.visible = false;
+                    spr.visible = false;
                     this.mapBoundary.add(spr);
 
                 }
@@ -373,9 +377,12 @@ Game.prototype = {
         //Update flying objects
         for (var i = 0; i < this.activeWeapons.length; i++) {
             this.activeWeapons[i].update();
-            if (this.activeWeapons[i].destroyed) {
+
+            game.physics.arcade.collide(this.activeWeapons[i].sprite, this.map.collideableGroup);
+            if (!this.activeWeapons[i].flying || this.activeWeapons[i].destroyed) {
                 this.activeWeapons.splice(i--, 1);
             }
+           
         }
         this.controls();
 
@@ -461,6 +468,7 @@ Game.prototype = {
         //for custom rendering and debug, no need to render each sprite etc.
         //game.debug.spriteInfo(this.mage1.sprite, 32, 32);
     }
+
 
 }
 

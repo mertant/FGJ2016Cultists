@@ -11,7 +11,7 @@ Menu.prototype = {
     }, 
 
     create: function() {
-        //create menu objects
+        // Create menu objects
         this.goathead = game.add.sprite(game.world.centerX, 0.5 * game.world.centerY, "goaty");
         this.goathead.anchor.set(0.5);
         this.goathead.scale.setTo(0.18);
@@ -21,6 +21,10 @@ Menu.prototype = {
         this.keySprite.scale.setTo(3.0);
         this.keySprite.smoothed = false;
 
+        this.keySpriteTween = game.add.tween(this.keySprite);
+        this.keySpriteTween.to({y: '+20'}, 800, Phaser.Easing.Sinusoidal.InOut, true, delay = 0, repeat = -1, yoyo = true);
+
+        // Pressing the enter key goes to game
         this.enterKey = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
     },
 

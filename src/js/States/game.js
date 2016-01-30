@@ -212,8 +212,6 @@ Game.prototype = {
         // Active boulders to update
         this.activeWeapons = []; //list that contains any active/flying boulders
 
-        //bring carrying boulder
-
         // Overlay trees
         this.trees = game.add.sprite(0, 0, 'backgroundtrees');
     },
@@ -341,6 +339,7 @@ Game.prototype = {
     },
 
     update: function() {
+        game.world.bringToTop(this.players);
 
         //Update flying objects
         for (var i = 0; i < this.activeWeapons.length; i++) {

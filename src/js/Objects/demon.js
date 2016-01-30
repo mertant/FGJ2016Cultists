@@ -12,6 +12,6 @@ function Demon(x, y, spritekey) {
     this.baseMovementSpeed = 160; //pixels per second
 }
 
-Mage.prototype.getMovementSpeed = function() {
+Demon.prototype.getMovementSpeed = function() {
     return this.baseMovementSpeed;
 }

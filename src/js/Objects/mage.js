@@ -107,7 +107,6 @@ Mage.prototype.standHorizontal = function() {
 Mage.prototype.pickUp = function(resource) {
     //picks up the given resource to the inventory
     this.inventory.push(resource);
-    //resource.pickUp();
 }
 
 Mage.prototype.dumpItems = function() {

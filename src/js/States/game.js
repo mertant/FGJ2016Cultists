@@ -59,8 +59,6 @@ Game.prototype = {
             right: game.input.keyboard.addKey(Phaser.KeyCode.L)
         };
 
-        this.clockText = game.add.text(10, 10, 'Time: ');
-        game.time.events.loop(Phaser.Timer.SECOND, this.updateCounter, this);
         this.clock = 0;
         this.clockText = game.add.text(10, 10, 'Time: ');
         game.time.events.loop(Phaser.Timer.SECOND, this.updateCounter, this);

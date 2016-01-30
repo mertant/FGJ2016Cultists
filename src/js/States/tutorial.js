@@ -30,15 +30,19 @@ Tutorial.prototype = {
             this.currentPage += 1;
             if (this.currentPage >= this.pageNames.length) {
                 // Move to Game state after last tutorial
-                game.add
-                    .tween(game.world).to({alpha: 0.0}, 1000, Phaser.Easing.Linear.Out, true)
-                    .onComplete.add(function() {
-                        game.state.start("Game");
-                    }, this);
+                this.startGame();
                 return;
             }
             this.setImage(this.pageNames[this.currentPage]);
         }, this);
+
+        this.escKey = game.input.keyboard.addKey(Phaser.Keyboard.ESC);
+        this.escKey.onDown.add(function() {
+            this.startGame();
+            return;
+        }, this);
+
+        game.input.keyboard.addKeyCapture([Phaser.Keyboard.ENTER, Phaser.Keyboard.ESC]);
     },
 
     update: function() {
@@ -52,5 +56,13 @@ Tutorial.prototype = {
         this.currentSprite = game.add.sprite(0, 0, imageName);
         this.currentSprite.scale.setTo(5.0);
         this.currentSprite.smoothed = false;
-    }
+    },
+
+    startGame: function() {
+        game.add
+            .tween(game.world).to({alpha: 0.0}, 1000, Phaser.Easing.Linear.Out, true)
+            .onComplete.add(function() {
+                game.state.start("Game");
+            }, this);
+    },
 };

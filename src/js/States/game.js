@@ -39,8 +39,8 @@ Game.prototype = {
         this.demon2.sprite.scale.y = 2;
 
         //Altars
-        this.altar1 = new Altar(96+7*32, 96+5*32);
-        this.altar2 = new Altar(96+10*32, 96+6*32);
+        this.altar1 = new Altar(96+7*32, 96+5*32, 'blueAltar');
+        this.altar2 = new Altar(96+10*32, 96+6*32, 'redAltar');
 
         //Le Players Group
         this.players = game.add.group();
@@ -141,10 +141,6 @@ Game.prototype = {
         this.stoneBLOODemitter = game.add.emitter(0, 0, 100);
         this.stoneBLOODemitter.makeParticles('stoneblod');
 
-
-        //this.map.add(new Wall(this.map.tilesize*3 + this.map.x,this.map.tilesize*3 + this.map.y));
-
-
         //  Create walls around the play area that are invisible
         this.mapBoundary = game.add.group();
         //this.mapBoundary.enableBody = true;
@@ -219,6 +215,27 @@ Game.prototype = {
         //timethings
         this.timebar = game.add.sprite(80, 10, 'timebar');
         this.timehud = game.add.sprite(80, 10, 'timehud');
+        this.timeflames0 = game.add.sprite(80, -10, "loadingFlames");
+        this.timeflames1 = game.add.sprite(80 + 64*1, -10, "loadingFlames");
+        this.timeflames2 = game.add.sprite(80 + 64*2, -10, "loadingFlames");
+        this.timeflames3 = game.add.sprite(80 + 64*3, -10, "loadingFlames");
+        this.timeflames4 = game.add.sprite(80 + 64*4, -10, "loadingFlames");
+        this.timeflames5 = game.add.sprite(80 + 64*5, -10, "loadingFlames");
+        this.timeflames6 = game.add.sprite(80 + 64*6, -10, "loadingFlames");
+        this.timeflames7 = game.add.sprite(80 + 64*7, -10, "loadingFlames");
+        this.timeflames8 = game.add.sprite(80 + 64*8, -10, "loadingFlames");
+        this.timeflames9 = game.add.sprite(80 + 64*9, -10, "loadingFlames");
+
+        this.timeflames0.visible = false;
+        this.timeflames1.visible = false;
+        this.timeflames2.visible = false;
+        this.timeflames3.visible = false;
+        this.timeflames4.visible = false;
+        this.timeflames5.visible = false;
+        this.timeflames6.visible = false;
+        this.timeflames7.visible = false;
+        this.timeflames8.visible = false;
+        this.timeflames9.visible = false;
 
     },
 
@@ -235,6 +252,17 @@ Game.prototype = {
         this.mage2.sprite.visible = false;
         this.demon1.sprite.body.collideWorldBounds = true;
         this.demon2.sprite.body.collideWorldBounds = true;
+        this.timeflames0.visible = true;
+        this.timeflames1.visible = true;
+        this.timeflames2.visible = true;
+        this.timeflames3.visible = true;
+        this.timeflames4.visible = true;
+        this.timeflames5.visible = true;
+        this.timeflames6.visible = true;
+        this.timeflames7.visible = true;
+        this.timeflames8.visible = true;
+        this.timeflames9.visible = true;
+
     },
 
     updateCounter: function() {
@@ -243,9 +271,8 @@ Game.prototype = {
             this.timebar.scale.x = this.clock/this.clockStart;
         } else {
           this.timebar.scale.x = 0;
+          this.timehud.scale.x = 0;
         }
-
-
         if (this.clock == 0) {
           this.spawnDemons();
         }
@@ -357,6 +384,17 @@ Game.prototype = {
             }
         }
         this.controls();
+
+        this.timeflames0.y = 2*Math.sin(game.time.events.duration+1)-10;
+        this.timeflames1.y = 2*Math.sin(game.time.events.duration+2)-10;
+        this.timeflames2.y = 2*Math.sin(game.time.events.duration+3)-10;
+        this.timeflames3.y = 2*Math.sin(game.time.events.duration+4)-10;
+        this.timeflames4.y = 2*Math.sin(game.time.events.duration+5)-10;
+        this.timeflames5.y = 2*Math.sin(game.time.events.duration+6)-10;
+        this.timeflames6.y = 2*Math.sin(game.time.events.duration+7)-10;
+        this.timeflames7.y = 2*Math.sin(game.time.events.duration+8)-10;
+        this.timeflames8.y = 2*Math.sin(game.time.events.duration+9)-10;
+        this.timeflames9.y = 2*Math.sin(game.time.events.duration)-10;
 
         //Le Boulder Blocking part of the Code
         game.physics.arcade.collide(this.mage1.sprite, this.map.collideableGroup);

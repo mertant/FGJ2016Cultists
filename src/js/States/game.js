@@ -14,7 +14,7 @@ Game.prototype = {
 
         //Le Mage Creation Phase
         this.mage1 = new Mage(96, 96, "blueacolyte");
-        this.mage2 = new Mage(672, 480, "redacolyte");
+        this.mage2 = new Mage(690, 495, "redacolyte");
         this.mage1.sprite.anchor.setTo(.5, .5);
         this.mage2.sprite.anchor.setTo(.5, .5);
 

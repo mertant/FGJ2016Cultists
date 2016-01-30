@@ -15,6 +15,12 @@ Game.prototype = {
         //Le Mage Creation Phase
         this.mage1 = new Mage(672, 480, "test_spritesheet");
         this.mage2 = new Mage(96, 96, "test_spritesheet");
+        this.mage1.sprite.anchor.setTo(.5, .5);
+        this.mage2.sprite.anchor.setTo(.5, .5);
+
+        //Altars
+        this.altar1 = game.add.sprite(672, 480, 'altar');
+        this.altar2 = game.add.sprite(96, 96, 'altar');
 
         //Le Players Group
         this.players = game.add.group();
@@ -48,9 +54,8 @@ Game.prototype = {
         //Init map
         this.map = new Map();
 
-        //  TEMP
-        var wall = new Wall(0,0);
-        this.map.add(0,0,wall);
+        var wall = new Wall(game.width/2,game.height/2);
+        this.map.add(game.width/2,game.height/2,wall);
 
         //  Create walls around the play area that are invisible
         this.mapBoundary = game.add.group();
@@ -77,25 +82,31 @@ Game.prototype = {
             new Skull(),
             new Mercury(),
             new Sulphur(),
+            new Chicken(),
         ];
 
         // Generate initial resources on the map
         for (var i = 0; i < 20; ++i) {
             var x = 0;
             var y = 0;
+            var resourceInfo = resourceInfos[Math.floor(Math.random() * resourceInfos.length)];
+            var resource = new Resource(x, y, resourceInfo);
 
             // Generate random coordinates until an empty spot is found
             do {
-                x = Math.random() * (this.map.width * (this.map.tilesize - 2));
-                y = Math.random() * (this.map.height * (this.map.tilesize - 2));
-                x += this.map.x;
-                y += this.map.y;
-            } while (this.map.getAt(x, y) != null);
-
-            var resourceInfo = resourceInfos[Math.floor(Math.random() * resourceInfos.length)];
-            var resource = new Resource(x, y, resourceInfo);
+                var tileX = Math.floor(Math.random() * this.map.width);
+                var tileY = Math.floor(Math.random() * this.map.height);
+                var x = tileX * this.map.tilesize + this.map.x;
+                var y = tileY * this.map.tilesize + this.map.y;
+                // this.map.fitsIn does not take into account player positions!
+            } while (this.map.fitsIn(x, y, resource.sprite.width, resource.sprite.height) == false);
+            resource.sprite.x = x;
+            resource.sprite.y = y;
             this.map.add(x, y, resource);
         }
+
+        // Overlay trees
+        this.trees = game.add.sprite(0, 0, 'backgroundtrees');
     },
 
     updateCounter: function() {
@@ -119,8 +130,10 @@ Game.prototype = {
         }
         if (this.cursors.left.isDown) {
             this.mage1.sprite.body.velocity.x = -mage1velocity;
+            this.mage1.sprite.scale.x = 1;
         } else if (this.cursors.right.isDown) {
             this.mage1.sprite.body.velocity.x = mage1velocity;
+            this.mage1.sprite.scale.x = -1;
         }
 
         //animate running and stuff
@@ -135,39 +148,40 @@ Game.prototype = {
         }
         if (this.keys.left.isDown) {
             this.mage2.sprite.body.velocity.x = -mage2velocity;
+            this.mage2.sprite.scale.x = 1;
         } else if (this.keys.right.isDown) {
             this.mage2.sprite.body.velocity.x = mage2velocity;
+            this.mage2.sprite.scale.x = -1;
         }
 
         //animate running and stuff
         this.mage2.updateAnim();
 
-
         //reforce map boundaries
-        if (this.mage1.sprite.x < this.map.x) {
-            this.mage1.sprite.x = this.map.x;
+        if (this.mage1.sprite.x < this.map.x + this.mage1.sprite.width/2) {
+            this.mage1.sprite.x = this.map.x + this.mage1.sprite.width/2;
         }
-        if (this.mage1.sprite.y < this.map.y) {
-            this.mage1.sprite.y = this.map.y;
+        if (this.mage1.sprite.y < this.map.y + this.mage1.sprite.height/2) {
+            this.mage1.sprite.y = this.map.y + this.mage1.sprite.height/2;
         }
-        if (this.mage1.sprite.x + this.mage1.sprite.width > this.map.x + this.map.width*this.map.tilesize) {
-            this.mage1.sprite.x = this.map.x + this.map.width*this.map.tilesize - this.mage1.sprite.width;
+        if (this.mage1.sprite.x > this.map.x + this.map.width*this.map.tilesize + this.mage1.sprite.width/2) {
+            this.mage1.sprite.x = this.map.x + this.map.width*this.map.tilesize + this.mage1.sprite.width/2;
         }
-        if (this.mage1.sprite.y + this.mage1.sprite.height > this.map.y + this.map.height*this.map.tilesize) {
-            this.mage1.sprite.y = this.map.y + this.map.height*this.map.tilesize - this.mage1.sprite.height;
+        if (this.mage1.sprite.y > this.map.y + this.map.height*this.map.tilesize - this.mage1.sprite.height/2) {
+            this.mage1.sprite.y = this.map.y + this.map.height*this.map.tilesize - this.mage1.sprite.height/2;
         }
 
-        if (this.mage2.sprite.x < this.map.x) {
-            this.mage2.sprite.x = this.map.x;
+        if (this.mage2.sprite.x < this.map.x + this.mage2.sprite.width/2) {
+            this.mage2.sprite.x = this.map.x + this.mage2.sprite.width/2;
         }
-        if (this.mage2.sprite.y < this.map.y) {
-            this.mage2.sprite.y = this.map.y;
+        if (this.mage2.sprite.y < this.map.y + this.mage2.sprite.height/2) {
+            this.mage2.sprite.y = this.map.y + this.mage2.sprite.height/2;
         }
-        if (this.mage2.sprite.x + this.mage2.sprite.width > this.map.x + this.map.width*this.map.tilesize) {
-            this.mage2.sprite.x = this.map.x + this.map.width*this.map.tilesize - this.mage2.sprite.width;
+        if (this.mage2.sprite.x > this.map.x + this.map.width*this.map.tilesize + this.mage2.sprite.width/2) {
+            this.mage2.sprite.x = this.map.x + this.map.width*this.map.tilesize + this.mage2.sprite.width/2;
         }
-        if (this.mage2.sprite.y + this.mage2.sprite.height > this.map.y + this.map.height*this.map.tilesize) {
-            this.mage2.sprite.y = this.map.y + this.map.height*this.map.tilesize - this.mage2.sprite.height;
+        if (this.mage2.sprite.y > this.map.y + this.map.height*this.map.tilesize - this.mage1.sprite.height/2) {
+            this.mage2.sprite.y = this.map.y + this.map.height*this.map.tilesize - this.mage1.sprite.height/2;
         }
 
         // Player <-> Map edge collision
@@ -180,7 +194,6 @@ Game.prototype = {
 
         //Le Mage Collision Checker
         game.physics.arcade.collide(this.mage1.sprite, this.mage2.sprite);
-
 
     },
 

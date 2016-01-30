@@ -128,9 +128,13 @@ Game.prototype = {
         rockhit = game.add.audio('rockhit');
         scream = game.add.audio('scream');
         track1 = game.add.audio('track1');
+        track3 = game.add.audio('track3');
+
 
         //Le Musik PLayer
         track1.play();
+        track1.loop = true;
+
 
         //BLood and Gore!!
         this.BLOODemitter = game.add.emitter(0, 0, 100);
@@ -223,6 +227,9 @@ Game.prototype = {
     },
 
     spawnDemons: function() {
+        track1.stop();
+        track3.play();
+        track3.loop = true;
         this.grave1 = game.add.sprite(this.mage1.sprite.x, this.mage1.sprite.y, 'grave');
         this.grave1.anchor.setTo(.5, .5);
         this.grave2 = game.add.sprite(this.mage2.sprite.x, this.mage2.sprite.y, 'grave');

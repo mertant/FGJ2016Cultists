@@ -48,10 +48,6 @@ Game.prototype = {
         //Init map
         this.map = new Map();
 
-        //  TEMP
-        var wall = new Wall(0,0);
-        this.map.add(0,0,wall);
-
         //  Create walls around the play area that are invisible
         this.mapBoundary = game.add.group();
         this.mapBoundary.enableBody = true;
@@ -72,6 +68,8 @@ Game.prototype = {
             }
         }
 
+        // Overlay trees
+        this.trees = game.add.sprite(0, 0, 'backgroundtrees');
     },
 
     updateCounter: function() {

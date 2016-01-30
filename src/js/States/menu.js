@@ -8,7 +8,7 @@ Menu.prototype = {
 
     preload: function () {
         //Preload assets for the main menu in splash.js
-    }, 
+    },
 
     create: function() {
         // Goat head sprite
@@ -28,11 +28,17 @@ Menu.prototype = {
         this.keySpriteTween.to({y: '+20'}, 800, Phaser.Easing.Sinusoidal.InOut, true, delay = 0, repeat = -1, yoyo = true);
 
         this.enterKey = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
+
+        //Main menu music
+        track2 = game.add.audio('track2');
+        track2.play();
+        track2.loop = true;
     },
 
     update: function() {
         // Pressing the enter key starts the game
         if (this.enterKey.isDown) {
+            track2.fadeOut(1000);
             game.add
                 .tween(game.world).to({alpha: 0.0}, 1000, Phaser.Easing.Linear.Out, true)
                 .onComplete.add(function() {

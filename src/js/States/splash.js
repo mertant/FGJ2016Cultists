@@ -5,6 +5,7 @@ Splash.prototype = {
     loadScripts: function () {
         game.load.script("MenuScript", "js/States/menu.js");
         game.load.script("GameScript", "js/States/game.js");
+        game.load.script("TutorialScript", "js/States/tutorial.js");
 
         game.load.script("WorldScript", "js/Objects/world.js");
         game.load.script("WallScript", "js/Objects/wall.js");
@@ -36,6 +37,10 @@ Splash.prototype = {
 
       //Musik
       game.load.audio('track1', 'content/sounds/track1.ogg');
+      game.load.audio('track2', 'content/sounds/track2.ogg');
+      game.load.audio('track3', 'content/sounds/track3.ogg');
+
+
     },
 
     loadImages: function () {
@@ -57,15 +62,23 @@ Splash.prototype = {
         game.load.image("rock", "content/sprites/rock.png");
         game.load.image("skull", "content/sprites/skull.png");
         game.load.image("sulphur", "content/sprites/sulphur.png");
-        game.load.image("altar", "content/sprites/altar.png");
+        game.load.image("redAltar", "content/sprites/redAltar.png");
+        game.load.image("blueAltar", "content/sprites/blueAltar.png");
         game.load.image('grave', 'content/sprites/grave.png');
         game.load.image("goaty", "content/sprites/goaty-small.png");
+        game.load.image("grammi", "content/sprites/grammi.png");
         game.load.image("enter-key", "content/sprites/enter-key-small.png")
 
         game.load.image('blod', 'content/sprites/drop.png');
         game.load.image('stoneblod', 'content/sprites/stoneparticle.png');
         game.load.image('timebar', 'content/sprites/timebar.png');
         game.load.image('timehud', 'content/sprites/timehud.png');
+
+        // Tutorial images
+        game.load.image('tutorial-buttons', 'content/tutorials/tutorial_basic_buttons.png');
+        game.load.image('tutorial-resources', 'content/tutorials/tutorial_resources_to_altar.png');
+        game.load.image('tutorial-pickup', 'content/tutorials/tutorial_pickup.png');
+        game.load.image('tutorial-throw', 'content/tutorials/tutorial_throw.png');
 
 
 
@@ -109,6 +122,7 @@ Splash.prototype = {
 
     addGameStates: function () {
         game.state.add("Menu", Menu);
+        game.state.add("Tutorial", Tutorial);
         game.state.add("Game", Game);
     },
 

@@ -19,8 +19,8 @@ Game.prototype = {
         game.physics.startSystem(Phaser.Physics.ARCADE);
 
         //Le Mage Creation Phase
-        this.mage1 = new Mage(96, 96, "blueacolyte");
-        this.mage2 = new Mage(690, 495, "redacolyte");
+        this.mage1 = new Mage(96+6*32, 96+6*32, "blueacolyte");
+        this.mage2 = new Mage(96+13*32, 96+6*32, "redacolyte");
         this.mage1.sprite.anchor.setTo(.5, .5);
         this.mage2.sprite.anchor.setTo(.5, .5);
         this.mage1.sprite.smoothed = false;
@@ -31,8 +31,8 @@ Game.prototype = {
         this.demon2 = new Demon(96+11*32, 96+7*32, ["demoncombined", "demonvariables"]);
 
         //Altars
-        this.altar1 = new Altar(96+7*32, 96+5*32);
-        this.altar2 = new Altar(96+10*32, 96+6*32);
+        this.altar1 = new Altar(96+7*32, 96+5*32, 'blueAltar');
+        this.altar2 = new Altar(96+10*32, 96+6*32, 'redAltar');
 
         //Le Players Group
         this.players = game.add.group();
@@ -120,9 +120,11 @@ Game.prototype = {
         rockhit = game.add.audio('rockhit');
         scream = game.add.audio('scream');
         track1 = game.add.audio('track1');
+        track3 = game.add.audio('track3');
+
 
         //Le Musik PLayer
-        track1.play();
+        track1.play('',0,1,true);
 
         //BLood and Gore!!
         this.BLOODemitter = game.add.emitter(0, 0, 100);
@@ -132,10 +134,6 @@ Game.prototype = {
         //STONE PARTICLES
         this.stoneBLOODemitter = game.add.emitter(0, 0, 100);
         this.stoneBLOODemitter.makeParticles('stoneblod');
-
-
-        //this.map.add(new Wall(this.map.tilesize*3 + this.map.x,this.map.tilesize*3 + this.map.y));
-
 
         //  Create walls around the play area that are invisible
         this.mapBoundary = game.add.group();
@@ -178,18 +176,10 @@ Game.prototype = {
                 var tileX = Math.floor(Math.random() * this.map.width);
                 var tileY = Math.floor(Math.random() * this.map.height);
 
-                // Modify coordinates if resource is about to land at a player starting position
-                if (tileX == 0 && tileY == 0) {
-                    tileX += 1;
-                }
-
-                if (tileX == (this.map.width - 1) && tileY == (this.map.height - 1)) {
-                    tileX -= -1;
-                }
-
                 var x = tileX * this.map.tilesize + this.map.x;
                 var y = tileY * this.map.tilesize + this.map.y;
-            } while (this.map.fitsIn(x, y, resource.sprite.width, resource.sprite.height) == false);
+            } while (this.map.fitsIn(x, y, resource.sprite.width, resource.sprite.height) == false ||
+            (tileX > 4 && tileX < 14 && tileY > 3 && tileY < 9));
             resource.sprite.x = x;
             resource.sprite.y = y;
             this.map.add(x, y, resource);
@@ -211,10 +201,33 @@ Game.prototype = {
         //timethings
         this.timebar = game.add.sprite(80, 10, 'timebar');
         this.timehud = game.add.sprite(80, 10, 'timehud');
+        this.timeflames0 = game.add.sprite(80, -10, "loadingFlames");
+        this.timeflames1 = game.add.sprite(80 + 64*1, -10, "loadingFlames");
+        this.timeflames2 = game.add.sprite(80 + 64*2, -10, "loadingFlames");
+        this.timeflames3 = game.add.sprite(80 + 64*3, -10, "loadingFlames");
+        this.timeflames4 = game.add.sprite(80 + 64*4, -10, "loadingFlames");
+        this.timeflames5 = game.add.sprite(80 + 64*5, -10, "loadingFlames");
+        this.timeflames6 = game.add.sprite(80 + 64*6, -10, "loadingFlames");
+        this.timeflames7 = game.add.sprite(80 + 64*7, -10, "loadingFlames");
+        this.timeflames8 = game.add.sprite(80 + 64*8, -10, "loadingFlames");
+        this.timeflames9 = game.add.sprite(80 + 64*9, -10, "loadingFlames");
+
+        this.timeflames0.visible = false;
+        this.timeflames1.visible = false;
+        this.timeflames2.visible = false;
+        this.timeflames3.visible = false;
+        this.timeflames4.visible = false;
+        this.timeflames5.visible = false;
+        this.timeflames6.visible = false;
+        this.timeflames7.visible = false;
+        this.timeflames8.visible = false;
+        this.timeflames9.visible = false;
 
     },
 
     spawnDemons: function() {
+        track1.stop();
+        track3.play('',0,1,true);
         this.grave1 = game.add.sprite(this.mage1.sprite.x, this.mage1.sprite.y, 'grave');
         this.grave1.anchor.setTo(.5, .5);
         this.grave2 = game.add.sprite(this.mage2.sprite.x, this.mage2.sprite.y, 'grave');
@@ -231,6 +244,16 @@ Game.prototype = {
         this.demon1.sprite.body.collideWorldBounds = true;
         this.demon2.sprite.body.collideWorldBounds = true;
 
+        this.timeflames0.visible = true;
+        this.timeflames1.visible = true;
+        this.timeflames2.visible = true;
+        this.timeflames3.visible = true;
+        this.timeflames4.visible = true;
+        this.timeflames5.visible = true;
+        this.timeflames6.visible = true;
+        this.timeflames7.visible = true;
+        this.timeflames8.visible = true;
+        this.timeflames9.visible = true;
 
     },
 
@@ -240,9 +263,8 @@ Game.prototype = {
             this.timebar.scale.x = this.clock/this.clockStart;
         } else {
           this.timebar.scale.x = 0;
+          this.timehud.scale.x = 0;
         }
-
-
         if (this.clock == 0) {
           this.spawnDemons();
         }
@@ -357,6 +379,17 @@ Game.prototype = {
         }
         this.controls();
 
+        this.timeflames0.y = 2*Math.sin(game.time.events.duration+1)-10;
+        this.timeflames1.y = 2*Math.sin(game.time.events.duration+2)-10;
+        this.timeflames2.y = 2*Math.sin(game.time.events.duration+3)-10;
+        this.timeflames3.y = 2*Math.sin(game.time.events.duration+4)-10;
+        this.timeflames4.y = 2*Math.sin(game.time.events.duration+5)-10;
+        this.timeflames5.y = 2*Math.sin(game.time.events.duration+6)-10;
+        this.timeflames6.y = 2*Math.sin(game.time.events.duration+7)-10;
+        this.timeflames7.y = 2*Math.sin(game.time.events.duration+8)-10;
+        this.timeflames8.y = 2*Math.sin(game.time.events.duration+9)-10;
+        this.timeflames9.y = 2*Math.sin(game.time.events.duration)-10;
+
         //Le Boulder Blocking part of the Code
         game.physics.arcade.collide(this.mage1.sprite, this.map.collideableGroup);
         game.physics.arcade.collide(this.mage2.sprite, this.map.collideableGroup);
@@ -383,6 +416,7 @@ Game.prototype = {
                     this.stoneBLOODemitter.x = this.mage2.sprite.x;
                     this.stoneBLOODemitter.y = this.mage2.sprite.y;
                     this.stoneBLOODemitter.start(true, 1000, null, 7);
+                    rockhit.play();
                     this.mage2.stun();
                 }
             }
@@ -405,6 +439,8 @@ Game.prototype = {
             }
         }
 
+        // le altar code
+
         //drop items at altar
         if (checkOverlap(this.mage1.sprite, this.altar1.sprite)) {
             this.altar1.give(this.mage1.dumpItems());
@@ -413,6 +449,9 @@ Game.prototype = {
         if (checkOverlap(this.mage2.sprite, this.altar2.sprite)) {
             this.altar2.give(this.mage2.dumpItems());
         }
+
+        this.altar1.update();
+        this.altar2.update();
 
     },
 

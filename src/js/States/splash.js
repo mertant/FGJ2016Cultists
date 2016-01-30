@@ -66,7 +66,6 @@ Splash.prototype = {
     // Preload game assets
     preload: function () {
         game.load.onFileComplete.add(this.loadFileComplete, this);
-        game.load.onLoadComplete.add(this.loadComplete, this);
 
         this.loadScripts();
         this.loadImages();
@@ -104,8 +103,5 @@ Splash.prototype = {
         loadingSprite.anchor.setTo(0.5, 0.5);
         loadingSprite.scale.setTo(scaler, scaler);
         loadingSprite.smoothed = false;
-    },
-
-    loadComplete: function() {
     },
 }

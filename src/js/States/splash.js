@@ -45,10 +45,8 @@ Splash.prototype = {
         game.load.image("backgroundtrees", "content/bg/backgroundtrees.png");
 
         // Sprites
-        //TEMP
-        game.load.image('mage1', 'content/sprites/mage1.png');
-        game.load.image('mage2', 'content/sprites/mage2.png');
         game.load.image('demon', 'content/sprites/demon.png');
+
 
         game.load.image('boulder', 'content/sprites/boulder.png');
         game.load.image("chicken", "content/sprites/chicken.png");
@@ -68,6 +66,21 @@ Splash.prototype = {
         game.load.image('stoneblod', 'content/sprites/stoneparticle.png');
         game.load.image('timebar', 'content/sprites/timebar.png');
         game.load.image('timehud', 'content/sprites/timehud.png');
+
+
+
+        //DEMON SPRITES
+        /*
+        game.load.spritesheet("demonback", "content/demon/demonback.png", 64, 64, 4);
+        game.load.spritesheet("demonfront", "content/demon/demonfront.png", 64, 64, 4);
+        game.load.spritesheet("demonside", "content/demon/demonside.png", 64, 64, 3);
+        //DEMON PARTS
+        game.load.spritesheet("demonback_variables", "content/demon/variablesback.png", 64, 64, 13);
+        game.load.spritesheet("demonfront_variables", "content/demon/variablesfront.png", 64, 64, 13);
+        game.load.spritesheet("demonside_variables", "content/demon/variablesside.png", 64, 64, 13);
+        */
+        game.load.spritesheet("demoncombined", "content/demon/demoncombined.png", 64, 64, 11);
+        game.load.spritesheet("demonvariables", "content/demon/variablescombined.png", 64, 64, 39);
 
 
         //ESIMERKKI: game.load.spritesheet(key, sprite file, frame width, frame height, frame count);

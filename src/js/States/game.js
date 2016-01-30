@@ -27,16 +27,8 @@ Game.prototype = {
         this.mage2.sprite.smoothed = false;
 
         //And demons
-        this.demon1 = new Demon(96+8*32, 96+6*32, "demon");
-        this.demon2 = new Demon(96+11*32, 96+7*32, "demon");
-        this.demon1.sprite.visible = false;
-        this.demon2.sprite.visible = false;
-        this.demon1.sprite.smoothed = false;
-        this.demon2.sprite.smoothed = false;
-        this.demon1.sprite.scale.x = 2;
-        this.demon1.sprite.scale.y = 2;
-        this.demon2.sprite.scale.x = 2;
-        this.demon2.sprite.scale.y = 2;
+        this.demon1 = new Demon(96+8*32, 96+6*32, ["demoncombined", "demonvariables"]);
+        this.demon2 = new Demon(96+11*32, 96+7*32, ["demoncombined", "demonvariables"]);
 
         //Altars
         this.altar1 = new Altar(96+7*32, 96+5*32);
@@ -49,8 +41,8 @@ Game.prototype = {
         this.players.add(this.mage1.sprite);
         this.players.add(this.mage2.sprite);
 
-        this.players.add(this.demon1.sprite);
-        this.players.add(this.demon2.sprite);
+        this.players.add(this.demon1.wholeGroup);
+        this.players.add(this.demon2.wholeGroup);
 
         //Collision between players and world boundaries
         game.physics.arcade.enable([this.mage1.sprite, this.mage2.sprite]);
@@ -78,7 +70,7 @@ Game.prototype = {
             right: game.input.keyboard.addKey(Phaser.KeyCode.L)
         };
 
-        this.clockStart = 15;
+        this.clockStart = 2;
         this.clock = this.clockStart;
         game.time.events.loop(Phaser.Timer.SECOND, this.updateCounter, this);
 
@@ -227,14 +219,19 @@ Game.prototype = {
         this.grave1.anchor.setTo(.5, .5);
         this.grave2 = game.add.sprite(this.mage2.sprite.x, this.mage2.sprite.y, 'grave');
         this.grave2.anchor.setTo(.5, .5);
-        this.demon1.sprite.visible = true;
-        this.demon2.sprite.visible = true;
+
+        this.demon1.start();
+        this.demon2.start();
+
         this.demon1.sprite.anchor.setTo(.5, .5);
         this.demon2.sprite.anchor.setTo(.5, .5);
+
         this.mage1.sprite.visible = false;
         this.mage2.sprite.visible = false;
         this.demon1.sprite.body.collideWorldBounds = true;
         this.demon2.sprite.body.collideWorldBounds = true;
+
+
     },
 
     updateCounter: function() {
@@ -335,13 +332,15 @@ Game.prototype = {
                 }
                 if (curKeys.left.isDown) {
                     curDemon.sprite.body.velocity.x = -curDemonVelocity;
-                    curDemon.sprite.scale.x = 2;
+                    curDemon.wholeGroup.setAll("scale.x", -2);
                     curDemon.lastDirection = curDemon.directions.LEFT;
                 } else if (curKeys.right.isDown) {
                     curDemon.sprite.body.velocity.x = curDemonVelocity;
-                    curDemon.sprite.scale.x = -2;
+                    curDemon.wholeGroup.setAll("scale.x", 2);
                     curDemon.lastDirection = curDemon.directions.RIGHT;
                 }
+
+                curDemon.updateAnim();
             }
         }
     },

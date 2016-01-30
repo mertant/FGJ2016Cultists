@@ -56,6 +56,7 @@ Game.prototype = {
         //  Player 1
         this.keys1 = {
             pick: game.input.keyboard.addKey(Phaser.KeyCode.Q),
+            toss: game.input.keyboard.addKey(Phaser.KeyCode.E),
             up: game.input.keyboard.addKey(Phaser.KeyCode.W),
             down: game.input.keyboard.addKey(Phaser.KeyCode.S),
             left: game.input.keyboard.addKey(Phaser.KeyCode.A),
@@ -65,14 +66,15 @@ Game.prototype = {
         //  Player 2
         this.keys2 = {
             pick: game.input.keyboard.addKey(Phaser.KeyCode.U),
+            toss: game.input.keyboard.addKey(Phaser.KeyCode.O),
             up: game.input.keyboard.addKey(Phaser.KeyCode.I),
             down: game.input.keyboard.addKey(Phaser.KeyCode.K),
             left: game.input.keyboard.addKey(Phaser.KeyCode.J),
             right: game.input.keyboard.addKey(Phaser.KeyCode.L)
         };
 
-        this.clock = 0;
-        this.clockText = game.add.text(10, 10, 'Time: ');
+        this.clock = 5;
+        this.clockText = game.add.text(10, 10, 'Time: ' + this.clock);
         game.time.events.loop(Phaser.Timer.SECOND, this.updateCounter, this);
 
         //Init map
@@ -187,6 +189,8 @@ Game.prototype = {
         //make a test boulder to toss
         var boulder = new Boulder(128, 128);
         this.map.add(128, 128, boulder);
+        var boulder = new Boulder(160, 160);
+        this.map.add(160, 160, boulder);
 
         // Active boulders to update
         this.activeWeapons = []; //list that contains any active/flying boulders
@@ -198,6 +202,12 @@ Game.prototype = {
 
         // Overlay trees
         this.trees = game.add.sprite(0, 0, 'backgroundtrees');
+    },
+    spawnDemons: function() {
+        this.demon1 = new Demon(96+8*32, 96+6*32, "demon");
+        this.demon2 = new Demon(96+11*32, 96+7*32, "demon");
+        this.demon1.sprite.anchor.setTo(.5, .5);
+        this.demon2.sprite.anchor.setTo(.5, .5);
     },
 
     spawnDemons: function() {
@@ -216,8 +226,15 @@ Game.prototype = {
     },
 
     updateCounter: function() {
-      this.clock++;
-      this.clockText.setText('Time: ' + this.clock);
+        this.clock--;
+        if (this.clock == 0) {
+          this.spawnDemons();
+        }
+        if (this.clock <= 0) {
+            this.clockText.setText('DEMONS!');
+        } else {
+            this.clockText.setText('Time: ' + this.clock);
+        }
     },
 
     controls: function() {
@@ -251,6 +268,7 @@ Game.prototype = {
                     var obj = this.map.getAt(curMage.sprite.x, curMage.sprite.y)
                     if (obj != null && obj.constructor.name == 'Resource') {
                         if (curMage.weapon == null) {
+                            rescourcepickup.play();
                             curMage.pickUp(obj);
                             this.map.remove(obj);
                             obj.pick();
@@ -267,11 +285,17 @@ Game.prototype = {
                 if (curKeys.toss.isDown) {
                     if (curMage.weapon != null) {
                         var weapon = curMage.useWeapon();
+                        this.activeWeapons.push(weapon);
                     }
                 }
 
                 //animate running and stuff
                 curMage.updateAnim();
+
+                //update weapons carried by mages
+                if (curMage.weapon != null) {
+                    curMage.weapon.update();
+                }
             }
         } else {
             var inputSystems = [[this.demon1, this.keys1], [this.demon2, this.keys2]];
@@ -308,16 +332,11 @@ Game.prototype = {
         //Update flying objects
         for (var i = 0; i < this.activeWeapons.length; i++) {
             this.activeWeapons[i].update();
+            if (this.activeWeapons[i].destroyed) {
+                this.activeWeapons.splice(i--, 1);
+            }
         }
-
         this.controls();
-
-        // Player <-> Map edge collision
-        //game.physics.arcade.collide(this.mage1.sprite, this.mapBoundary);
-        //game.physics.arcade.collide(this.mage2.sprite, this.mapBoundary);
-
-        //Le Mage Collision Checker
-        //game.physics.arcade.collide(this.mage1.sprite, this.mage2.sprite);
 
         //Le Boulder Blocking part of the Code
         game.physics.arcade.collide(this.mage1.sprite, this.map.collideableGroup);

@@ -1,5 +1,7 @@
 function Boulder(x, y) {
     this.sprite = game.add.sprite(x, y, "rock");
+    this.sprite.enableBody = true;
+    game.physics.arcade.enable(this.sprite);
 
     this.carrying = false;
     this.flying = false;
@@ -9,7 +11,7 @@ function Boulder(x, y) {
     this.flyStartY = -1;
 
     this.tossDistance = 256;
-    this.tossSpeed = 256;
+    this.tossSpeed = 512;
 
     this.thrower = null;
     this.carrier = null;
@@ -39,8 +41,8 @@ Boulder.prototype.use = function(x, y, direction, mage) {
 
 Boulder.prototype.update = function() {
     if (this.carrying && !this.flying) {
-        this.sprite.x = this.carrier.sprite.x;
-        this.sprite.y = this.carrier.sprite.y - 24;
+        this.sprite.x = this.carrier.sprite.x - 16;
+        this.sprite.y = this.carrier.sprite.y - 32;
     } else if (this.flying) {
         if (this.flyDirection % 2 == 0) {
             if (Math.abs(this.flyStartY - this.sprite.y) > this.tossDistance) {
@@ -66,5 +68,7 @@ Boulder.prototype.hit = function(other) {
 Boulder.prototype.destroy = function() {
     //TODO
     this.destroyed = true;
-    console.log("Boulder destroyed");
+    this.sprite.body.velocity.x = 0;
+    this.sprite.body.velocity.y = 0;
+    this.sprite.visible = false;
 }

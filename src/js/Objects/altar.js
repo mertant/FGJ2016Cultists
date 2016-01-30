@@ -10,20 +10,21 @@ Altar.prototype.give = function(items) {
     this.items = this.items.concat(items);
 
     for (var i = this.orbs.length; i < this.items.length; i++) {
-        orb = game.add.sprite(this.sprite.x,this.sprite.y+64,'orb');
+        orb = game.add.sprite(this.sprite.x,this.sprite.y+64,'stoneblod');
         this.orbs.push(orb);
     }
 }
 
 Altar.prototype.update = function() {
-    //this.items = this.items.concat(items);
+    radius = 32+8;
+    altarOffset = 32;
+    particleOffset = -4;
 
-    this.orbsAngle += 10;
+    this.orbsAngle += 1.5;
+
     for (var i = 0; i < this.orbs.length; i++) {
-        ang = (this.orbsAngle+10*i)/180;
-        this.orbs[i].x = this.sprite.x + 32*Math.cos(ang);
-        this.orbs[i].y = this.sprite.y + 32*Math.sin(ang);
-        console.log(this.orbsAngle);
-        console.log(ang);
+        ang = (this.orbsAngle-i*(360/this.orbs.length))*Math.PI/180;
+        this.orbs[i].x = this.sprite.x + altarOffset + particleOffset + radius*Math.cos(ang);
+        this.orbs[i].y = this.sprite.y + altarOffset + particleOffset + radius*Math.sin(ang);
     }
 }

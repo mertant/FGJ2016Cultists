@@ -41,7 +41,7 @@ Menu.prototype = {
             game.add
                 .tween(game.world).to({alpha: 0.0}, 1000, Phaser.Easing.Linear.Out, true)
                 .onComplete.add(function() {
-                    game.state.start("Game");
+                    game.state.start("Tutorial");
                 }, this);
         }
     },

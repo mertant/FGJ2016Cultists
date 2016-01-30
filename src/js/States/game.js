@@ -105,6 +105,11 @@ Game.prototype = {
             this.map.add(x, y, resource);
         }
 
+        //bring player sprites on top of others
+        game.world.bringToTop(this.mage1.sprite);
+        game.world.bringToTop(this.mage2.sprite);
+        //bring carrying boulder
+
         // Overlay trees
         this.trees = game.add.sprite(0, 0, 'backgroundtrees');
     },
@@ -115,6 +120,7 @@ Game.prototype = {
     },
 
     update: function() {
+
         //Reset velocity
         //PIXELS PER SECOND
         this.mage1.sprite.body.velocity.x = 0;
@@ -157,7 +163,18 @@ Game.prototype = {
         //animate running and stuff
         this.mage2.updateAnim();
 
-        //reforce map boundaries
+        // Player <-> Map edge collision
+        //game.physics.arcade.collide(this.mage1.sprite, this.mapBoundary);
+        //game.physics.arcade.collide(this.mage2.sprite, this.mapBoundary);
+
+        //Le Mage Collision Checker
+        //game.physics.arcade.collide(this.mage1.sprite, this.mage2.sprite);
+
+        //Le Boulder Blocking part of the Code
+        game.physics.arcade.collide(this.mage1.sprite, this.map.collideableGroup);
+        game.physics.arcade.collide(this.mage2.sprite, this.map.collideableGroup);
+
+        //reforce map boundaries     
         if (this.mage1.sprite.x < this.map.x + this.mage1.sprite.width/2) {
             this.mage1.sprite.x = this.map.x + this.mage1.sprite.width/2;
         }
@@ -184,23 +201,13 @@ Game.prototype = {
             this.mage2.sprite.y = this.map.y + this.map.height*this.map.tilesize - this.mage1.sprite.height/2;
         }
 
-        // Player <-> Map edge collision
-        //game.physics.arcade.collide(this.mage1.sprite, this.mapBoundary);
-        //game.physics.arcade.collide(this.mage2.sprite, this.mapBoundary);
-
-        //Le Boulder Blocking part of the Code
-        game.physics.arcade.collide(this.mage1.sprite, this.map.collideableGroup);
-        game.physics.arcade.collide(this.mage2.sprite, this.map.collideableGroup);
-
-        //Le Mage Collision Checker
-        game.physics.arcade.collide(this.mage1.sprite, this.mage2.sprite);
-
     },
 
     render: function() {
         //game.debug.cameraInfo(game.camera, 32, 32);
 
         //for custom rendering and debug, no need to render each sprite etc.
+        //game.debug.spriteInfo(this.mage1.sprite, 32, 32);
     }
 
 }

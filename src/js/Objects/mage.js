@@ -129,7 +129,7 @@ Mage.prototype.useWeapon = function() {
     // Uses the weapon in the current slot and returns it.
     // Returns null if there is no weapon
     if (this.weapon != null) {
-        this.weapon.use(this.sprite.x, this.sprite.y, this.directions[this.lastDirection], this);
+        this.weapon.use(this.sprite.x - 16, this.sprite.y - 32, this.lastDirection, this);
     }
 
     var temp = this.weapon;
@@ -138,7 +138,11 @@ Mage.prototype.useWeapon = function() {
 }
 
 Mage.prototype.getMovementSpeed = function() {
+    console.log("ASD");
     var reduction = Math.max(Math.min(this.inventory.length, this.maxMovementSpeedReductionCount), 0);
+    if (this.weapon != null) {
+        reduction += 5;
+    }
     var speed = this.baseMovementSpeed*(1 - this.movementSpeedReductionFactor * reduction);
     return Math.max(20, speed);
 }

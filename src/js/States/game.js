@@ -150,6 +150,8 @@ Game.prototype = {
         //make a test boulder to toss
         var boulder = new Boulder(128, 128);
         this.map.add(128, 128, boulder);
+        var boulder = new Boulder(160, 160);
+        this.map.add(160, 160, boulder);
 
         // Active boulders to update
         this.activeWeapons = []; //list that contains any active/flying boulders
@@ -189,8 +191,10 @@ Game.prototype = {
         //Update flying objects
         for (var i = 0; i < this.activeWeapons.length; i++) {
             this.activeWeapons[i].update();
+            if (this.activeWeapons[i].destroyed) {
+                this.activeWeapons.splice(i--, 1);
+            }
         }
-
         var inputSystems = [[this.mage1, this.keys1], [this.mage2, this.keys2]];
 
         for (var i = 0; i < inputSystems.length; i++) {
@@ -237,11 +241,17 @@ Game.prototype = {
             if (curKeys.toss.isDown) {
                 if (curMage.weapon != null) {
                     var weapon = curMage.useWeapon();
+                    this.activeWeapons.push(weapon);
                 }
             }
 
             //animate running and stuff
             curMage.updateAnim();
+
+            //update weapons carried by mages
+            if (curMage.weapon != null) {
+                curMage.weapon.update();
+            }
         }
         /*
         //Reset velocity

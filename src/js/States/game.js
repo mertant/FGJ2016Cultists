@@ -6,7 +6,6 @@ Game.prototype = {
     // PRELOAD GOES TO SPLASH.JS
 
     create: function() {
-
         //Le Background is created
         this.background = game.add.sprite(0, 0, 'background');
 
@@ -110,6 +109,15 @@ Game.prototype = {
         rockhit = game.add.audio('rockhit');
         scream = game.add.audio('scream');
 
+        //BLood and Gore!!
+        this.BLOODemitter = game.add.emitter(0, 0, 100);
+
+        this.BLOODemitter.makeParticles('blod');
+
+        this.BLOODemitter.start(false, 5000, 20);
+
+        this.BLOODemitter.x = this.mage1.x;
+        this.BLOODemitter.y = this.mage1.y;
 
 
         //this.map.add(new Wall(this.map.tilesize*3 + this.map.x,this.map.tilesize*3 + this.map.y));
@@ -131,6 +139,7 @@ Game.prototype = {
                     //spr.body.immovable = true;
                     //spr.visible = false;
                     this.mapBoundary.add(spr);
+
                 }
             }
         }

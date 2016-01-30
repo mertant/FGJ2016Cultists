@@ -60,6 +60,9 @@ Splash.prototype = {
         game.load.image("goaty", "content/sprites/goaty-small.png");
         game.load.image("enter-key", "content/sprites/enter-key-small.png")
 
+        game.load.image('blod', 'content/sprites/blod.png');
+
+
         //ESIMERKKI: game.load.spritesheet(key, sprite file, frame width, frame height, frame count);
         //TEMP
         game.load.spritesheet("test_spritesheet", "content/sprites/test_spritesheet.png", 32, 32, 2);

@@ -1,5 +1,5 @@
-function Altar(x, y) {
-    this.sprite = game.add.sprite(x, y, 'altar');
+function Altar(x, y, img) {
+    this.sprite = game.add.sprite(x, y, img);
 
     this.items = [];
 }

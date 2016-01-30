@@ -39,8 +39,8 @@ Game.prototype = {
         this.demon2.sprite.scale.y = 2;
 
         //Altars
-        this.altar1 = new Altar(96+7*32, 96+5*32);
-        this.altar2 = new Altar(96+10*32, 96+6*32);
+        this.altar1 = new Altar(96+7*32, 96+5*32, 'blueAltar');
+        this.altar2 = new Altar(96+10*32, 96+6*32, 'redAltar');
 
         //Le Players Group
         this.players = game.add.group();

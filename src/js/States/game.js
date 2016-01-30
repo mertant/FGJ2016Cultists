@@ -79,17 +79,18 @@ Game.prototype = {
         for (var i = 0; i < 20; ++i) {
             var x = 0;
             var y = 0;
+            var resourceInfo = resourceInfos[Math.floor(Math.random() * resourceInfos.length)];
+            var resource = new Resource(x, y, resourceInfo);
 
             // Generate random coordinates until an empty spot is found
             do {
-                x = Math.random() * (this.map.width * (this.map.tilesize - 2));
-                y = Math.random() * (this.map.height * (this.map.tilesize - 2));
+                x = Math.random() * ((this.map.width - 1) * this.map.tilesize);
+                y = Math.random() * ((this.map.height - 1) * this.map.tilesize);
                 x += this.map.x;
                 y += this.map.y;
-            } while (this.map.getAt(x, y) != null);
-
-            var resourceInfo = resourceInfos[Math.floor(Math.random() * resourceInfos.length)];
-            var resource = new Resource(x, y, resourceInfo);
+            } while (this.map.fitsIn(x, y, resource.sprite.width, resource.sprite.height) == false);
+            resource.sprite.x = x;
+            resource.sprite.y = y;
             this.map.add(x, y, resource);
         }
 

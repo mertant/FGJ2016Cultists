@@ -11,6 +11,7 @@ Splash.prototype = {
         game.load.script("ResourceScript", "js/Objects/resource.js");
         game.load.script("SkullResource", "js/Resources/skull.js");
         game.load.script("MercuryResource", "js/Resources/mercury.js");
+        game.load.script("SulphurResource", "js/Resources/sulphur.js");
     },
 
     loadBgm: function () {

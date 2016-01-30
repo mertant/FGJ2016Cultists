@@ -121,11 +121,15 @@ Mage.prototype.dumpItems = function() {
     return temparray;
 }
 
+Mage.prototype.pickWeapon = function(weapon) {
+    this.weapon = weapon;
+}
+
 Mage.prototype.useWeapon = function() {
     // Uses the weapon in the current slot and returns it.
     // Returns null if there is no weapon
     if (this.weapon != null) {
-        this.weapon.use();
+        this.weapon.use(this.sprite.x, this.sprite.y, this.directions[this.lastDirection], this);
     }
 
     var temp = this.weapon;

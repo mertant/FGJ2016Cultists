@@ -5,11 +5,15 @@ Splash.prototype = {
     loadScripts: function () {
         game.load.script("MenuScript", "js/States/menu.js");
         game.load.script("GameScript", "js/States/game.js");
+
         game.load.script("WorldScript", "js/Objects/world.js");
         game.load.script("WallScript", "js/Objects/wall.js");
         game.load.script("MageScript", "js/Objects/mage.js");
         game.load.script("AltarScript", "js/Objects/altar.js");
+        game.load.script("BoulderScript", "js/Objects/boulder.js");
         game.load.script("ResourceScript", "js/Objects/resource.js");
+        game.load.script("DemonScript", "js/Objects/demon.js");
+
         game.load.script("SkullResource", "js/Resources/skull.js");
         game.load.script("MercuryResource", "js/Resources/mercury.js");
         game.load.script("SulphurResource", "js/Resources/sulphur.js");
@@ -41,6 +45,7 @@ Splash.prototype = {
         //TEMP
         game.load.image('mage1', 'content/sprites/mage1.png');
         game.load.image('mage2', 'content/sprites/mage2.png');
+        game.load.image('demon', 'content/sprites/demon.png');
 
         game.load.image('boulder', 'content/sprites/boulder.png');
         game.load.image("chicken", "content/sprites/chicken.png");
@@ -67,11 +72,12 @@ Splash.prototype = {
     },
 
     init: function () {
-        this.sprite = game.add.sprite(0, 0, "loadingspr");
     },
 
     // Preload game assets
     preload: function () {
+        game.load.onFileComplete.add(this.loadFileComplete, this);
+
         this.loadScripts();
         this.loadImages();
         this.loadFonts();
@@ -91,12 +97,22 @@ Splash.prototype = {
     },
 
     create: function() {
-
         this.addGameStates();
         this.addGameMusic();
+        window.setTimeout(function() {
+            game.state.start("Menu");
+        }, 1000);
+    },
 
-        setTimeout(function () {
-          game.state.start("Menu");
-      }, 1000);
-    }
+    loadFileComplete: function(progress, cacheKey, success, totalLoaded, totalFiles) {
+        var scaler = 2.0;
+        var totalNumberOfFlames = 5;
+        var numberOfFlames = Math.floor(totalNumberOfFlames * progress / 100.0);
+        var loadingSprite = game.add.sprite(0, 0, "loadingFlames");
+        loadingSprite.x = game.world.centerX + scaler * loadingSprite.width * (numberOfFlames - totalNumberOfFlames / 2.0);
+        loadingSprite.y = game.world.centerY;
+        loadingSprite.anchor.setTo(0.5, 0.5);
+        loadingSprite.scale.setTo(scaler, scaler);
+        loadingSprite.smoothed = false;
+    },
 }

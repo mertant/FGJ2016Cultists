@@ -93,6 +93,7 @@ Game.prototype = {
         this.map.addWall(3,12);
         this.map.addWall(6,12);
         this.map.addWall(12,12);
+        this.map.addWall(3,4);
 
 
         //this.map.add(new Wall(this.map.tilesize*3 + this.map.x,this.map.tilesize*3 + this.map.y));

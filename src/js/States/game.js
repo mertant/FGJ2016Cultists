@@ -84,10 +84,11 @@ Game.prototype = {
 
             // Generate random coordinates until an empty spot is found
             do {
-                x = Math.random() * ((this.map.width - 1) * this.map.tilesize);
-                y = Math.random() * ((this.map.height - 1) * this.map.tilesize);
-                x += this.map.x;
-                y += this.map.y;
+                var tileX = Math.floor(Math.random() * this.map.width);
+                var tileY = Math.floor(Math.random() * this.map.height);
+                var x = tileX * this.map.tilesize + this.map.x;
+                var y = tileY * this.map.tilesize + this.map.y;
+                // this.map.fitsIn does not take into account player positions!
             } while (this.map.fitsIn(x, y, resource.sprite.width, resource.sprite.height) == false);
             resource.sprite.x = x;
             resource.sprite.y = y;

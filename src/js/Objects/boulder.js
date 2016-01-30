@@ -1,5 +1,5 @@
 function Boulder(x, y) {
-    this.sprite = game.add.sprite(x, y, "rock");
+    this.sprite = game.add.sprite(x, y, "boulder");
     this.sprite.enableBody = true;
     game.physics.arcade.enable(this.sprite);
 
@@ -46,16 +46,29 @@ Boulder.prototype.update = function() {
     } else if (this.flying) {
         this.sprite.body.drag.x = 500;
         this.sprite.body.drag.y = 500;
+        if (this.sprite.body.velocity.x == 0 && this.sprite.body.velocity.y == 0) {
+            this.stop();
+        }
         if (this.flyDirection % 2 == 0) {
             if (Math.abs(this.flyStartY - this.sprite.y) > this.tossDistance) {
-                this.destroy();
+                this.stop();
             }
         } else {
             if (Math.abs(this.flyStartX - this.sprite.x) > this.tossDistance) {
-                this.destroy();
+                this.stop();
             }
         }
     }
+}
+
+Boulder.prototype.stop = function() {
+    console.log("fuckin stopped motherfucker");
+    this.sprite.body.velocity.x = 0;
+    this.sprite.body.velocity.y = 0;
+    this.flying = false;
+    this.carrying = false;
+    this.thrower = null;
+    this.carrier = null;
 }
 
 Boulder.prototype.hit = function(other) {

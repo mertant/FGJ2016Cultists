@@ -8,7 +8,10 @@ Splash.prototype = {
         game.load.script("WorldScript", "js/Objects/world.js");
         game.load.script("WallScript", "js/Objects/wall.js");
         game.load.script("MageScript", "js/Objects/mage.js");
-
+        game.load.script("ResourceScript", "js/Objects/resource.js");
+        game.load.script("SkullResource", "js/Resources/skull.js");
+        game.load.script("MercuryResource", "js/Resources/mercury.js");
+        game.load.script("SulphurResource", "js/Resources/sulphur.js");
     },
 
     loadBgm: function () {
@@ -35,7 +38,7 @@ Splash.prototype = {
         game.load.image("mercury", "content/sprites/mercury.png");
         game.load.image("orb", "content/sprites/orb.png");
         game.load.image("orb2", "content/sprites/orb2.png");
-        game.load.image("risu", "content/sprites/risu.png");
+        game.load.image("risu", "content/sprites/risu0000.png");
         game.load.image("rock", "content/sprites/rock10000.png");
         game.load.image("skull", "content/sprites/skull.png");
         game.load.image("sulphur", "content/sprites/sulphur.png");

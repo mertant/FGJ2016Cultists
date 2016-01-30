@@ -50,7 +50,7 @@ Game.prototype = {
 
         //  Create walls around the play area that are invisible
         this.mapBoundary = game.add.group();
-        this.mapBoundary.enableBody = true;
+        //this.mapBoundary.enableBody = true;
         for (var i = 0; i < this.map.width + 2; i++) { //notice the +2
             for (var j = 0; j < this.map.height + 2; j++) {
                 if (i == 0 || j == 0 || i == this.map.width + 1 || j == this.map.height + 1) {
@@ -59,13 +59,38 @@ Game.prototype = {
                     x += i*this.map.tilesize;
                     y += j*this.map.tilesize;
                     var spr = game.add.sprite(x, y, "boulder");
-                    spr.enableBody = true;
-                    game.physics.arcade.enable(spr);
-                    spr.body.immovable = true;
+                    //spr.enableBody = true;
+                    //game.physics.arcade.enable(spr);
+                    //spr.body.immovable = true;
                     //spr.visible = false;
                     this.mapBoundary.add(spr);
                 }
             }
+        }
+
+        // FIXME: Don't hardcode resource info list here?
+        var resourceInfos = [
+            new Skull(),
+            new Mercury(),
+            new Sulphur(),
+        ];
+
+        // Generate initial resources on the map
+        for (var i = 0; i < 20; ++i) {
+            var x = 0;
+            var y = 0;
+
+            // Generate random coordinates until an empty spot is found
+            do {
+                x = Math.random() * (this.map.width * (this.map.tilesize - 2));
+                y = Math.random() * (this.map.height * (this.map.tilesize - 2));
+                x += this.map.x;
+                y += this.map.y;
+            } while (this.map.getAt(x, y) != null);
+
+            var resourceInfo = resourceInfos[Math.floor(Math.random() * resourceInfos.length)];
+            var resource = new Resource(x, y, resourceInfo);
+            this.map.add(x, y, resource);
         }
 
         // Overlay trees
@@ -114,9 +139,37 @@ Game.prototype = {
         //animate running and stuff
         this.mage2.updateAnim();
 
+
+        //reforce map boundaries
+        if (this.mage1.sprite.x < this.map.x) {
+            this.mage1.sprite.x = this.map.x;
+        }
+        if (this.mage1.sprite.y < this.map.y) {
+            this.mage1.sprite.y = this.map.y;
+        }
+        if (this.mage1.sprite.x + this.mage1.sprite.width > this.map.x + this.map.width*this.map.tilesize) {
+            this.mage1.sprite.x = this.map.x + this.map.width*this.map.tilesize - this.mage1.sprite.width;
+        }
+        if (this.mage1.sprite.y + this.mage1.sprite.height > this.map.y + this.map.height*this.map.tilesize) {
+            this.mage1.sprite.y = this.map.y + this.map.height*this.map.tilesize - this.mage1.sprite.height;
+        }
+
+        if (this.mage2.sprite.x < this.map.x) {
+            this.mage2.sprite.x = this.map.x;
+        }
+        if (this.mage2.sprite.y < this.map.y) {
+            this.mage2.sprite.y = this.map.y;
+        }
+        if (this.mage2.sprite.x + this.mage2.sprite.width > this.map.x + this.map.width*this.map.tilesize) {
+            this.mage2.sprite.x = this.map.x + this.map.width*this.map.tilesize - this.mage2.sprite.width;
+        }
+        if (this.mage2.sprite.y + this.mage2.sprite.height > this.map.y + this.map.height*this.map.tilesize) {
+            this.mage2.sprite.y = this.map.y + this.map.height*this.map.tilesize - this.mage2.sprite.height;
+        }
+
         // Player <-> Map edge collision
-        game.physics.arcade.collide(this.mage1.sprite, this.mapBoundary);
-        game.physics.arcade.collide(this.mage2.sprite, this.mapBoundary);
+        //game.physics.arcade.collide(this.mage1.sprite, this.mapBoundary);
+        //game.physics.arcade.collide(this.mage2.sprite, this.mapBoundary);
 
         //Le Boulder Blocking part of the Code
         game.physics.arcade.collide(this.mage1.sprite, this.map.collideableGroup);

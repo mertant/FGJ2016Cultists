@@ -46,10 +46,12 @@ Map.prototype.remove = function(obj) {
 // Returns an object in the map at the given SCREEN X/Y coordinates
 // Returns null if no object exists at x, y
 Map.prototype.getAt = function(x, y) {
-    for (var i=0; i<objects.length; i++){
+    for (var i = 0; i < this.objects.length; i++){
         var obj = this.objects[i];
-        if (x > obj.sprite.x && x < obj.sprite.x + obj.sprite.width &&
-            y > obj.sprite.y && y < obj.sprite.y + obj.sprite.height) {
+        if (x > obj.sprite.x &&
+            x < (obj.sprite.x + obj.sprite.width) &&
+            y > obj.sprite.y &&
+            y < obj.sprite.y + obj.sprite.height) {
             return obj;
         }
     }

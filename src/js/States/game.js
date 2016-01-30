@@ -128,19 +128,20 @@ Game.prototype = {
         this.mage2.sprite.body.velocity.x = 0;
         this.mage2.sprite.body.velocity.y = 0;
         // Input P1
+        var mage1velocity = this.mage1.getMovementSpeed();
         if (this.cursors.up.isDown) {
-            this.mage1.sprite.body.velocity.y = -240; //PIXELS PER SECOND
+            this.mage1.sprite.body.velocity.y = -mage1velocity; //PIXELS PER SECOND
             this.mage1.lastDirection = this.mage1.directions.UP;
         } else if (this.cursors.down.isDown) {
-            this.mage1.sprite.body.velocity.y = 240;
+            this.mage1.sprite.body.velocity.y = mage1velocity;
             this.mage1.lastDirection = this.mage1.directions.DOWN;
         }
         if (this.cursors.left.isDown) {
-            this.mage1.sprite.body.velocity.x = -240;
+            this.mage1.sprite.body.velocity.x = -mage1velocity;
             this.mage1.sprite.scale.x = 1;
             this.mage1.lastDirection = this.mage1.directions.LEFT;
         } else if (this.cursors.right.isDown) {
-            this.mage1.sprite.body.velocity.x = 240;
+            this.mage1.sprite.body.velocity.x = mage1velocity;
             this.mage1.sprite.scale.x = -1;
             this.mage1.lastDirection = this.mage1.directions.RIGHT;
         }
@@ -149,19 +150,20 @@ Game.prototype = {
         this.mage1.updateAnim();
 
         // Input P2
+        var mage2velocity = this.mage2.getMovementSpeed();
         if (this.keys.up.isDown) {
-            this.mage2.sprite.body.velocity.y = -240;
+            this.mage2.sprite.body.velocity.y = -mage2velocity;
             this.mage2.lastDirection = this.mage2.directions.UP;
         } else if (this.keys.down.isDown) {
-            this.mage2.sprite.body.velocity.y = 240;
+            this.mage2.sprite.body.velocity.y = mage2velocity;
             this.mage2.lastDirection = this.mage2.directions.DOWN;
         }
         if (this.keys.left.isDown) {
-            this.mage2.sprite.body.velocity.x = -240;
+            this.mage2.sprite.body.velocity.x = -mage2velocity;
             this.mage2.sprite.scale.x = 1;
             this.mage2.lastDirection = this.mage2.directions.LEFT;
         } else if (this.keys.right.isDown) {
-            this.mage2.sprite.body.velocity.x = 240;
+            this.mage2.sprite.body.velocity.x = mage2velocity;
             this.mage2.sprite.scale.x = -1;
             this.mage2.lastDirection = this.mage2.directions.RIGHT;
         }

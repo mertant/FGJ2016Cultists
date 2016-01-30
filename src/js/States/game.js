@@ -13,8 +13,8 @@ Game.prototype = {
         game.physics.startSystem(Phaser.Physics.ARCADE);
 
         //Le Mage Creation Phase
-        this.mage1 = new Mage(672, 480, "mage1");
-        this.mage2 = new Mage(96, 96, "mage2");
+        this.mage1 = new Mage(672, 480, "test_spritesheet");
+        this.mage2 = new Mage(96, 96, "test_spritesheet");
 
         //Le Players Group
         this.players = game.add.group();
@@ -48,11 +48,11 @@ Game.prototype = {
         //Init map
         this.map = new Map();
 
-        //TEMP
+        //  TEMP
         var wall = new Wall(0,0);
         this.map.add(0,0,wall);
 
-        //Create walls around the play area that are invisible
+        //  Create walls around the play area that are invisible
         this.mapBoundary = game.add.group();
         this.mapBoundary.enableBody = true;
         for (var i = 0; i < this.map.width + 2; i++) { //notice the +2
@@ -98,6 +98,9 @@ Game.prototype = {
             this.mage1.sprite.body.velocity.x = 240;
         }
 
+        //animate running and stuff
+        this.mage1.updateAnim();
+
         // Input P2
         if (this.keys.up.isDown) {
             this.mage2.sprite.body.velocity.y = -240;
@@ -110,6 +113,8 @@ Game.prototype = {
             this.mage2.sprite.body.velocity.x = 240;
         }
 
+        //animate running and stuff
+        this.mage2.updateAnim();
 
         // Player <-> Map edge collision
         game.physics.arcade.collide(this.mage1.sprite, this.mapBoundary);

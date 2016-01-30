@@ -19,11 +19,31 @@ Splash.prototype = {
         // Backgrounds
 
         game.load.image('background', 'content/bg/bg001.png');
-        game.load.image('mage1', 'content/sprites/mage1.png');
-        game.load.image('mage2', 'content/sprites/mage2.png');
-        game.load.image('boulder', 'content/sprites/boulder.png');
+        game.load.image("backgroundtrees", "content/bg/backgroundtrees.png");
+        
+
+        
+        
 
         // Sprites
+        //TEMP
+        game.load.image('mage1', 'content/sprites/mage1.png');
+        game.load.image('mage2', 'content/sprites/mage2.png');
+
+        game.load.image('boulder', 'content/sprites/boulder.png');
+        game.load.image("chicken", "content/sprites/chicken.png");
+        game.load.image("mercury", "content/sprites/mercury.png");
+        game.load.image("orb", "content/sprites/orb.png");
+        game.load.image("orb2", "content/sprites/orb2.png");
+        game.load.image("risu", "content/sprites/risu.png");
+        game.load.image("rock", "content/sprites/rock10000.png");
+        game.load.image("skull", "content/sprites/skull.png");
+        game.load.image("sulphur", "content/sprites/sulphur.png");
+
+        //ESIMERKKI: game.load.spritesheet(key, sprite file, frame width, frame height, frame count);
+        //TEMP
+        game.load.spritesheet("test_spritesheet", "content/sprites/test_spritesheet.png", 32, 32, 2);
+        game.load.spritesheet("redmage", "content/sprites/redmage.png", 32, 32, 4);
     },
 
     loadFonts: function () {

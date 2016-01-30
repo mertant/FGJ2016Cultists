@@ -6,6 +6,10 @@ Music:
 
 Snabisch - Back To The Place (PSG) - CC-BY 3.0
 
+Visager - Pyramid Level -  CC-BY 4.0
+
+Visager - Title Theme - CC-BY 4.0
+
 
 Stage 1: gather materials for your summoning
 

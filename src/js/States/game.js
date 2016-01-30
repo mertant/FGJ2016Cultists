@@ -62,8 +62,8 @@ Game.prototype = {
             right: game.input.keyboard.addKey(Phaser.KeyCode.L)
         };
 
-        this.clock = 0;
-        this.clockText = game.add.text(10, 10, 'Time: ');
+        this.clock = 5;
+        this.clockText = game.add.text(10, 10, 'Time: ' + this.clock);
         game.time.events.loop(Phaser.Timer.SECOND, this.updateCounter, this);
 
         //Init map
@@ -192,10 +192,23 @@ Game.prototype = {
         // Overlay trees
         this.trees = game.add.sprite(0, 0, 'backgroundtrees');
     },
+    spawnDemons: function() {
+        this.demon1 = new Demon(96+8*32, 96+6*32, "demon");
+        this.demon2 = new Demon(96+11*32, 96+7*32, "demon");
+        this.demon1.sprite.anchor.setTo(.5, .5);
+        this.demon2.sprite.anchor.setTo(.5, .5);
+    },
 
     updateCounter: function() {
-      this.clock++;
-      this.clockText.setText('Time: ' + this.clock);
+        this.clock--;
+        if (this.clock == 0) {
+          this.spawnDemons();
+        }
+        if (this.clock <= 0) {
+            this.clockText.setText('DEMONS!');
+        } else {
+            this.clockText.setText('Time: ' + this.clock);
+        }
     },
 
     update: function() {
@@ -237,6 +250,7 @@ Game.prototype = {
                 var obj = this.map.getAt(curMage.sprite.x, curMage.sprite.y)
                 if (obj != null && obj.constructor.name == 'Resource') {
                     if (curMage.weapon == null) {
+                        rescourcepickup.play();
                         curMage.pickUp(obj);
                         this.map.remove(obj);
                         obj.pick();

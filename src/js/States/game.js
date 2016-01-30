@@ -19,8 +19,8 @@ Game.prototype = {
         game.physics.startSystem(Phaser.Physics.ARCADE);
 
         //Le Mage Creation Phase
-        this.mage1 = new Mage(96, 96, "blueacolyte");
-        this.mage2 = new Mage(690, 495, "redacolyte");
+        this.mage1 = new Mage(96+6*32, 96+6*32, "blueacolyte");
+        this.mage2 = new Mage(96+13*32, 96+6*32, "redacolyte");
         this.mage1.sprite.anchor.setTo(.5, .5);
         this.mage2.sprite.anchor.setTo(.5, .5);
         this.mage1.sprite.smoothed = false;
@@ -132,9 +132,7 @@ Game.prototype = {
 
 
         //Le Musik PLayer
-        track1.play();
-        track1.loop = true;
-
+        track1.play('',0,1,true);
 
         //BLood and Gore!!
         this.BLOODemitter = game.add.emitter(0, 0, 100);
@@ -190,18 +188,10 @@ Game.prototype = {
                 var tileX = Math.floor(Math.random() * this.map.width);
                 var tileY = Math.floor(Math.random() * this.map.height);
 
-                // Modify coordinates if resource is about to land at a player starting position
-                if (tileX == 0 && tileY == 0) {
-                    tileX += 1;
-                }
-
-                if (tileX == (this.map.width - 1) && tileY == (this.map.height - 1)) {
-                    tileX -= -1;
-                }
-
                 var x = tileX * this.map.tilesize + this.map.x;
                 var y = tileY * this.map.tilesize + this.map.y;
-            } while (this.map.fitsIn(x, y, resource.sprite.width, resource.sprite.height) == false);
+            } while (this.map.fitsIn(x, y, resource.sprite.width, resource.sprite.height) == false ||
+            (tileX > 4 && tileX < 14 && tileY > 3 && tileY < 9));
             resource.sprite.x = x;
             resource.sprite.y = y;
             this.map.add(x, y, resource);
@@ -249,8 +239,7 @@ Game.prototype = {
 
     spawnDemons: function() {
         track1.stop();
-        track3.play();
-        track3.loop = true;
+        track3.play('',0,1,true);
         this.grave1 = game.add.sprite(this.mage1.sprite.x, this.mage1.sprite.y, 'grave');
         this.grave1.anchor.setTo(.5, .5);
         this.grave2 = game.add.sprite(this.mage2.sprite.x, this.mage2.sprite.y, 'grave');

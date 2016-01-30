@@ -1,9 +1,9 @@
 function Map() {
-    this.x = 0;
-    this.y = 0;
+    this.x = 96;
+    this.y = 96;
     this.tilesize = 32;
-    this.height = 18;
-    this.width = 25;
+    this.height = 13;
+    this.width = 19;
     this.objects = [];
 
   /*  this.data = new Array(this.width);
@@ -25,8 +25,8 @@ Map.prototype.add = function(x, y, obj) {
     //this.data[x][y] = obj;
     this.objects.push(obj);
     if (obj.collidable){
-      this.collideableGroup.add(obj.sprite);
-      obj.sprite.body.immovable = true;
+        this.collideableGroup.add(obj.sprite);
+        obj.sprite.body.immovable = true;
     }
     // add object to proper collision group
 }

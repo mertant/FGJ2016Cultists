@@ -13,43 +13,65 @@ Game.prototype = {
         game.physics.startSystem(Phaser.Physics.ARCADE);
 
         //Le Mage Creation Phase
-        this.mage1 = game.add.sprite(750, 550, 'mage1');
-        this.mage2 = game.add.sprite(50, 50, 'mage2');
+        this.mage1 = new Mage(672, 480, "mage1");
+        this.mage2 = new Mage(96, 96, "mage2");
 
         //Le Players Group
         this.players = game.add.group();
-
-        //Le Players Group Physics are enabled
         this.players.enableBody = true;
 
-        //Le Mages are Added to the Players Group
-        this.players.add(this.mage1);
-        this.players.add(this.mage2);
+        this.players.add(this.mage1.sprite);
+        this.players.add(this.mage2.sprite);
 
-        //Le Mage Physics
-        game.physics.arcade.enable([this.mage1, this.mage2]);
-        this.mage1.body.collideWorldBounds = true;
-        this.mage2.body.collideWorldBounds = true;
+        //Collision between players and world boundaries
+        game.physics.arcade.enable([this.mage1.sprite, this.mage2.sprite]);
+        this.mage1.sprite.body.collideWorldBounds = true;
+        this.mage2.sprite.body.collideWorldBounds = true;
 
-        //Le Cursor
+        //Input
+        //  Player 1
         this.cursors = game.input.keyboard.createCursorKeys();
 
-        //Le Keys
+        //  Player 2
         this.keys = {
             up: game.input.keyboard.addKey(Phaser.KeyCode.W),
             down: game.input.keyboard.addKey(Phaser.KeyCode.S),
             left: game.input.keyboard.addKey(Phaser.KeyCode.A),
             right: game.input.keyboard.addKey(Phaser.KeyCode.D)
         };
+
         //Init clock
         this.clock = 0;
         this.clockText = game.add.text(10, 10, 'Time: ');
         game.time.events.loop(Phaser.Timer.SECOND, this.updateCounter, this);
 
-        //Le Cartography section
+        //Init map
         this.map = new Map();
+
+        //TEMP
         var wall = new Wall(0,0);
         this.map.add(0,0,wall);
+
+        //Create walls around the play area that are invisible
+        this.mapBoundary = game.add.group();
+        this.mapBoundary.enableBody = true;
+        for (var i = 0; i < this.map.width + 2; i++) { //notice the +2
+            for (var j = 0; j < this.map.height + 2; j++) {
+                if (i == 0 || j == 0 || i == this.map.width + 1 || j == this.map.height + 1) {
+                    var x = this.map.x - this.map.tilesize;
+                    var y = this.map.y - this.map.tilesize;
+                    x += i*this.map.tilesize;
+                    y += j*this.map.tilesize;
+                    var spr = game.add.sprite(x, y, "boulder");
+                    spr.enableBody = true;
+                    game.physics.arcade.enable(spr);
+                    spr.body.immovable = true;
+                    //spr.visible = false;
+                    this.mapBoundary.add(spr);
+                }
+            }
+        }
+
     },
 
     updateCounter: function() {
@@ -58,36 +80,48 @@ Game.prototype = {
     },
 
     update: function() {
+        //Reset velocity
+        //PIXELS PER SECOND
+        this.mage1.sprite.body.velocity.x = 0;
+        this.mage1.sprite.body.velocity.y = 0;
+        this.mage2.sprite.body.velocity.x = 0;
+        this.mage2.sprite.body.velocity.y = 0;
         // Input P1
         if (this.cursors.up.isDown) {
-            this.mage1.body.y -= 4;
+            this.mage1.sprite.body.velocity.y = -240; //PIXELS PER SECOND
         } else if (this.cursors.down.isDown) {
-            this.mage1.body.y += 4;
+            this.mage1.sprite.body.velocity.y = 240;
         }
         if (this.cursors.left.isDown) {
-            this.mage1.body.x -= 4;
+            this.mage1.sprite.body.velocity.x = -240;
         } else if (this.cursors.right.isDown) {
-            this.mage1.body.x += 4;
+            this.mage1.sprite.body.velocity.x = 240;
         }
 
         // Input P2
         if (this.keys.up.isDown) {
-            this.mage2.body.y -= 4;
+            this.mage2.sprite.body.velocity.y = -240;
         } else if (this.keys.down.isDown) {
-            this.mage2.body.y += 4;
+            this.mage2.sprite.body.velocity.y = 240;
         }
         if (this.keys.left.isDown) {
-            this.mage2.body.x -= 4;
+            this.mage2.sprite.body.velocity.x = -240;
         } else if (this.keys.right.isDown) {
-            this.mage2.body.x += 4;
+            this.mage2.sprite.body.velocity.x = 240;
         }
 
-        //Le Mage Collision Checker
-        game.physics.arcade.collide(this.mage1, this.mage2);
+
+        // Player <-> Map edge collision
+        game.physics.arcade.collide(this.mage1.sprite, this.mapBoundary);
+        game.physics.arcade.collide(this.mage2.sprite, this.mapBoundary);
 
         //Le Boulder Blocking part of the Code
-        game.physics.arcade.collide(this.mage1, this.map.collideableGroup);
-        game.physics.arcade.collide(this.mage2, this.map.collideableGroup);
+        game.physics.arcade.collide(this.mage1.sprite, this.map.collideableGroup);
+        game.physics.arcade.collide(this.mage2.sprite, this.map.collideableGroup);
+
+        //Le Mage Collision Checker
+        game.physics.arcade.collide(this.mage1.sprite, this.mage2.sprite);
+
 
     },
 

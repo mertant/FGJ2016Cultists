@@ -11,6 +11,10 @@ Menu.prototype = {
     },
 
     create: function() {
+        // Pentagram
+        this.gram = game.add.sprite(game.world.centerX, 0.5 * game.world.centerY, "grammi");
+        this.gram.anchor.setTo(0.5, 0.46);
+
         // Goat head sprite
         this.goathead = game.add.sprite(game.world.centerX, 0.5 * game.world.centerY, "goaty");
         this.goathead.anchor.set(0.5);
@@ -35,6 +39,7 @@ Menu.prototype = {
     },
 
     update: function() {
+        this.gram.angle += 0.1;
         // Pressing the enter key starts the game
         if (this.enterKey.isDown) {
             track2.fadeOut(1000);

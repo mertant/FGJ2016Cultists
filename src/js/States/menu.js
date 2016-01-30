@@ -14,7 +14,10 @@ Menu.prototype = {
         // Create menu objects
         this.goathead = game.add.sprite(game.world.centerX, 0.5 * game.world.centerY, "goaty");
         this.goathead.anchor.set(0.5);
-        this.goathead.scale.setTo(0.18);
+        this.goathead.scale.setTo(0.5);
+        this.goathead.angle = -5.0;
+        this.goatheadTween = game.add.tween(this.goathead);
+        this.goatheadTween.to({angle: 5}, 2000, Phaser.Easing.Sinusoidal.InOut, true, delay = 0, repeat = -1, yoyo = true);
 
         this.keySprite = game.add.sprite(game.world.centerX, 1.5 * game.world.centerY, "enter-key");
         this.keySprite.anchor.set(0.5);

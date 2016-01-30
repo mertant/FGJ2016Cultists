@@ -25,8 +25,8 @@ Game.prototype = {
         //this.mage1.sprite.animations.play('wait', 10, true);
 
         //Altars
-        this.altar1 = new Altar(96, 96);
-        this.altar2 = new Altar(672, 480);
+        this.altar1 = new Altar(96+7*32, 96+5*32);
+        this.altar2 = new Altar(96+10*32, 96+6*32);
 
         //Le Players Group
         this.players = game.add.group();
@@ -48,7 +48,7 @@ Game.prototype = {
             down: game.input.keyboard.addKey(Phaser.KeyCode.S),
             left: game.input.keyboard.addKey(Phaser.KeyCode.A),
             right: game.input.keyboard.addKey(Phaser.KeyCode.D)
-        };        
+        };
 
         //  Player 2
         this.keys2 = {
@@ -59,7 +59,8 @@ Game.prototype = {
             right: game.input.keyboard.addKey(Phaser.KeyCode.L)
         };
 
-        //Init clock
+        this.clockText = game.add.text(10, 10, 'Time: ');
+        game.time.events.loop(Phaser.Timer.SECOND, this.updateCounter, this);
         this.clock = 0;
         this.clockText = game.add.text(10, 10, 'Time: ');
         game.time.events.loop(Phaser.Timer.SECOND, this.updateCounter, this);

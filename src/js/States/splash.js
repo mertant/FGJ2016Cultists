@@ -25,10 +25,6 @@ Splash.prototype = {
         game.load.image('background', 'content/bg/bg001.png');
         game.load.image("backgroundtrees", "content/bg/backgroundtrees.png");
 
-
-
-
-
         // Sprites
         //TEMP
         game.load.image('mage1', 'content/sprites/mage1.png');
@@ -48,7 +44,8 @@ Splash.prototype = {
         //ESIMERKKI: game.load.spritesheet(key, sprite file, frame width, frame height, frame count);
         //TEMP
         game.load.spritesheet("test_spritesheet", "content/sprites/test_spritesheet.png", 32, 32, 2);
-        game.load.spritesheet("redmage", "content/sprites/redmage.png", 32, 32, 4);
+        game.load.spritesheet("redacolyte", "content/sprites/redacolyte.png", 32, 32, 15);
+        game.load.spritesheet("blueacolyte", "content/sprites/blueacolyte.png", 32, 32, 15);
     },
 
     loadFonts: function () {

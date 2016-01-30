@@ -13,10 +13,16 @@ Game.prototype = {
         game.physics.startSystem(Phaser.Physics.ARCADE);
 
         //Le Mage Creation Phase
-        this.mage1 = new Mage(672, 480, "test_spritesheet");
-        this.mage2 = new Mage(96, 96, "test_spritesheet");
+        this.mage1 = new Mage(672, 480, "redacolyte");
+        this.mage2 = new Mage(96, 96, "blueacolyte");
         this.mage1.sprite.anchor.setTo(.5, .5);
         this.mage2.sprite.anchor.setTo(.5, .5);
+
+        //Mage animations
+        //this.walk = this.mage1.sprite.animations.add('walk');
+        //this.wait = this.mage1.sprite.animations.add('wait',  Phaser.Animation.generateFrameNames('redacolyte' , 1 ,  2 ,  '.png'), 100, true);
+        //player.animations.add( 'move_right',  Phaser.Animation.generateFrameNames('char_right_ ' , 1 ,  4 ,  '.png'), 100, true);
+        //this.mage1.sprite.animations.play('wait', 10, true);
 
         //Altars
         this.altar1 = game.add.sprite(672, 480, 'altar');
@@ -131,15 +137,19 @@ Game.prototype = {
         var mage1velocity = this.mage1.getMovementSpeed();
         if (this.cursors.up.isDown) {
             this.mage1.sprite.body.velocity.y = -mage1velocity; //PIXELS PER SECOND
+            this.mage1.lastDirection = this.mage1.directions.UP;
         } else if (this.cursors.down.isDown) {
             this.mage1.sprite.body.velocity.y = mage1velocity;
+            this.mage1.lastDirection = this.mage1.directions.DOWN;
         }
         if (this.cursors.left.isDown) {
             this.mage1.sprite.body.velocity.x = -mage1velocity;
             this.mage1.sprite.scale.x = 1;
+            this.mage1.lastDirection = this.mage1.directions.LEFT;
         } else if (this.cursors.right.isDown) {
             this.mage1.sprite.body.velocity.x = mage1velocity;
             this.mage1.sprite.scale.x = -1;
+            this.mage1.lastDirection = this.mage1.directions.RIGHT;
         }
 
         //animate running and stuff
@@ -149,15 +159,19 @@ Game.prototype = {
         var mage2velocity = this.mage2.getMovementSpeed();
         if (this.keys.up.isDown) {
             this.mage2.sprite.body.velocity.y = -mage2velocity;
+            this.mage2.lastDirection = this.mage2.directions.UP;
         } else if (this.keys.down.isDown) {
             this.mage2.sprite.body.velocity.y = mage2velocity;
+            this.mage2.lastDirection = this.mage2.directions.DOWN;
         }
         if (this.keys.left.isDown) {
             this.mage2.sprite.body.velocity.x = -mage2velocity;
             this.mage2.sprite.scale.x = 1;
+            this.mage2.lastDirection = this.mage2.directions.LEFT;
         } else if (this.keys.right.isDown) {
             this.mage2.sprite.body.velocity.x = mage2velocity;
             this.mage2.sprite.scale.x = -1;
+            this.mage2.lastDirection = this.mage2.directions.RIGHT;
         }
 
         //animate running and stuff

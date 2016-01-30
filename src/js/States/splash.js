@@ -8,7 +8,9 @@ Splash.prototype = {
         game.load.script("WorldScript", "js/Objects/world.js");
         game.load.script("WallScript", "js/Objects/wall.js");
         game.load.script("MageScript", "js/Objects/mage.js");
-
+        game.load.script("ResourceScript", "js/Objects/resource.js");
+        game.load.script("SkullResource", "js/Resources/skull.js");
+        game.load.script("MercuryResource", "js/Resources/mercury.js");
     },
 
     loadBgm: function () {

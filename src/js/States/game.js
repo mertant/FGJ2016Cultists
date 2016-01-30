@@ -72,6 +72,16 @@ Game.prototype = {
             }
         }
 
+        // Generate initial resources on the map
+        for (var i = 0; i < 5; ++i) {
+            var x = Math.random() * (this.map.width * this.map.tilesize - 2);
+            var y = Math.random() * (this.map.height * this.map.tilesize - 2);
+            x += this.map.x;
+            y += this.map.y;
+
+            // TODO: Check that nothing exists on the given coordinates.
+            // TODO: Create resource object and place on map.
+        }
     },
 
     updateCounter: function() {

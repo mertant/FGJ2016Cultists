@@ -126,12 +126,10 @@ Game.prototype = {
         this.BLOODemitter = game.add.emitter(0, 0, 100);
 
         this.BLOODemitter.makeParticles('blod');
+        this.BLOODemitter.x = this.mage1.sprite.x;
+        this.BLOODemitter.y = this.mage1.sprite.y;
 
-        this.BLOODemitter.start(false, 5000, 20);
-
-        this.BLOODemitter.x = this.mage1.x;
-        this.BLOODemitter.y = this.mage1.y;
-
+        this.BLOODemitter.start(true, 2000, null, 10);
 
         //this.map.add(new Wall(this.map.tilesize*3 + this.map.x,this.map.tilesize*3 + this.map.y));
 

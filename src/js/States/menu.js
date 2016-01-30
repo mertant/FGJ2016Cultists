@@ -11,14 +11,29 @@ Menu.prototype = {
     }, 
 
     create: function() {
-        //this.bg = game.add.sprite(0, 0, "menubg");
+        // Goat head sprite
+        this.goathead = game.add.sprite(game.world.centerX, 0.5 * game.world.centerY, "goaty");
+        this.goathead.anchor.set(0.5);
+        this.goathead.scale.setTo(0.5);
+        this.goathead.angle = -5.0;
+        this.goatheadTween = game.add.tween(this.goathead);
+        this.goatheadTween.to({angle: 5}, 2000, Phaser.Easing.Sinusoidal.InOut, true, delay = 0, repeat = -1, yoyo = true);
 
-        //create menu objects
+        // Enter key sprite
+        this.keySprite = game.add.sprite(game.world.centerX, 1.5 * game.world.centerY, "enter-key");
+        this.keySprite.anchor.set(0.5);
+        this.keySprite.scale.setTo(3.0);
+        this.keySprite.smoothed = false;
+        this.keySpriteTween = game.add.tween(this.keySprite);
+        this.keySpriteTween.to({y: '+20'}, 800, Phaser.Easing.Sinusoidal.InOut, true, delay = 0, repeat = -1, yoyo = true);
 
+        this.enterKey = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
     },
 
     update: function() {
-        // Instantly goes to game - implement menu
-        game.state.start("Game");
+        // Pressing the enter key starts the game
+        if (this.enterKey.isDown) {
+            game.state.start("Game");
+        }
     }
 }

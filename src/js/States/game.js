@@ -138,9 +138,16 @@ Game.prototype = {
             do {
                 var tileX = Math.floor(Math.random() * this.map.width);
                 var tileY = Math.floor(Math.random() * this.map.height);
+
+                // Generate new coordinates if resource is about to land at a player starting position
+                if ((tileX == 0 && tileY == 0) ||
+                    (tileX == (this.map.width - 1) && tileY == (this.map.height - 1))) {
+                    continue;
+                }
+
                 var x = tileX * this.map.tilesize + this.map.x;
                 var y = tileY * this.map.tilesize + this.map.y;
-                // this.map.fitsIn does not take into account player positions!
+
             } while (this.map.fitsIn(x, y, resource.sprite.width, resource.sprite.height) == false);
             resource.sprite.x = x;
             resource.sprite.y = y;

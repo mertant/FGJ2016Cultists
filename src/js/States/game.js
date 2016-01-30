@@ -72,8 +72,8 @@ Game.prototype = {
             right: game.input.keyboard.addKey(Phaser.KeyCode.L)
         };
 
-        this.clock = 5;
-        this.clockText = game.add.text(10, 10, 'Time: ' + this.clock);
+        this.clockStart = 15;
+        this.clock = this.clockStart;
         game.time.events.loop(Phaser.Timer.SECOND, this.updateCounter, this);
 
         //Init map
@@ -209,6 +209,11 @@ Game.prototype = {
 
         // Overlay trees
         this.trees = game.add.sprite(0, 0, 'backgroundtrees');
+
+        //timethings
+        this.timebar = game.add.sprite(80, 10, 'timebar');
+        this.timehud = game.add.sprite(80, 10, 'timehud');
+
     },
     spawnDemons: function() {
         this.demon1 = new Demon(96+8*32, 96+6*32, "demon");
@@ -234,13 +239,15 @@ Game.prototype = {
 
     updateCounter: function() {
         this.clock--;
+        if (this.clock >= 0) {
+            this.timebar.scale.x = this.clock/this.clockStart;
+        } else {
+          this.timebar.scale.x = 0;
+        }
+
+
         if (this.clock == 0) {
           this.spawnDemons();
-        }
-        if (this.clock <= 0) {
-            this.clockText.setText('DEMONS!');
-        } else {
-            this.clockText.setText('Time: ' + this.clock);
         }
     },
 

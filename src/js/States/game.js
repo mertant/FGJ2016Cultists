@@ -121,6 +121,10 @@ Game.prototype = {
         rescourcepickup = game.add.audio('rescourcepickup');
         rockhit = game.add.audio('rockhit');
         scream = game.add.audio('scream');
+        track1 = game.add.audio('track1');
+
+        //Le Musik PLayer
+        track1.play();
 
         //BLood and Gore!!
         this.BLOODemitter = game.add.emitter(0, 0, 100);
@@ -202,19 +206,10 @@ Game.prototype = {
         // Active boulders to update
         this.activeWeapons = []; //list that contains any active/flying boulders
 
-        //bring player sprites on top of others
-        game.world.bringToTop(this.mage1.sprite);
-        game.world.bringToTop(this.mage2.sprite);
         //bring carrying boulder
 
         // Overlay trees
         this.trees = game.add.sprite(0, 0, 'backgroundtrees');
-    },
-    spawnDemons: function() {
-        this.demon1 = new Demon(96+8*32, 96+6*32, "demon");
-        this.demon2 = new Demon(96+11*32, 96+7*32, "demon");
-        this.demon1.sprite.anchor.setTo(.5, .5);
-        this.demon2.sprite.anchor.setTo(.5, .5);
     },
 
     spawnDemons: function() {
@@ -275,6 +270,7 @@ Game.prototype = {
                     var obj = this.map.getAt(curMage.sprite.x, curMage.sprite.y)
                     if (obj != null && obj.constructor.name == 'Resource') {
                         if (curMage.weapon == null) {
+                            //Le Musik Player
                             rescourcepickup.play();
                             curMage.pickUp(obj);
                             this.map.remove(obj);

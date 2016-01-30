@@ -2,6 +2,11 @@
 Competitive 2-player cultist game for FGJ 2016
 
 
+Music:
+
+Snabisch - Back To The Place (PSG) - CC-BY 3.0
+
+
 Stage 1: gather materials for your summoning
 
 

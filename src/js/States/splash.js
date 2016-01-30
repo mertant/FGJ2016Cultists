@@ -63,7 +63,8 @@ Splash.prototype = {
         game.load.image("rock", "content/sprites/rock.png");
         game.load.image("skull", "content/sprites/skull.png");
         game.load.image("sulphur", "content/sprites/sulphur.png");
-        game.load.image("altar", "content/sprites/altar.png");
+        game.load.image("redAltar", "content/sprites/redAltar.png");
+        game.load.image("blueAltar", "content/sprites/blueAltar.png");
         game.load.image('grave', 'content/sprites/grave.png');
         game.load.image("goaty", "content/sprites/goaty-small.png");
         game.load.image("enter-key", "content/sprites/enter-key-small.png")

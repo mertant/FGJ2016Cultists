@@ -6,6 +6,7 @@ Game.prototype = {
     // PRELOAD GOES TO SPLASH.JS
 
     create: function() {
+
         //Le Background is created
         this.background = game.add.sprite(0, 0, 'background');
 
@@ -14,7 +15,7 @@ Game.prototype = {
 
         //Le Mage Creation Phase
         this.mage1 = new Mage(96, 96, "blueacolyte");
-        this.mage2 = new Mage(672, 480, "redacolyte");
+        this.mage2 = new Mage(690, 495, "redacolyte");
         this.mage1.sprite.anchor.setTo(.5, .5);
         this.mage2.sprite.anchor.setTo(.5, .5);
 
@@ -61,9 +62,8 @@ Game.prototype = {
             right: game.input.keyboard.addKey(Phaser.KeyCode.L)
         };
 
-        // Demontimer
-        this.clock = 5;
-        this.clockText = game.add.text(10, 10, 'Time: ' + this.clock);
+        this.clock = 0;
+        this.clockText = game.add.text(10, 10, 'Time: ');
         game.time.events.loop(Phaser.Timer.SECOND, this.updateCounter, this);
 
         //Init map
@@ -96,6 +96,26 @@ Game.prototype = {
         this.map.addWall(3,12);
         this.map.addWall(6,12);
         this.map.addWall(12,12);
+        this.map.addWall(3,4);
+
+        //Le Audio Effects
+        bell = game.add.audio('bell');
+        countdowntimer = game.add.audio('countdowntimer');
+        culthurt = game.add.audio('culthurt');
+        cultstep = game.add.audio('cultstep');
+        demonhit = game.add.audio('demonhit');
+        demonroar = game.add.audio('demonroar');
+        demonscream = game.add.audio('demonscream');
+        demonstep = game.add.audio('demonstep');
+        resconsume = game.add.audio('resconsume');
+        rescourcepickup = game.add.audio('rescourcepickup');
+        rockhit = game.add.audio('rockhit');
+        scream = game.add.audio('scream');
+
+
+
+        //this.map.add(new Wall(this.map.tilesize*3 + this.map.x,this.map.tilesize*3 + this.map.y));
+
 
         //  Create walls around the play area that are invisible
         this.mapBoundary = game.add.group();
@@ -136,15 +156,23 @@ Game.prototype = {
             do {
                 var tileX = Math.floor(Math.random() * this.map.width);
                 var tileY = Math.floor(Math.random() * this.map.height);
+
+                // Modify coordinates if resource is about to land at a player starting position
+                if (tileX == 0 && tileY == 0) {
+                    tileX += 1;
+                }
+
+                if (tileX == (this.map.width - 1) && tileY == (this.map.height - 1)) {
+                    tileX -= -1;
+                }
+                
                 var x = tileX * this.map.tilesize + this.map.x;
                 var y = tileY * this.map.tilesize + this.map.y;
-                // this.map.fitsIn does not take into account player positions!
             } while (this.map.fitsIn(x, y, resource.sprite.width, resource.sprite.height) == false);
             resource.sprite.x = x;
             resource.sprite.y = y;
             this.map.add(x, y, resource);
         }
-
 
         //TEMP
         //make a test boulder to toss
@@ -156,8 +184,6 @@ Game.prototype = {
         // Active boulders to update
         this.activeWeapons = []; //list that contains any active/flying boulders
 
-
-
         //bring player sprites on top of others
         game.world.bringToTop(this.mage1.sprite);
         game.world.bringToTop(this.mage2.sprite);
@@ -167,23 +193,9 @@ Game.prototype = {
         this.trees = game.add.sprite(0, 0, 'backgroundtrees');
     },
 
-    spawnDemons: function() {
-        this.demon1 = new Demon(96+8*32, 96+6*32, "demon");
-        this.demon2 = new Demon(96+11*32, 96+7*32, "demon");
-        this.demon1.sprite.anchor.setTo(.5, .5);
-        this.demon2.sprite.anchor.setTo(.5, .5);
-    },
-
     updateCounter: function() {
-        this.clock--;
-        if (this.clock == 0) {
-          this.spawnDemons();
-        }
-        if (this.clock <= 0) {
-            this.clockText.setText('DEMONS!');
-        } else {
-            this.clockText.setText('Time: ' + this.clock);
-        }
+      this.clock++;
+      this.clockText.setText('Time: ' + this.clock);
     },
 
     update: function() {
@@ -281,23 +293,10 @@ Game.prototype = {
         if (this.keys1.pick.isDown) {
             var obj = this.map.getAt(this.mage1.sprite.x, this.mage1.sprite.y)
             if (obj != null && obj.constructor.name == 'Resource') {
-                if (this.mage1.weapon == null) {
-                    this.mage1.pickUp(obj);
-                    this.map.remove(obj);
-                    obj.pick();
-                }
-            }
-            if (obj != null && obj.constructor.name == "Boulder") {
-                if (this.mage1.weapon == null) { //can only pick up if not already carrying
-                    this.mage1.pickWeapon(obj);
-                    this.map.remove(obj);
-                    obj.pick(); //NOTE: Boulder.pick
-                }
-            }
-        }
-        if (this.keys1.toss.isDown) {
-            if (this.mage1.weapon != null) {
-                var weapon = this.mage1.useWeapon();
+                rescourcepickup.play();
+                this.mage1.pickUp(obj);
+                this.map.remove(obj);
+                obj.pick();
             }
         }
 
@@ -325,6 +324,7 @@ Game.prototype = {
         if (this.keys2.pick.isDown) {
             var obj = this.map.getAt(this.mage2.sprite.x, this.mage2.sprite.y)
             if (obj != null && obj.constructor.name == 'Resource') {
+                rescourcepickup.play();
                 this.mage2.pickUp(obj);
                 this.map.remove(obj);
                 obj.pick();
@@ -333,8 +333,8 @@ Game.prototype = {
 
         //animate running and stuff
         this.mage2.updateAnim();
-        */
 
+        */
         // Player <-> Map edge collision
         //game.physics.arcade.collide(this.mage1.sprite, this.mapBoundary);
         //game.physics.arcade.collide(this.mage2.sprite, this.mapBoundary);

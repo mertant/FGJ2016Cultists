@@ -21,7 +21,18 @@ Splash.prototype = {
     },
 
     loadBgm: function () {
-        //game.load.audio('bgm', 'content/audio/main.ogg');
+      game.load.audio('bell', 'content/sounds/bell.ogg');
+      game.load.audio('countdowntimer', 'content/sounds/countdowntimer.ogg');
+      game.load.audio('culthurt', 'content/sounds/culthurt.ogg');
+      game.load.audio('cultstep', 'content/sounds/cultstep.ogg');
+      game.load.audio('demonhit', 'content/sounds/demonhit.ogg');
+      game.load.audio('demonroar', 'content/sounds/demonroar.ogg');
+      game.load.audio('demonscream', 'content/sounds/demonscream.ogg');
+      game.load.audio('demonstep', 'content/sounds/demonstep.ogg');
+      game.load.audio('resconsume', 'content/sounds/resconsume.ogg');
+      game.load.audio('rescourcepickup', 'content/sounds/rescourcepickup.ogg');
+      game.load.audio('rockhit', 'content/sounds/rockhit.ogg');
+      game.load.audio('scream', 'content/sounds/scream.ogg');
     },
 
     loadImages: function () {
@@ -62,11 +73,12 @@ Splash.prototype = {
     },
 
     init: function () {
-        this.sprite = game.add.sprite(0, 0, "loadingspr");
     },
 
     // Preload game assets
     preload: function () {
+        game.load.onFileComplete.add(this.loadFileComplete, this);
+
         this.loadScripts();
         this.loadImages();
         this.loadFonts();
@@ -86,12 +98,22 @@ Splash.prototype = {
     },
 
     create: function() {
-
         this.addGameStates();
         this.addGameMusic();
+        window.setTimeout(function() {
+            game.state.start("Menu");
+        }, 1000);
+    },
 
-        setTimeout(function () {
-          game.state.start("Menu");
-      }, 1000);
-    }
+    loadFileComplete: function(progress, cacheKey, success, totalLoaded, totalFiles) {
+        var scaler = 2.0;
+        var totalNumberOfFlames = 5;
+        var numberOfFlames = Math.floor(totalNumberOfFlames * progress / 100.0);
+        var loadingSprite = game.add.sprite(0, 0, "loadingFlames");
+        loadingSprite.x = game.world.centerX + scaler * loadingSprite.width * (numberOfFlames - totalNumberOfFlames / 2.0);
+        loadingSprite.y = game.world.centerY;
+        loadingSprite.anchor.setTo(0.5, 0.5);
+        loadingSprite.scale.setTo(scaler, scaler);
+        loadingSprite.smoothed = false;
+    },
 }

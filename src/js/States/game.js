@@ -6,6 +6,7 @@ Game.prototype = {
     // PRELOAD GOES TO SPLASH.JS
 
     create: function() {
+
         //Le Background is created
         this.background = game.add.sprite(0, 0, 'background');
 
@@ -14,7 +15,7 @@ Game.prototype = {
 
         //Le Mage Creation Phase
         this.mage1 = new Mage(96, 96, "blueacolyte");
-        this.mage2 = new Mage(672, 480, "redacolyte");
+        this.mage2 = new Mage(690, 495, "redacolyte");
         this.mage1.sprite.anchor.setTo(.5, .5);
         this.mage2.sprite.anchor.setTo(.5, .5);
         this.mage1.sprite.smoothed = false;
@@ -55,7 +56,6 @@ Game.prototype = {
         //  Player 1
         this.keys1 = {
             pick: game.input.keyboard.addKey(Phaser.KeyCode.Q),
-            toss: game.input.keyboard.addKey(Phaser.KeyCode.E),
             up: game.input.keyboard.addKey(Phaser.KeyCode.W),
             down: game.input.keyboard.addKey(Phaser.KeyCode.S),
             left: game.input.keyboard.addKey(Phaser.KeyCode.A),
@@ -65,16 +65,14 @@ Game.prototype = {
         //  Player 2
         this.keys2 = {
             pick: game.input.keyboard.addKey(Phaser.KeyCode.U),
-            toss: game.input.keyboard.addKey(Phaser.KeyCode.O),
             up: game.input.keyboard.addKey(Phaser.KeyCode.I),
             down: game.input.keyboard.addKey(Phaser.KeyCode.K),
             left: game.input.keyboard.addKey(Phaser.KeyCode.J),
             right: game.input.keyboard.addKey(Phaser.KeyCode.L)
         };
 
-        // Demontimer
-        this.clock = 5;
-        this.clockText = game.add.text(10, 10, 'Time: ' + this.clock);
+        this.clock = 0;
+        this.clockText = game.add.text(10, 10, 'Time: ');
         game.time.events.loop(Phaser.Timer.SECOND, this.updateCounter, this);
 
         //Init map
@@ -107,6 +105,26 @@ Game.prototype = {
         this.map.addWall(3,12);
         this.map.addWall(6,12);
         this.map.addWall(12,12);
+        this.map.addWall(3,4);
+
+        //Le Audio Effects
+        bell = game.add.audio('bell');
+        countdowntimer = game.add.audio('countdowntimer');
+        culthurt = game.add.audio('culthurt');
+        cultstep = game.add.audio('cultstep');
+        demonhit = game.add.audio('demonhit');
+        demonroar = game.add.audio('demonroar');
+        demonscream = game.add.audio('demonscream');
+        demonstep = game.add.audio('demonstep');
+        resconsume = game.add.audio('resconsume');
+        rescourcepickup = game.add.audio('rescourcepickup');
+        rockhit = game.add.audio('rockhit');
+        scream = game.add.audio('scream');
+
+
+
+        //this.map.add(new Wall(this.map.tilesize*3 + this.map.x,this.map.tilesize*3 + this.map.y));
+
 
         //  Create walls around the play area that are invisible
         this.mapBoundary = game.add.group();
@@ -147,9 +165,18 @@ Game.prototype = {
             do {
                 var tileX = Math.floor(Math.random() * this.map.width);
                 var tileY = Math.floor(Math.random() * this.map.height);
+
+                // Modify coordinates if resource is about to land at a player starting position
+                if (tileX == 0 && tileY == 0) {
+                    tileX += 1;
+                }
+
+                if (tileX == (this.map.width - 1) && tileY == (this.map.height - 1)) {
+                    tileX -= -1;
+                }
+
                 var x = tileX * this.map.tilesize + this.map.x;
                 var y = tileY * this.map.tilesize + this.map.y;
-                // this.map.fitsIn does not take into account player positions!
             } while (this.map.fitsIn(x, y, resource.sprite.width, resource.sprite.height) == false);
             resource.sprite.x = x;
             resource.sprite.y = y;
@@ -189,15 +216,8 @@ Game.prototype = {
     },
 
     updateCounter: function() {
-        this.clock--;
-        if (this.clock == 0) {
-          this.spawnDemons();
-        }
-        if (this.clock <= 0) {
-            this.clockText.setText('DEMONS!');
-        } else {
-            this.clockText.setText('Time: ' + this.clock);
-        }
+      this.clock++;
+      this.clockText.setText('Time: ' + this.clock);
     },
 
     controls: function() {

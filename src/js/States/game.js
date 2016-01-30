@@ -429,6 +429,7 @@ Game.prototype = {
                     this.stoneBLOODemitter.x = this.mage2.sprite.x;
                     this.stoneBLOODemitter.y = this.mage2.sprite.y;
                     this.stoneBLOODemitter.start(true, 1000, null, 7);
+                    rockhit.play();
                     this.mage2.stun();
                 }
             }

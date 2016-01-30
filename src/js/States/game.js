@@ -59,8 +59,9 @@ Game.prototype = {
             right: game.input.keyboard.addKey(Phaser.KeyCode.L)
         };
 
-        this.clock = 30;
-        this.clockText = game.add.text(10, 10, 'Time: 30');
+        // Demontimer
+        this.clock = 5;
+        this.clockText = game.add.text(10, 10, 'Time: ' + this.clock);
         game.time.events.loop(Phaser.Timer.SECOND, this.updateCounter, this);
 
         //Init map
@@ -93,10 +94,6 @@ Game.prototype = {
         this.map.addWall(3,12);
         this.map.addWall(6,12);
         this.map.addWall(12,12);
-
-
-        //this.map.add(new Wall(this.map.tilesize*3 + this.map.x,this.map.tilesize*3 + this.map.y));
-
 
         //  Create walls around the play area that are invisible
         this.mapBoundary = game.add.group();
@@ -155,16 +152,22 @@ Game.prototype = {
         this.trees = game.add.sprite(0, 0, 'backgroundtrees');
     },
 
-
-    demonPhase: function() {
-        this.clockText.setText('DEMONS!');
+    spawnDemons: function() {
+        this.demon1 = new Demon(96+8*32, 96+6*32, "demon");
+        this.demon2 = new Demon(96+11*32, 96+7*32, "demon");
+        this.demon1.sprite.anchor.setTo(.5, .5);
+        this.demon2.sprite.anchor.setTo(.5, .5);
     },
 
     updateCounter: function() {
         this.clock--;
-        this.clockText.setText('Time: ' + this.clock);
+        if (this.clock == 0) {
+          this.spawnDemons();
+        }
         if (this.clock <= 0) {
-            this.demonPhase();
+            this.clockText.setText('DEMONS!');
+        } else {
+            this.clockText.setText('Time: ' + this.clock);
         }
     },
 

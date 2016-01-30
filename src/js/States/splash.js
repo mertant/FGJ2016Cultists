@@ -5,11 +5,14 @@ Splash.prototype = {
     loadScripts: function () {
         game.load.script("MenuScript", "js/States/menu.js");
         game.load.script("GameScript", "js/States/game.js");
+
         game.load.script("WorldScript", "js/Objects/world.js");
         game.load.script("WallScript", "js/Objects/wall.js");
         game.load.script("MageScript", "js/Objects/mage.js");
         game.load.script("AltarScript", "js/Objects/altar.js");
         game.load.script("ResourceScript", "js/Objects/resource.js");
+        game.load.script("DemonScript", "js/Objects/demon.js");
+
         game.load.script("SkullResource", "js/Resources/skull.js");
         game.load.script("MercuryResource", "js/Resources/mercury.js");
         game.load.script("SulphurResource", "js/Resources/sulphur.js");
@@ -30,6 +33,7 @@ Splash.prototype = {
         //TEMP
         game.load.image('mage1', 'content/sprites/mage1.png');
         game.load.image('mage2', 'content/sprites/mage2.png');
+        game.load.image('demon', 'content/sprites/demon.png');
 
         game.load.image('boulder', 'content/sprites/boulder.png');
         game.load.image("chicken", "content/sprites/chicken.png");

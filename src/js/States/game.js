@@ -78,7 +78,7 @@ Game.prototype = {
             right: game.input.keyboard.addKey(Phaser.KeyCode.L)
         };
 
-        this.clock = 15;
+        this.clock = 999;
         this.clockText = game.add.text(10, 10, 'Time: ' + this.clock);
         game.time.events.loop(Phaser.Timer.SECOND, this.updateCounter, this);
 
@@ -136,10 +136,11 @@ Game.prototype = {
         this.BLOODemitter = game.add.emitter(0, 0, 100);
 
         this.BLOODemitter.makeParticles('blod');
-        this.BLOODemitter.x = this.mage1.sprite.x;
-        this.BLOODemitter.y = this.mage1.sprite.y;
 
-        this.BLOODemitter.start(true, 1000, null, 7);
+        //STONE PARTICLES
+        this.stoneBLOODemitter = game.add.emitter(0, 0, 100);
+        this.stoneBLOODemitter.makeParticles('stoneblod');
+
 
         //this.map.add(new Wall(this.map.tilesize*3 + this.map.x,this.map.tilesize*3 + this.map.y));
 
@@ -362,6 +363,10 @@ Game.prototype = {
                 if (wasHit) {
                     this.activeWeapons[i].destroy();
                     //TODO sound effect and gfx(dust?)
+                    this.stoneBLOODemitter.x = this.mage1.sprite.x;
+                    this.stoneBLOODemitter.y = this.mage1.sprite.y;
+                    this.stoneBLOODemitter.start(true, 1000, null, 7);
+                    rockhit.play();
                     this.mage1.stun();
                 }
             }
@@ -370,11 +375,14 @@ Game.prototype = {
                 if (wasHit) {
                     this.activeWeapons[i].destroy();
                     //TODO sound effect and gfx(dust?)
+                    this.stoneBLOODemitter.x = this.mage2.sprite.x;
+                    this.stoneBLOODemitter.y = this.mage2.sprite.y;
+                    this.stoneBLOODemitter.start(true, 1000, null, 7);
                     this.mage2.stun();
                 }
             }
         }
-        
+
 
         //reforce map boundaries
         for (var i = 0; i < this.players.children.length; i++) {

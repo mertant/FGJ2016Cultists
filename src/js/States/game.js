@@ -406,6 +406,8 @@ Game.prototype = {
             }
         }
 
+        // le altar code
+
         //drop items at altar
         if (checkOverlap(this.mage1.sprite, this.altar1.sprite)) {
             this.altar1.give(this.mage1.dumpItems());
@@ -414,6 +416,9 @@ Game.prototype = {
         if (checkOverlap(this.mage2.sprite, this.altar2.sprite)) {
             this.altar2.give(this.mage2.dumpItems());
         }
+
+        this.altar1.update();
+        this.altar2.update();
 
     },
 

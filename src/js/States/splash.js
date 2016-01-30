@@ -42,7 +42,7 @@ Splash.prototype = {
         game.load.image("sulphur", "content/sprites/sulphur.png");
         game.load.image("altar", "content/sprites/altar.png");
         game.load.image("goaty", "content/sprites/goaty.png");
-        game.load.image("enter-key", "content/sprites/enter-key.png")
+        game.load.image("enter-key", "content/sprites/enter-key-small.png")
 
         //ESIMERKKI: game.load.spritesheet(key, sprite file, frame width, frame height, frame count);
         //TEMP

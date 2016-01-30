@@ -6,6 +6,7 @@ Game.prototype = {
     // PRELOAD GOES TO SPLASH.JS
 
     create: function() {
+
         //Le Background is created
         this.background = game.add.sprite(0, 0, 'background');
 
@@ -94,6 +95,21 @@ Game.prototype = {
         this.map.addWall(6,12);
         this.map.addWall(12,12);
         this.map.addWall(3,4);
+
+        //Le Audio Effects
+        bell = game.add.audio('bell');
+        countdowntimer = game.add.audio('countdowntimer');
+        culthurt = game.add.audio('culthurt');
+        cultstep = game.add.audio('cultstep');
+        demonhit = game.add.audio('demonhit');
+        demonroar = game.add.audio('demonroar');
+        demonscream = game.add.audio('demonscream');
+        demonstep = game.add.audio('demonstep');
+        resconsume = game.add.audio('resconsume');
+        rescourcepickup = game.add.audio('rescourcepickup');
+        rockhit = game.add.audio('rockhit');
+        scream = game.add.audio('scream');
+
 
 
         //this.map.add(new Wall(this.map.tilesize*3 + this.map.x,this.map.tilesize*3 + this.map.y));
@@ -190,6 +206,7 @@ Game.prototype = {
         if (this.keys1.pick.isDown) {
             var obj = this.map.getAt(this.mage1.sprite.x, this.mage1.sprite.y)
             if (obj != null && obj.constructor.name == 'Resource') {
+                rescourcepickup.play();
                 this.mage1.pickUp(obj);
                 this.map.remove(obj);
                 obj.pick();
@@ -220,6 +237,7 @@ Game.prototype = {
         if (this.keys2.pick.isDown) {
             var obj = this.map.getAt(this.mage2.sprite.x, this.mage2.sprite.y)
             if (obj != null && obj.constructor.name == 'Resource') {
+                rescourcepickup.play();
                 this.mage2.pickUp(obj);
                 this.map.remove(obj);
                 obj.pick();

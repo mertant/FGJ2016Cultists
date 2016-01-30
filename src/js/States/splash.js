@@ -17,7 +17,18 @@ Splash.prototype = {
     },
 
     loadBgm: function () {
-        //game.load.audio('bgm', 'content/audio/main.ogg');
+      game.load.audio('bell', 'content/sounds/bell.ogg');
+      game.load.audio('countdowntimer', 'content/sounds/countdowntimer.ogg');
+      game.load.audio('culthurt', 'content/sounds/culthurt.ogg');
+      game.load.audio('cultstep', 'content/sounds/cultstep.ogg');
+      game.load.audio('demonhit', 'content/sounds/demonhit.ogg');
+      game.load.audio('demonroar', 'content/sounds/demonroar.ogg');
+      game.load.audio('demonscream', 'content/sounds/demonscream.ogg');
+      game.load.audio('demonstep', 'content/sounds/demonstep.ogg');
+      game.load.audio('resconsume', 'content/sounds/resconsume.ogg');
+      game.load.audio('rescourcepickup', 'content/sounds/rescourcepickup.ogg');
+      game.load.audio('rockhit', 'content/sounds/rockhit.ogg');
+      game.load.audio('scream', 'content/sounds/scream.ogg');
     },
 
     loadImages: function () {

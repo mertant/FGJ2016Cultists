@@ -22,7 +22,7 @@ function Mage(x, y, spritekey) {
     this.runUpAnim = this.sprite.animations.add("runUp", [12, 13]);
     this.throwUpAnim = this.sprite.animations.add("throwUp", [14]);
 
-    this.baseMovementSpeed = 240; //pixels per second
+    this.baseMovementSpeed = 160; //pixels per second
 
     //constants
     this.maxMovementSpeedReductionCount = 10; //how many items will at most reduce hte movement speed

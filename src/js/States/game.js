@@ -78,8 +78,8 @@ Game.prototype = {
             right: game.input.keyboard.addKey(Phaser.KeyCode.L)
         };
 
-        this.clock = 15;
-        this.clockText = game.add.text(10, 10, 'Time: ' + this.clock);
+        this.clockStart = 15;
+        this.clock = this.clockStart;
         game.time.events.loop(Phaser.Timer.SECOND, this.updateCounter, this);
 
         //Init map
@@ -136,10 +136,11 @@ Game.prototype = {
         this.BLOODemitter = game.add.emitter(0, 0, 100);
 
         this.BLOODemitter.makeParticles('blod');
-        this.BLOODemitter.x = this.mage1.sprite.x;
-        this.BLOODemitter.y = this.mage1.sprite.y;
 
-        this.BLOODemitter.start(true, 1000, null, 7);
+        //STONE PARTICLES
+        this.stoneBLOODemitter = game.add.emitter(0, 0, 100);
+        this.stoneBLOODemitter.makeParticles('stoneblod');
+
 
         //this.map.add(new Wall(this.map.tilesize*3 + this.map.x,this.map.tilesize*3 + this.map.y));
 
@@ -214,6 +215,11 @@ Game.prototype = {
 
         // Overlay trees
         this.trees = game.add.sprite(0, 0, 'backgroundtrees');
+
+        //timethings
+        this.timebar = game.add.sprite(80, 10, 'timebar');
+        this.timehud = game.add.sprite(80, 10, 'timehud');
+
     },
 
     spawnDemons: function() {
@@ -233,13 +239,15 @@ Game.prototype = {
 
     updateCounter: function() {
         this.clock--;
+        if (this.clock >= 0) {
+            this.timebar.scale.x = this.clock/this.clockStart;
+        } else {
+          this.timebar.scale.x = 0;
+        }
+
+
         if (this.clock == 0) {
           this.spawnDemons();
-        }
-        if (this.clock <= 0) {
-            this.clockText.setText('DEMONS!');
-        } else {
-            this.clockText.setText('Time: ' + this.clock);
         }
     },
 
@@ -361,6 +369,10 @@ Game.prototype = {
                 if (wasHit) {
                     this.activeWeapons[i].destroy();
                     //TODO sound effect and gfx(dust?)
+                    this.stoneBLOODemitter.x = this.mage1.sprite.x;
+                    this.stoneBLOODemitter.y = this.mage1.sprite.y;
+                    this.stoneBLOODemitter.start(true, 1000, null, 7);
+                    rockhit.play();
                     this.mage1.stun();
                 }
             }
@@ -369,11 +381,14 @@ Game.prototype = {
                 if (wasHit) {
                     this.activeWeapons[i].destroy();
                     //TODO sound effect and gfx(dust?)
+                    this.stoneBLOODemitter.x = this.mage2.sprite.x;
+                    this.stoneBLOODemitter.y = this.mage2.sprite.y;
+                    this.stoneBLOODemitter.start(true, 1000, null, 7);
                     this.mage2.stun();
                 }
             }
         }
-        
+
 
         //reforce map boundaries
         for (var i = 0; i < this.players.children.length; i++) {

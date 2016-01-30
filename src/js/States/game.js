@@ -13,8 +13,8 @@ Game.prototype = {
         game.physics.startSystem(Phaser.Physics.ARCADE);
 
         //Le Mage Creation Phase
-        this.mage1 = new Mage(672, 480, "redacolyte");
-        this.mage2 = new Mage(96, 96, "blueacolyte");
+        this.mage1 = new Mage(96, 96, "blueacolyte");
+        this.mage2 = new Mage(672, 480, "redacolyte");
         this.mage1.sprite.anchor.setTo(.5, .5);
         this.mage2.sprite.anchor.setTo(.5, .5);
 
@@ -25,8 +25,8 @@ Game.prototype = {
         //this.mage1.sprite.animations.play('wait', 10, true);
 
         //Altars
-        this.altar1 = game.add.sprite(672, 480, 'altar');
-        this.altar2 = game.add.sprite(96, 96, 'altar');
+        this.altar1 = new Altar(96, 96);
+        this.altar2 = new Altar(672, 480);
 
         //Le Players Group
         this.players = game.add.group();
@@ -43,20 +43,20 @@ Game.prototype = {
         //Input
         //  Player 1
         this.keys1 = {
-            pick: game.input.keyboard.addKey(Phaser.KeyCode.U),
-            up: game.input.keyboard.addKey(Phaser.KeyCode.I),
-            down: game.input.keyboard.addKey(Phaser.KeyCode.K),
-            left: game.input.keyboard.addKey(Phaser.KeyCode.J),
-            right: game.input.keyboard.addKey(Phaser.KeyCode.L)
-        };
-
-        //  Player 2
-        this.keys2 = {
             pick: game.input.keyboard.addKey(Phaser.KeyCode.Q),
             up: game.input.keyboard.addKey(Phaser.KeyCode.W),
             down: game.input.keyboard.addKey(Phaser.KeyCode.S),
             left: game.input.keyboard.addKey(Phaser.KeyCode.A),
             right: game.input.keyboard.addKey(Phaser.KeyCode.D)
+        };        
+
+        //  Player 2
+        this.keys2 = {
+            pick: game.input.keyboard.addKey(Phaser.KeyCode.U),
+            up: game.input.keyboard.addKey(Phaser.KeyCode.I),
+            down: game.input.keyboard.addKey(Phaser.KeyCode.K),
+            left: game.input.keyboard.addKey(Phaser.KeyCode.J),
+            right: game.input.keyboard.addKey(Phaser.KeyCode.L)
         };
 
         //Init clock
@@ -238,6 +238,15 @@ Game.prototype = {
             this.mage2.sprite.y = this.map.y + this.map.height*this.map.tilesize - this.mage1.sprite.height/2;
         }
 
+        //drop items at altar
+        if (checkOverlap(this.mage1.sprite, this.altar1.sprite)) {
+            this.altar1.give(this.mage1.dumpItems());
+        }
+
+        if (checkOverlap(this.mage2.sprite, this.altar2.sprite)) {
+            this.altar2.give(this.mage2.dumpItems());
+        }
+
     },
 
     render: function() {
@@ -246,5 +255,15 @@ Game.prototype = {
         //for custom rendering and debug, no need to render each sprite etc.
         //game.debug.spriteInfo(this.mage1.sprite, 32, 32);
     }
+
+}
+
+
+function checkOverlap(spriteA, spriteB) {
+
+    var boundsA = spriteA.getBounds();
+    var boundsB = spriteB.getBounds();
+
+    return Phaser.Rectangle.intersects(boundsA, boundsB);
 
 }

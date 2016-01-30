@@ -6,6 +6,12 @@ function Mage(x, y, spritekey) {
     //Animations
     this.standAnim = this.sprite.animations.add("stand", [0]);
     this.runAnim = this.sprite.animations.add("run", [0, 1]);
+
+    this.baseMovementSpeed = 240; //pixels per second
+
+    //constants
+    this.maxMovementSpeedReductionCount = 10; //how many items will at most reduce hte movement speed
+    this.movementSpeedReductionFactor = 0.05; //how much each carried resource reduces from base speed
 }
 
 Mage.prototype.updateAnim = function() {
@@ -59,4 +65,10 @@ Mage.prototype.useWeapon = function() {
     var temp = this.weapon;
     this.weapon = null;
     return temp;
+}
+
+Mage.prototype.getMovementSpeed = function() {
+    var reduction = Math.max(Math.min(this.inventory.length, this.maxMovementSpeedReductionCount), 0);
+    var speed = this.baseMovementSpeed*(1 - this.movementSpeedReductionFactor * reduction);
+    return Math.max(20, speed);
 }

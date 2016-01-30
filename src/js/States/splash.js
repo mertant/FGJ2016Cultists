@@ -33,6 +33,9 @@ Splash.prototype = {
       game.load.audio('rescourcepickup', 'content/sounds/rescourcepickup.ogg');
       game.load.audio('rockhit', 'content/sounds/rockhit.ogg');
       game.load.audio('scream', 'content/sounds/scream.ogg');
+
+      //Musik
+      game.load.audio('track1', 'content/sounds/track1.ogg');
     },
 
     loadImages: function () {

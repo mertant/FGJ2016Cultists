@@ -11,6 +11,9 @@ function Mage(x, y, spritekey) {
       LEFT: 3
     }
 
+    this.isStunned = false;
+    this.stunLength = 2; //seconds
+
     //Animations
     this.standDownAnim = this.sprite.animations.add("standDown", [0, 0, 0, 1]);
     this.runDownAnim = this.sprite.animations.add("runDown", [2, 3]);
@@ -144,4 +147,14 @@ Mage.prototype.getMovementSpeed = function() {
     }
     var speed = this.baseMovementSpeed*(1 - this.movementSpeedReductionFactor * reduction);
     return Math.max(20, speed);
+}
+
+Mage.prototype.stun = function() {
+    this.isStunned = true;
+
+    game.time.events.add(Phaser.Timer.SECOND * this.stunLength, this.unstun, this);
+}
+
+Mage.prototype.unstun = function() {
+    this.isStunned = false;
 }

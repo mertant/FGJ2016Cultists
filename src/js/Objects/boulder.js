@@ -44,6 +44,8 @@ Boulder.prototype.update = function() {
         this.sprite.x = this.carrier.sprite.x - 16;
         this.sprite.y = this.carrier.sprite.y - 32;
     } else if (this.flying) {
+        this.sprite.body.drag.x = 500;
+        this.sprite.body.drag.y = 500;
         if (this.flyDirection % 2 == 0) {
             if (Math.abs(this.flyStartY - this.sprite.y) > this.tossDistance) {
                 this.destroy();

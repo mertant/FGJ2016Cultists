@@ -31,6 +31,10 @@ Map.prototype.add = function(x, y, obj) {
     // add object to proper collision group
 }
 
+Map.prototype.addWall = function(tilex,tiley) {
+  this.add(0,0,new Wall(this.x+tilex*this.tilesize, this.y+tiley*this.tilesize));
+}
+
 // Removes an object from the map objects
 // Returns if the operation was succesfull
 Map.prototype.remove = function(obj) {

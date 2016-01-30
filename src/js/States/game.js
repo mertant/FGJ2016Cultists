@@ -67,8 +67,37 @@ Game.prototype = {
         //Init map
         this.map = new Map();
 
-        var wall = new Wall(game.width/2,game.height/2);
-        this.map.add(game.width/2,game.height/2,wall);
+        //El Boulderdash phase
+        //var wall = new Wall(game.width/2,game.height/2);
+        //this.map.add(wall);
+        this.map.addWall(6,0);
+        this.map.addWall(12,0);
+        this.map.addWall(2,1);
+        this.map.addWall(16,2);
+        this.map.addWall(6,3);
+        this.map.addWall(7,3);
+        this.map.addWall(11,3);
+        this.map.addWall(12,3);
+        this.map.addWall(16,3);
+        this.map.addWall(9,5);
+        this.map.addWall(9,6);
+        this.map.addWall(15,6);
+        this.map.addWall(2,7);
+        this.map.addWall(9,7);
+        this.map.addWall(3,8);
+        this.map.addWall(6,9);
+        this.map.addWall(7,9);
+        this.map.addWall(11,9);
+        this.map.addWall(12,9);
+        this.map.addWall(16,9);
+        this.map.addWall(15,10);
+        this.map.addWall(3,12);
+        this.map.addWall(6,12);
+        this.map.addWall(12,12);
+
+
+        //this.map.add(new Wall(this.map.tilesize*3 + this.map.x,this.map.tilesize*3 + this.map.y));
+
 
         //  Create walls around the play area that are invisible
         this.mapBoundary = game.add.group();
@@ -211,7 +240,7 @@ Game.prototype = {
         game.physics.arcade.collide(this.mage1.sprite, this.map.collideableGroup);
         game.physics.arcade.collide(this.mage2.sprite, this.map.collideableGroup);
 
-        //reforce map boundaries     
+        //reforce map boundaries
         if (this.mage1.sprite.x < this.map.x + this.mage1.sprite.width/2) {
             this.mage1.sprite.x = this.map.x + this.mage1.sprite.width/2;
         }

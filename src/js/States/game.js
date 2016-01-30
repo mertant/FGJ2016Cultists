@@ -15,6 +15,12 @@ Game.prototype = {
         //Le Mage Creation Phase
         this.mage1 = new Mage(672, 480, "test_spritesheet");
         this.mage2 = new Mage(96, 96, "test_spritesheet");
+        this.mage1.sprite.anchor.setTo(.5, .5);
+        this.mage2.sprite.anchor.setTo(.5, .5);
+
+        //Altars
+        this.altar1 = game.add.sprite(672, 480, 'altar');
+        this.altar2 = game.add.sprite(96, 96, 'altar');
 
         //Le Players Group
         this.players = game.add.group();
@@ -47,6 +53,9 @@ Game.prototype = {
 
         //Init map
         this.map = new Map();
+
+        var wall = new Wall(game.width/2,game.height/2);
+        this.map.add(game.width/2,game.height/2,wall);
 
         //  Create walls around the play area that are invisible
         this.mapBoundary = game.add.group();
@@ -120,8 +129,10 @@ Game.prototype = {
         }
         if (this.cursors.left.isDown) {
             this.mage1.sprite.body.velocity.x = -240;
+            this.mage1.sprite.scale.x = 1;
         } else if (this.cursors.right.isDown) {
             this.mage1.sprite.body.velocity.x = 240;
+            this.mage1.sprite.scale.x = -1;
         }
 
         //animate running and stuff
@@ -135,39 +146,40 @@ Game.prototype = {
         }
         if (this.keys.left.isDown) {
             this.mage2.sprite.body.velocity.x = -240;
+            this.mage2.sprite.scale.x = 1;
         } else if (this.keys.right.isDown) {
             this.mage2.sprite.body.velocity.x = 240;
+            this.mage2.sprite.scale.x = -1;
         }
 
         //animate running and stuff
         this.mage2.updateAnim();
 
-
         //reforce map boundaries
-        if (this.mage1.sprite.x < this.map.x) {
-            this.mage1.sprite.x = this.map.x;
+        if (this.mage1.sprite.x < this.map.x + this.mage1.sprite.width/2) {
+            this.mage1.sprite.x = this.map.x + this.mage1.sprite.width/2;
         }
-        if (this.mage1.sprite.y < this.map.y) {
-            this.mage1.sprite.y = this.map.y;
+        if (this.mage1.sprite.y < this.map.y + this.mage1.sprite.height/2) {
+            this.mage1.sprite.y = this.map.y + this.mage1.sprite.height/2;
         }
-        if (this.mage1.sprite.x + this.mage1.sprite.width > this.map.x + this.map.width*this.map.tilesize) {
-            this.mage1.sprite.x = this.map.x + this.map.width*this.map.tilesize - this.mage1.sprite.width;
+        if (this.mage1.sprite.x > this.map.x + this.map.width*this.map.tilesize + this.mage1.sprite.width/2) {
+            this.mage1.sprite.x = this.map.x + this.map.width*this.map.tilesize + this.mage1.sprite.width/2;
         }
-        if (this.mage1.sprite.y + this.mage1.sprite.height > this.map.y + this.map.height*this.map.tilesize) {
-            this.mage1.sprite.y = this.map.y + this.map.height*this.map.tilesize - this.mage1.sprite.height;
+        if (this.mage1.sprite.y > this.map.y + this.map.height*this.map.tilesize - this.mage1.sprite.height/2) {
+            this.mage1.sprite.y = this.map.y + this.map.height*this.map.tilesize - this.mage1.sprite.height/2;
         }
 
-        if (this.mage2.sprite.x < this.map.x) {
-            this.mage2.sprite.x = this.map.x;
+        if (this.mage2.sprite.x < this.map.x + this.mage2.sprite.width/2) {
+            this.mage2.sprite.x = this.map.x + this.mage2.sprite.width/2;
         }
-        if (this.mage2.sprite.y < this.map.y) {
-            this.mage2.sprite.y = this.map.y;
+        if (this.mage2.sprite.y < this.map.y + this.mage2.sprite.height/2) {
+            this.mage2.sprite.y = this.map.y + this.mage2.sprite.height/2;
         }
-        if (this.mage2.sprite.x + this.mage2.sprite.width > this.map.x + this.map.width*this.map.tilesize) {
-            this.mage2.sprite.x = this.map.x + this.map.width*this.map.tilesize - this.mage2.sprite.width;
+        if (this.mage2.sprite.x > this.map.x + this.map.width*this.map.tilesize + this.mage2.sprite.width/2) {
+            this.mage2.sprite.x = this.map.x + this.map.width*this.map.tilesize + this.mage2.sprite.width/2;
         }
-        if (this.mage2.sprite.y + this.mage2.sprite.height > this.map.y + this.map.height*this.map.tilesize) {
-            this.mage2.sprite.y = this.map.y + this.map.height*this.map.tilesize - this.mage2.sprite.height;
+        if (this.mage2.sprite.y > this.map.y + this.map.height*this.map.tilesize - this.mage1.sprite.height/2) {
+            this.mage2.sprite.y = this.map.y + this.map.height*this.map.tilesize - this.mage1.sprite.height/2;
         }
 
         // Player <-> Map edge collision
@@ -180,7 +192,6 @@ Game.prototype = {
 
         //Le Mage Collision Checker
         game.physics.arcade.collide(this.mage1.sprite, this.mage2.sprite);
-
 
     },
 

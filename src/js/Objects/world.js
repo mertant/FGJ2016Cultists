@@ -48,12 +48,30 @@ Map.prototype.remove = function(obj) {
 Map.prototype.getAt = function(x, y) {
     for (var i = 0; i < this.objects.length; i++){
         var obj = this.objects[i];
-        if (x > obj.sprite.x &&
+        if (
+            x >= obj.sprite.x &&
             x < (obj.sprite.x + obj.sprite.width) &&
-            y > obj.sprite.y &&
-            y < obj.sprite.y + obj.sprite.height) {
+            y >= obj.sprite.y &&
+            y < (obj.sprite.y + obj.sprite.height)
+            ) {
             return obj;
         }
     }
     return null;
+}
+
+// Returns true if it's okay to place a sprite of size (width, height) to (x, y)
+Map.prototype.fitsIn = function(x, y, width, height) {
+    for (var i = 0; i < this.objects.length; ++i) {
+        var obj = this.objects[i];
+        if (
+            x >= (obj.sprite.x - width) &&
+            x < (obj.sprite.x + obj.sprite.width) &&
+            y >= (obj.sprite.y - height) &&
+            y < (obj.sprite.y + obj.sprite.height)
+            ) {
+            return false;
+        }
+    }
+    return true;
 }

@@ -82,23 +82,26 @@ Game.prototype = {
             new Skull(),
             new Mercury(),
             new Sulphur(),
+            new Chicken(),
         ];
 
         // Generate initial resources on the map
         for (var i = 0; i < 20; ++i) {
             var x = 0;
             var y = 0;
+            var resourceInfo = resourceInfos[Math.floor(Math.random() * resourceInfos.length)];
+            var resource = new Resource(x, y, resourceInfo);
 
             // Generate random coordinates until an empty spot is found
             do {
-                x = Math.random() * (this.map.width * (this.map.tilesize - 2));
-                y = Math.random() * (this.map.height * (this.map.tilesize - 2));
-                x += this.map.x;
-                y += this.map.y;
-            } while (this.map.getAt(x, y) != null);
-
-            var resourceInfo = resourceInfos[Math.floor(Math.random() * resourceInfos.length)];
-            var resource = new Resource(x, y, resourceInfo);
+                var tileX = Math.floor(Math.random() * this.map.width);
+                var tileY = Math.floor(Math.random() * this.map.height);
+                var x = tileX * this.map.tilesize + this.map.x;
+                var y = tileY * this.map.tilesize + this.map.y;
+                // this.map.fitsIn does not take into account player positions!
+            } while (this.map.fitsIn(x, y, resource.sprite.width, resource.sprite.height) == false);
+            resource.sprite.x = x;
+            resource.sprite.y = y;
             this.map.add(x, y, resource);
         }
 

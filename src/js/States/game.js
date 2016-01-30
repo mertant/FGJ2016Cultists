@@ -132,9 +132,7 @@ Game.prototype = {
 
 
         //Le Musik PLayer
-        track1.play();
-        track1.loop = true;
-
+        track1.play('',0,1,true);
 
         //BLood and Gore!!
         this.BLOODemitter = game.add.emitter(0, 0, 100);
@@ -245,8 +243,7 @@ Game.prototype = {
 
     spawnDemons: function() {
         track1.stop();
-        track3.play();
-        track3.loop = true;
+        track3.play('',0,1,true);
         this.grave1 = game.add.sprite(this.mage1.sprite.x, this.mage1.sprite.y, 'grave');
         this.grave1.anchor.setTo(.5, .5);
         this.grave2 = game.add.sprite(this.mage2.sprite.x, this.mage2.sprite.y, 'grave');

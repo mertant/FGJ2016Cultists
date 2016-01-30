@@ -31,8 +31,7 @@ Menu.prototype = {
 
         //Main menu music
         track2 = game.add.audio('track2');
-        track2.play();
-        track2.loop = true;
+        track2.play('',0,1,true);
     },
 
     update: function() {

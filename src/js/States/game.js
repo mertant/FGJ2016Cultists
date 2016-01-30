@@ -14,7 +14,7 @@ Game.prototype = {
 
         //Le Mage Creation Phase
         this.mage1 = new Mage(96, 96, "blueacolyte");
-        this.mage2 = new Mage(690, 495, "redacolyte");
+        this.mage2 = new Mage(672, 480, "redacolyte");
         this.mage1.sprite.anchor.setTo(.5, .5);
         this.mage2.sprite.anchor.setTo(.5, .5);
 
@@ -59,8 +59,8 @@ Game.prototype = {
             right: game.input.keyboard.addKey(Phaser.KeyCode.L)
         };
 
-        this.clock = 0;
-        this.clockText = game.add.text(10, 10, 'Time: ');
+        this.clock = 30;
+        this.clockText = game.add.text(10, 10, 'Time: 30');
         game.time.events.loop(Phaser.Timer.SECOND, this.updateCounter, this);
 
         //Init map
@@ -93,7 +93,6 @@ Game.prototype = {
         this.map.addWall(3,12);
         this.map.addWall(6,12);
         this.map.addWall(12,12);
-        this.map.addWall(3,4);
 
 
         //this.map.add(new Wall(this.map.tilesize*3 + this.map.x,this.map.tilesize*3 + this.map.y));
@@ -138,16 +137,9 @@ Game.prototype = {
             do {
                 var tileX = Math.floor(Math.random() * this.map.width);
                 var tileY = Math.floor(Math.random() * this.map.height);
-
-                // Generate new coordinates if resource is about to land at a player starting position
-                if ((tileX == 0 && tileY == 0) ||
-                    (tileX == (this.map.width - 1) && tileY == (this.map.height - 1))) {
-                    continue;
-                }
-
                 var x = tileX * this.map.tilesize + this.map.x;
                 var y = tileY * this.map.tilesize + this.map.y;
-
+                // this.map.fitsIn does not take into account player positions!
             } while (this.map.fitsIn(x, y, resource.sprite.width, resource.sprite.height) == false);
             resource.sprite.x = x;
             resource.sprite.y = y;
@@ -163,9 +155,17 @@ Game.prototype = {
         this.trees = game.add.sprite(0, 0, 'backgroundtrees');
     },
 
+
+    demonPhase: function() {
+        this.clockText.setText('DEMONS!');
+    },
+
     updateCounter: function() {
-      this.clock++;
-      this.clockText.setText('Time: ' + this.clock);
+        this.clock--;
+        this.clockText.setText('Time: ' + this.clock);
+        if (this.clock <= 0) {
+            this.demonPhase();
+        }
     },
 
     update: function() {

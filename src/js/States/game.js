@@ -6,6 +6,12 @@ Game.prototype = {
     // PRELOAD GOES TO SPLASH.JS
 
     create: function() {
+        // Setting world alpha doesn't seem to work if done
+        // immediately after tweening. Needs a short delay.
+        window.setTimeout(function() {
+            game.world.alpha = 1.0;
+        }, 10);
+
         //Le Background is created
         this.background = game.add.sprite(0, 0, 'background');
 

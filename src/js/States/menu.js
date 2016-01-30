@@ -33,7 +33,11 @@ Menu.prototype = {
     update: function() {
         // Pressing the enter key starts the game
         if (this.enterKey.isDown) {
-            game.state.start("Game");
+            game.add
+                .tween(game.world).to({alpha: 0.0}, 1000, Phaser.Easing.Linear.Out, true)
+                .onComplete.add(function() {
+                    game.state.start("Game");
+                }, this);
         }
-    }
+    },
 }

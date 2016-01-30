@@ -54,7 +54,7 @@ Game.prototype = {
 
         //  Create walls around the play area that are invisible
         this.mapBoundary = game.add.group();
-        this.mapBoundary.enableBody = true;
+        //this.mapBoundary.enableBody = true;
         for (var i = 0; i < this.map.width + 2; i++) { //notice the +2
             for (var j = 0; j < this.map.height + 2; j++) {
                 if (i == 0 || j == 0 || i == this.map.width + 1 || j == this.map.height + 1) {
@@ -63,9 +63,9 @@ Game.prototype = {
                     x += i*this.map.tilesize;
                     y += j*this.map.tilesize;
                     var spr = game.add.sprite(x, y, "boulder");
-                    spr.enableBody = true;
-                    game.physics.arcade.enable(spr);
-                    spr.body.immovable = true;
+                    //spr.enableBody = true;
+                    //game.physics.arcade.enable(spr);
+                    //spr.body.immovable = true;
                     //spr.visible = false;
                     this.mapBoundary.add(spr);
                 }
@@ -116,9 +116,37 @@ Game.prototype = {
         //animate running and stuff
         this.mage2.updateAnim();
 
+
+        //reforce map boundaries
+        if (this.mage1.sprite.x < this.map.x) {
+            this.mage1.sprite.x = this.map.x;
+        }
+        if (this.mage1.sprite.y < this.map.y) {
+            this.mage1.sprite.y = this.map.y;
+        }
+        if (this.mage1.sprite.x + this.mage1.sprite.width > this.map.x + this.map.width*this.map.tilesize) {
+            this.mage1.sprite.x = this.map.x + this.map.width*this.map.tilesize - this.mage1.sprite.width;
+        }
+        if (this.mage1.sprite.y + this.mage1.sprite.height > this.map.y + this.map.height*this.map.tilesize) {
+            this.mage1.sprite.y = this.map.y + this.map.height*this.map.tilesize - this.mage1.sprite.height;
+        }
+
+        if (this.mage2.sprite.x < this.map.x) {
+            this.mage2.sprite.x = this.map.x;
+        }
+        if (this.mage2.sprite.y < this.map.y) {
+            this.mage2.sprite.y = this.map.y;
+        }
+        if (this.mage2.sprite.x + this.mage2.sprite.width > this.map.x + this.map.width*this.map.tilesize) {
+            this.mage2.sprite.x = this.map.x + this.map.width*this.map.tilesize - this.mage2.sprite.width;
+        }
+        if (this.mage2.sprite.y + this.mage2.sprite.height > this.map.y + this.map.height*this.map.tilesize) {
+            this.mage2.sprite.y = this.map.y + this.map.height*this.map.tilesize - this.mage2.sprite.height;
+        }
+
         // Player <-> Map edge collision
-        game.physics.arcade.collide(this.mage1.sprite, this.mapBoundary);
-        game.physics.arcade.collide(this.mage2.sprite, this.mapBoundary);
+        //game.physics.arcade.collide(this.mage1.sprite, this.mapBoundary);
+        //game.physics.arcade.collide(this.mage2.sprite, this.mapBoundary);
 
         //Le Boulder Blocking part of the Code
         game.physics.arcade.collide(this.mage1.sprite, this.map.collideableGroup);

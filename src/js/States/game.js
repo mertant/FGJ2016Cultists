@@ -481,7 +481,7 @@ Game.prototype = {
                     curMage.weapon.update();
                 }
             }
-        } else if (!game.physics.arcade.isPaused) {
+        } else if (!game.physics.arcade.isPaused && this.demon1.health > 0 && this.demon2.health > 0) {
             var inputSystems = [[this.demon1, this.keys1], [this.demon2, this.keys2]];
             for (var i = 0; i < inputSystems.length; i++) {
                 var curDemon = inputSystems[i][0];
@@ -577,7 +577,19 @@ Game.prototype = {
             this.gameEnded = true;
             playerWon = this.demon2.health <= 0 ? "blue" : "red";
             //do death anim or smth
-            game.time.events.add(Phaser.Timer.SECOND, function() {
+            if (playerWon == 'blue'){
+              this.BLOODemitter.x = this.demon2.sprite.body.x + this.demon2.sprite.body.width / 2;
+              this.BLOODemitter.y = this.demon2.sprite.body.y + this.demon2.sprite.body.height / 2;
+              this.BLOODemitter.start(true, 4000, null, 666);
+              demonscream.play();
+            }
+            if (playerWon == 'red'){
+              this.BLOODemitter.x = this.demon1.sprite.body.x + this.demon1.sprite.body.width / 2;
+              this.BLOODemitter.y = this.demon1.sprite.body.y + this.demon1.sprite.body.height / 2;
+              this.BLOODemitter.start(true, 4000, null, 666);
+              demonscream.play();
+            }
+            game.time.events.add(Phaser.Timer.SECOND*4, function() {
                 game.state.start("Victory");
             }, this);
         }
@@ -688,6 +700,7 @@ Game.prototype = {
                 if (wasHit) {
                     this.slashes[i].destroy();
                     this.demon1.hit("melee", this.slashes[i]);
+                    demonhit.play();
                 }
             }
             if (!this.slashes[i].destroyed && this.slashes[i].owner != this.demon2) {
@@ -695,6 +708,7 @@ Game.prototype = {
                 if (wasHit) {
                     this.slashes[i].destroy();
                     this.demon2.hit("melee", this.slashes[i]);
+                    demonhit.play();
                 }
             }
         }
@@ -705,6 +719,7 @@ Game.prototype = {
                 if (wasHit) {
                     this.fireballs[i].destroy();
                     this.demon1.hit("range", this.fireballs[i]);
+                    demonhit.play();
                 }
             }
             if (!this.fireballs[i].destroyed && this.fireballs[i].owner != this.demon2) {
@@ -712,6 +727,7 @@ Game.prototype = {
                 if (wasHit) {
                     this.fireballs[i].destroy();
                     this.demon2.hit("range", this.fireballs[i]);
+                    demonhit.play();
                 }
             }
         }

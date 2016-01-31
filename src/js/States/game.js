@@ -27,8 +27,8 @@ Game.prototype = {
         this.mage2.sprite.smoothed = false;
 
         //And demons
-        this.demon1 = new Demon(96+8*32, 96+6*32, ["demoncombined", "demonvariables"]);
-        this.demon2 = new Demon(96+11*32, 96+7*32, ["demoncombined", "demonvariables"]);
+        this.demon1 = new Demon(96+2*32, 96+1*32, ["demoncombined", "demonvariables"]);
+        this.demon2 = new Demon(96+7*32, 96+1*32, ["demoncombined", "demonvariables"]);
 
         //Altars
         this.altar1 = new Altar(96+7*32, 96+5*32, 'blueAltar');
@@ -382,7 +382,7 @@ Game.prototype = {
             if (!this.activeWeapons[i].flying || this.activeWeapons[i].destroyed) {
                 this.activeWeapons.splice(i--, 1);
             }
-           
+
         }
         this.controls();
 

@@ -137,7 +137,7 @@ Splash.prototype = {
         this.addGameStates();
         this.addGameMusic();
         window.setTimeout(function() {
-            game.state.start("Menu");
+            game.state.start("Game");
         }, 1000);
     },
 

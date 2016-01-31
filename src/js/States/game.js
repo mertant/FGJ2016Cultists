@@ -207,7 +207,7 @@ Game.prototype = {
             this.map.add(x, y, boulder);
         }
 
-
+        this.cloudGroup = game.add.group();
         this.clouds = [];
         this.slashes = [];
         this.fireballs = [];
@@ -256,10 +256,16 @@ Game.prototype = {
         game.physics.arcade.isPaused = false;
         track3.play('',0,1,true);
         //demonlong.play();
+
         this.grave1 = game.add.sprite(this.mage1.sprite.x, this.mage1.sprite.y, 'grave');
         this.grave1.anchor.setTo(.5, .5);
         this.grave2 = game.add.sprite(this.mage2.sprite.x, this.mage2.sprite.y, 'grave');
         this.grave2.anchor.setTo(.5, .5);
+
+        this.makeCloud(this.mage1.sprite.x, this.mage1.sprite.y, 2);
+        this.makeCloud(this.mage2.sprite.x, this.mage2.sprite.y, 2);
+        this.makeCloud(310, 290, 4);
+        this.makeCloud(490, 290, 4);
 
         this.demon1.start();
         this.demon2.start();
@@ -370,13 +376,9 @@ Game.prototype = {
           game.physics.arcade.isPaused = true;
           game.time.events.add(Phaser.Timer.SECOND * 3, this.spawnDemons, this);
         }
-        var ItemSpawner666 =  Math.floor((Math.random() * 6) + 1);
+        var ItemSpawner666 =  Math.floor((Math.random() * 5) + 1);
         if (ItemSpawner666 == 1 && this.clock > 0){
           this.itemspawner();
-        }
-        var BoulderSpawner666 = Math.floor((Math.random() * 17) + 1);
-        if (BoulderSpawner666 == 1 && this.clock > 0){
-          this.boulderspawner();
         }
     },
 
@@ -509,10 +511,13 @@ Game.prototype = {
       resource.sprite.x = x;
       resource.sprite.y = y;
       this.map.add(x, y, resource);
+      this.makeCloud(x+16, y+16, 2);
     },
 
-    makeCloud: function(x, y) {
-        this.clouds.push(new Cloud(x, y));
+    makeCloud: function(x, y, s) {
+        var c = new Cloud(x, y, s);
+        this.cloudGroup.add(c.sprite);
+        this.clouds.push(c);
     },
 
     boulderspawner: function() {
@@ -533,6 +538,7 @@ Game.prototype = {
 
     update: function() {
         game.world.bringToTop(this.players);
+        game.world.bringToTop(this.cloudGroup);
 
         if (this.demon1.health <= 0 || this.demon2.health <= 0) {
             this.gameEnded = true;
@@ -662,25 +668,21 @@ Game.prototype = {
         }
 
         // Throw dropped items around
-        console.log(droppedItems);
-        if (droppedItems.length != 0) {
-            for (var i = 0; i < droppedItems.length; i++) {
-                // Generate random coordinates until an empty spot is found
-                var resource = droppedItems[i];
-                var x,y;
-                //console.log(resource);
-                do {
-                  var tileX = Math.floor(Math.random() * 4 + droppedX/this.map.tilesize - 2);
-                  var tileY = Math.floor(Math.random() * 4 + droppedY/this.map.tilesize  - 2);
+        for (var i = 0; i < droppedItems.length; i++) {
+            // Generate random coordinates until an empty spot is found
+            var resource = droppedItems[i];
+            var x,y;
+            do {
+              var tileX = Math.floor(Math.random() * 4 + droppedX/this.map.tilesize - 2);
+              var tileY = Math.floor(Math.random() * 4 + droppedY/this.map.tilesize  - 2);
 
-                  x = tileX * this.map.tilesize;
-                  y = tileY * this.map.tilesize;
-                } while (this.map.fitsIn(x, y, resource.sprite.width, resource.sprite.height) == false ||
-                (tileX > 4 && tileX < 14 && tileY > 3 && tileY < 9));
+              x = tileX * this.map.tilesize;// + this.map.x;
+              y = tileY * this.map.tilesize;//+ this.map.y;
+            } while (this.map.fitsIn(x, y, resource.sprite.width, resource.sprite.height) == false ||
+            (tileX > 4 && tileX < 14 && tileY > 3 && tileY < 9));
 
-                resource.drop(x, y);
-                this.map.add(x, y, resource);
-            }
+            resource.drop(x, y);
+            this.map.add(x, y, resource);
         }
 
 

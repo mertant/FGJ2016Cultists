@@ -71,7 +71,7 @@ Game.prototype = {
             right: game.input.keyboard.addKey(Phaser.KeyCode.L)
         };
 
-        this.clockStart = 60;
+        this.clockStart = 2;
         this.clock = this.clockStart;
         game.time.events.loop(Phaser.Timer.SECOND, this.updateCounter, this);
 
@@ -209,6 +209,7 @@ Game.prototype = {
 
 
         this.clouds = [];
+        this.slashes = [];
 
         //this.makeCloud(256, 256);
 
@@ -450,23 +451,30 @@ Game.prototype = {
                 curDemon.sprite.body.velocity.y = 0;
 
                 var curDemonVelocity = curDemon.getMovementSpeed();
-                if (curKeys.up.isDown) {
-                    curDemon.sprite.body.velocity.y = -curDemonVelocity; //PIXELS PER SECOND
-                    curDemon.lastDirection = curDemon.directions.UP;
-                } else if (curKeys.down.isDown) {
-                    curDemon.sprite.body.velocity.y = curDemonVelocity;
-                    curDemon.lastDirection = curDemon.directions.DOWN;
+                if (!curDemon.attacking) {
+                    if (curKeys.up.isDown) {
+                        curDemon.sprite.body.velocity.y = -curDemonVelocity; //PIXELS PER SECOND
+                        curDemon.lastDirection = curDemon.directions.UP;
+                    } else if (curKeys.down.isDown) {
+                        curDemon.sprite.body.velocity.y = curDemonVelocity;
+                        curDemon.lastDirection = curDemon.directions.DOWN;
+                    }
+                    if (curKeys.left.isDown) {
+                        curDemon.sprite.body.velocity.x = -curDemonVelocity;
+                        curDemon.wholeGroup.setAll("scale.x", -2);
+                        curDemon.lastDirection = curDemon.directions.LEFT;
+                    } else if (curKeys.right.isDown) {
+                        curDemon.sprite.body.velocity.x = curDemonVelocity;
+                        curDemon.wholeGroup.setAll("scale.x", 2);
+                        curDemon.lastDirection = curDemon.directions.RIGHT;
+                    }
+                    if (curKeys.pick.isDown) {
+                        this.slashes.push(curDemon.meleeAttack());
+                    }
+                    if (curKeys.toss.isDown) {
+                        curDemon.rangeAttack();
+                    }
                 }
-                if (curKeys.left.isDown) {
-                    curDemon.sprite.body.velocity.x = -curDemonVelocity;
-                    curDemon.wholeGroup.setAll("scale.x", -2);
-                    curDemon.lastDirection = curDemon.directions.LEFT;
-                } else if (curKeys.right.isDown) {
-                    curDemon.sprite.body.velocity.x = curDemonVelocity;
-                    curDemon.wholeGroup.setAll("scale.x", 2);
-                    curDemon.lastDirection = curDemon.directions.RIGHT;
-                }
-
                 curDemon.updateAnim();
             }
         }
@@ -674,9 +682,10 @@ Game.prototype = {
     render: function() {
         //game.debug.cameraInfo(game.camera, 32, 32);
 
+        //game.debug.spriteInfo(this.demon1.sprite, 32, 32);
         //for custom rendering and debug, no need to render each sprite etc.
         //game.debug.spriteInfo(this.mage1.sprite, 32, 32);
-    }
+    },
 
 
 }

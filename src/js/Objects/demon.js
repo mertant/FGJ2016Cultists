@@ -5,6 +5,8 @@ function Demon(x, y, spritekeys) {
     this.melee = 1;
     this.range = 1;
 
+    this.attacking = false;
+
     this.sprite = game.add.sprite(x, y, spritekeys[0]);
     this.sprite.name = 'body';
 
@@ -329,4 +331,36 @@ Demon.prototype.getYOffset = function() {
     var index = this.getAnimationSetIndex();
 
     return this.yOffsetData[index][this.sprite.frame%4];
+}
+
+Demon.prototype.meleeAttack = function() {
+    this.attacking = true;
+    var x = this.sprite.body.x;
+    var y = this.sprite.body.y;
+    switch (this.lastDirection) {
+        case 0:
+            x += Math.abs(this.sprite.width/2)+16;
+            y -= this.sprite.height/4-16;
+            break;
+        case 1:
+            x += this.sprite.width+16;
+            y += this.sprite.height/2;
+            break;
+        case 2:
+            x += Math.abs(this.sprite.width/2)+16;
+            y += this.sprite.height;
+            break;
+        case 3:
+            y += this.sprite.height/2;
+            break;
+    }
+    var slash = new Slash(x, y);
+    game.time.events.add(Phaser.Timer.SECOND * 0.5, function() {this.attacking = false;}, this);
+    return slash;
+}
+
+Demon.prototype.rangeAttack = function() {
+    this.attacking = true;
+
+    this.attacking = false;
 }

@@ -75,9 +75,3 @@ Tutorial.prototype = {
     },
 };
 
-stopAudio = function() {
-    track1.stop();
-    track2.stop();
-    track3.stop();
-    track4.stop();
-}

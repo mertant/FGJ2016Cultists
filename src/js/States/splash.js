@@ -69,7 +69,9 @@ Splash.prototype = {
         game.load.image("grammi", "content/sprites/grammi.png");
         game.load.image("enter-key", "content/sprites/enter-key-small.png")
 
-        game.load.image('blod', 'content/sprites/drop.png');
+        game.load.image('drop', 'content/sprites/drop.png');
+        game.load.image('drop2', 'content/sprites/drop2.png');
+        game.load.image('star', 'content/sprites/star.png');
         game.load.image('stoneblod', 'content/sprites/stoneparticle.png');
         game.load.image('timebar', 'content/sprites/timebar.png');
         game.load.image('timehud', 'content/sprites/timehud.png');

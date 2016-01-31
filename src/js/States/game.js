@@ -70,7 +70,7 @@ Game.prototype = {
             right: game.input.keyboard.addKey(Phaser.KeyCode.L)
         };
 
-        this.clockStart = 2;
+        this.clockStart = 15;
         this.clock = this.clockStart;
         game.time.events.loop(Phaser.Timer.SECOND, this.updateCounter, this);
 
@@ -129,7 +129,7 @@ Game.prototype = {
         //BLood and Gore!!
         this.BLOODemitter = game.add.emitter(0, 0, 100);
 
-        this.BLOODemitter.makeParticles('blod');
+        this.BLOODemitter.makeParticles('drop');
 
         //STONE PARTICLES
         this.stoneBLOODemitter = game.add.emitter(0, 0, 100);
@@ -169,7 +169,7 @@ Game.prototype = {
         ];
 
         // Generate initial resources on the map
-        for (var i = 0; i < 20; ++i) {
+        for (var i = 0; i < 6; ++i) {
             var x = 0;
             var y = 0;
             var resourceInfo = resourceInfos[Math.floor(Math.random() * resourceInfos.length)];
@@ -272,6 +272,10 @@ Game.prototype = {
         if (this.clock == 0) {
           this.spawnDemons();
         }
+        var ItemSpawner666 =  Math.floor((Math.random() * 6) + 1);
+        if (ItemSpawner666 == 1){
+          this.itemspawner();
+        }
     },
 
     controls: function() {
@@ -371,6 +375,32 @@ Game.prototype = {
         }
     },
 
+    itemspawner: function() {
+      var resourceInfos = [
+          new Skull(),
+          new Mercury(),
+          new Sulphur(),
+          new Chicken(),
+      ];
+      var x = 0;
+      var y = 0;
+      var resourceInfo = resourceInfos[Math.floor(Math.random() * resourceInfos.length)];
+      var resource = new Resource(x, y, resourceInfo);
+
+      // Generate random coordinates until an empty spot is found
+      do {
+          var tileX = Math.floor(Math.random() * this.map.width);
+          var tileY = Math.floor(Math.random() * this.map.height);
+
+          var x = tileX * this.map.tilesize + this.map.x;
+          var y = tileY * this.map.tilesize + this.map.y;
+      } while (this.map.fitsIn(x, y, resource.sprite.width, resource.sprite.height) == false ||
+      (tileX > 4 && tileX < 14 && tileY > 3 && tileY < 9));
+      resource.sprite.x = x;
+      resource.sprite.y = y;
+      this.map.add(x, y, resource);
+    },
+
     update: function() {
         game.world.bringToTop(this.players);
 
@@ -389,7 +419,7 @@ Game.prototype = {
             if (this.activeWeapons[i].destroyed) {
                 this.activeWeapons.splice(i--, 1);
             }
-           
+
         }
         this.controls();
 

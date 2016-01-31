@@ -21,6 +21,7 @@ Splash.prototype = {
         game.load.script("ChickenResource", "js/Resources/chicken.js");
 
         game.load.script("CloudScript", "js/Objects/cloud.js");
+        game.load.script("SlashScript", "js/Objects/slash.js");
     },
 
     loadBgm: function () {
@@ -104,6 +105,7 @@ Splash.prototype = {
         game.load.spritesheet("bluedemonvariables", "content/demon/bluevariablescombined.png", 64, 64, 39);
 
 
+        game.load.spritesheet("slash", "content/sprites/slash.png", 32, 32, 2);
         game.load.spritesheet("cloud", "content/sprites/cloud.png", 32, 32, 9);
 
         //ESIMERKKI: game.load.spritesheet(key, sprite file, frame width, frame height, frame count);
@@ -147,7 +149,7 @@ Splash.prototype = {
         this.addGameStates();
         this.addGameMusic();
         window.setTimeout(function() {
-            game.state.start("Menu");
+            game.state.start("Game");
         }, 1000);
     },
 

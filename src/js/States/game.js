@@ -706,6 +706,9 @@ Game.prototype = {
             if (!this.fireballs[i].destroyed && this.fireballs[i].owner != this.demon1) {
                 var wasHit = checkOverlap(this.demon1.sprite, this.fireballs[i].sprite);
                 if (wasHit) {
+                    this.makeCloud(this.demon1.sprite.body.x + this.demon1.sprite.body.width / 2.0,
+                        this.demon1.sprite.body.y + this.demon1.sprite.body.height / 2.0,
+                        2.0);
                     this.fireballs[i].destroy();
                     this.demon1.hit("range", this.fireballs[i]);
                 }
@@ -713,6 +716,9 @@ Game.prototype = {
             if (!this.fireballs[i].destroyed && this.fireballs[i].owner != this.demon2) {
                 var wasHit = checkOverlap(this.demon2.sprite, this.fireballs[i].sprite);
                 if (wasHit) {
+                    this.makeCloud(this.demon2.sprite.body.x + this.demon2.sprite.body.width / 2.0,
+                        this.demon2.sprite.body.y + this.demon2.sprite.body.height / 2.0,
+                        2.0);
                     this.fireballs[i].destroy();
                     this.demon2.hit("range", this.fireballs[i]);
                 }

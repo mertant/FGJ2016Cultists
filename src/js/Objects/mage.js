@@ -201,11 +201,12 @@ Mage.prototype.updateStunStars = function() {
     }
 
     this.stunStarAngle += 1.5;
-    radius = 30;
+    var radius = 20;
+    var verticalOffset = 10;
     for (var i = 0; i < this.stunStars.length; ++i) {
         this.stunStars[i].bringToTop();
         var angle = (this.stunStarAngle - i * (360 / this.stunStars.length)) * Math.PI / 180;
         this.stunStars[i].x = this.sprite.x + radius * Math.cos(angle);
-        this.stunStars[i].y = this.sprite.y + radius * Math.sin(angle);
+        this.stunStars[i].y = this.sprite.y + 0.5 * radius * Math.sin(angle) - verticalOffset;
     }
 }

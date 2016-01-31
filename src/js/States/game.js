@@ -287,7 +287,7 @@ Game.prototype = {
         if (ItemSpawner666 == 1 && this.clock > 0){
           this.itemspawner();
         }
-        var BoulderSpawner666 = Math.floor((Math.random() * 7) + 1);
+        var BoulderSpawner666 = Math.floor((Math.random() * 17) + 1);
         if (BoulderSpawner666 == 1 && this.clock > 0){
           this.boulderspawner();
         }

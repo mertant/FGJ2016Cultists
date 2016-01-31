@@ -40,6 +40,7 @@ Splash.prototype = {
       game.load.audio('track1', 'content/sounds/track1.ogg');
       game.load.audio('track2', 'content/sounds/track2.ogg');
       game.load.audio('track3', 'content/sounds/track3.ogg');
+      game.load.audio('track4', 'content/sounds/track4.ogg');
 
 
     },

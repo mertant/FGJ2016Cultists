@@ -74,7 +74,7 @@ Game.prototype = {
             right: game.input.keyboard.addKey(Phaser.KeyCode.L)
         };
 
-        this.clockStart = 20;
+        this.clockStart = 60;
         this.clock = this.clockStart;
         game.time.events.loop(Phaser.Timer.SECOND, this.updateCounter, this);
 
@@ -275,29 +275,11 @@ Game.prototype = {
         this.grave2 = game.add.sprite(this.mage2.sprite.x, this.mage2.sprite.y, 'grave');
         this.grave2.anchor.setTo(.5, .5);
 
-        this.makeCloud(this.mage1.sprite.x, this.mage1.sprite.y, 2);
-        game.time.events.add(Phaser.Timer.SECOND * 1, function() {this.makeCloud(this.mage1.sprite.x, this.mage1.sprite.y, 2);}, this);
-        game.time.events.add(Phaser.Timer.SECOND * 2, function() {this.makeCloud(this.mage1.sprite.x, this.mage1.sprite.y, 2);}, this);
-        game.time.events.add(Phaser.Timer.SECOND * 0.5, function() {this.makeCloud(this.mage1.sprite.x, this.mage1.sprite.y, 2);}, this);
-        game.time.events.add(Phaser.Timer.SECOND * 1.5, function() {this.makeCloud(this.mage1.sprite.x, this.mage1.sprite.y, 2);}, this);
+        var summoningSprite = game.add.sprite(0, 0, 'summoning');
+        summoningSprite.alpha = 0.0;
 
-        this.makeCloud(this.mage2.sprite.x, this.mage2.sprite.y, 2);
-        game.time.events.add(Phaser.Timer.SECOND * 1, function() {this.makeCloud(this.mage2.sprite.x, this.mage2.sprite.y, 2);}, this);
-        game.time.events.add(Phaser.Timer.SECOND * 2, function() {this.makeCloud(this.mage2.sprite.x, this.mage2.sprite.y, 2);}, this);
-        game.time.events.add(Phaser.Timer.SECOND * 0.5, function() {this.makeCloud(this.mage2.sprite.x, this.mage2.sprite.y, 2);}, this);
-        game.time.events.add(Phaser.Timer.SECOND * 1.5, function() {this.makeCloud(this.mage2.sprite.x, this.mage2.sprite.y, 2);}, this);
-
-        this.makeCloud(96+8*32, 96+7*32, 4);
-        game.time.events.add(Phaser.Timer.SECOND * 1, function() {this.makeCloud(96+8*32, 96+7*32, 4);}, this);
-        game.time.events.add(Phaser.Timer.SECOND * 2, function() {this.makeCloud(96+8*32, 96+7*32, 4);}, this);
-        game.time.events.add(Phaser.Timer.SECOND * 0.5, function() {this.makeCloud(96+8*32, 96+7*32, 4);}, this);
-        game.time.events.add(Phaser.Timer.SECOND * 1.5, function() {this.makeCloud(96+8*32, 96+7*32, 4);}, this);
-
-        this.makeCloud(96+13*32, 96+7*32, 4);
-        game.time.events.add(Phaser.Timer.SECOND * 1, function() {this.makeCloud(96+13*32, 96+7*32, 4);}, this);
-        game.time.events.add(Phaser.Timer.SECOND * 2, function() {this.makeCloud(96+13*32, 96+7*32, 4);}, this);
-        game.time.events.add(Phaser.Timer.SECOND * 0.5, function() {this.makeCloud(96+13*32, 96+7*32, 4);}, this);
-        game.time.events.add(Phaser.Timer.SECOND * 1.5, function() {this.makeCloud(96+13*32, 96+7*32, 4);}, this);
+        game.add.tween(summoningSprite).to({alpha: 1.0}, 1000, Phaser.Easing.Linear.Out, true);
+        game.time.events.add(Phaser.Timer.SECOND * 3.0, function() { summoningSprite.destroy(); }, this);
 
         game.time.events.add(Phaser.Timer.SECOND * 3, this.spawnDemons, this);
     },
@@ -802,9 +784,6 @@ Game.prototype = {
 
             resource.drop(x, y);
             this.map.add(x, y, resource);
-            //droppedItemTween = game.add.tween(resource);
-            //droppedItemTween.to({y: '+500'}, 1000, Phaser.Easing.Linear.Out, true, yoyo = true);
-            //console.log("oh shit tweening ", droppedItemTween);
         }
 
 

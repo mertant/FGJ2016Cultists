@@ -59,6 +59,7 @@ Splash.prototype = {
         game.load.image('background', 'content/bg/bg001.png');
         game.load.image("backgroundtrees", "content/bg/backgroundtrees.png");
         game.load.image("credits", "content/bg/demoncolored.png");
+        game.load.image("summoning", "content/bg/summoning-small.png");
 
         // Sprites
         game.load.image('demon', 'content/sprites/demon.png');

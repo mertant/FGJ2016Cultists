@@ -144,7 +144,7 @@ Mage.prototype.pickUp = function(resource) {
             miniSprite = 'miniskull';
             break;
     }
-    
+
     var miniItem = game.add.sprite(0,0, miniSprite);
     this.itemSprites.push(miniItem);
     this.oldX.unshift(this.sprite.body.x+16);
@@ -166,7 +166,6 @@ Mage.prototype.updateMinisprites = function() {
         this.oldY.pop();
         this.oldX.unshift(this.sprite.body.x+16);
         this.oldY.unshift(this.sprite.body.y+24);
-        console.log(this.oldX[this.oldX.length-1]);
     }
 }
 

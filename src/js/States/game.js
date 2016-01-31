@@ -74,7 +74,7 @@ Game.prototype = {
             right: game.input.keyboard.addKey(Phaser.KeyCode.L)
         };
 
-        this.clockStart = 20;
+        this.clockStart = 5;
         this.clock = this.clockStart;
         game.time.events.loop(Phaser.Timer.SECOND, this.updateCounter, this);
 
@@ -798,9 +798,6 @@ Game.prototype = {
 
             resource.drop(x, y);
             this.map.add(x, y, resource);
-            //droppedItemTween = game.add.tween(resource);
-            //droppedItemTween.to({y: '+500'}, 1000, Phaser.Easing.Linear.Out, true, yoyo = true);
-            //console.log("oh shit tweening ", droppedItemTween);
         }
 
 

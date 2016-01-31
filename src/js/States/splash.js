@@ -29,6 +29,7 @@ Splash.prototype = {
       game.load.audio('culthurt', 'content/sounds/culthurt.ogg');
       game.load.audio('cultstep', 'content/sounds/cultstep.ogg');
       game.load.audio('demonhit', 'content/sounds/demonhit.ogg');
+      game.load.audio('demonlong', 'content/sounds/demonroarlong.ogg');
       game.load.audio('demonroar', 'content/sounds/demonroar.ogg');
       game.load.audio('demonscream', 'content/sounds/demonscream.ogg');
       game.load.audio('demonstep', 'content/sounds/demonstep.ogg');
@@ -41,6 +42,7 @@ Splash.prototype = {
       game.load.audio('track1', 'content/sounds/track1.ogg');
       game.load.audio('track2', 'content/sounds/track2.ogg');
       game.load.audio('track3', 'content/sounds/track3.ogg');
+      game.load.audio('track4', 'content/sounds/track4.ogg');
 
 
     },

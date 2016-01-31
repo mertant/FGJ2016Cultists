@@ -5,6 +5,8 @@ function Demon(x, y, spritekeys) {
     this.melee = 1;
     this.range = 1;
 
+    this.isDead = false;
+
     this.attacking = false;
 
     this.sprite = game.add.sprite(x, y, spritekeys[0]);
@@ -148,6 +150,11 @@ function Demon(x, y, spritekeys) {
 }
 
 Demon.prototype.updateAnim = function() {
+
+    if (this.health <= 0) {
+        this.isDead = true;
+        this.health = 0;
+    }
 
     var animSetIndex = this.getAnimationSetIndex();
 
@@ -386,9 +393,18 @@ Demon.prototype.rangeAttack = function() {
     return fireball;
 }
 
-Demon.prototype.hit = function() {
-    //TODO
+Demon.prototype.hit = function(sourceStr, sourceObj) {
     this.blink(4);
+
+    var sourceDemon = sourceObj.owner;
+
+    if (sourceStr == "melee") {
+        var dmgTaken = sourceDemon.melee;
+        this.health -= dmgTaken;
+    } else {
+        var dmgTaken = sourceDemon.range;
+        this.health -= dmgTaken;
+    }
 }
 
 Demon.prototype.blink = function(times) {

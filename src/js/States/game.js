@@ -626,14 +626,14 @@ Game.prototype = {
                 var wasHit = checkOverlap(this.demon1.sprite, this.slashes[i].sprite);
                 if (wasHit) {
                     this.slashes[i].destroy();
-                    this.demon1.hit("melee");
+                    this.demon1.hit("melee", this.slashes[i]);
                 }
             }
             if (!this.slashes[i].destroyed && this.slashes[i].owner != this.demon2) {
                 var wasHit = checkOverlap(this.demon2.sprite, this.slashes[i].sprite);
                 if (wasHit) {
                     this.slashes[i].destroy();
-                    this.demon2.hit("melee");
+                    this.demon2.hit("melee", this.slashes[i]);
                 }
             }
         }
@@ -643,14 +643,14 @@ Game.prototype = {
                 var wasHit = checkOverlap(this.demon1.sprite, this.fireballs[i].sprite);
                 if (wasHit) {
                     this.fireballs[i].destroy();
-                    this.demon1.hit("range");
+                    this.demon1.hit("range", this.fireballs[i]);
                 }
             }
             if (!this.fireballs[i].destroyed && this.fireballs[i].owner != this.demon2) {
                 var wasHit = checkOverlap(this.demon2.sprite, this.fireballs[i].sprite);
                 if (wasHit) {
                     this.fireballs[i].destroy();
-                    this.demon2.hit("range");
+                    this.demon2.hit("range", this.fireballs[i]);
                 }
             }
         }

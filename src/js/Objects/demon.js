@@ -144,6 +144,7 @@ function Demon(x, y, spritekeys) {
     this.runDownAnim = this.sprite.animations.add("runDown", [0, 1, 2, 3]);
     this.runHorizontalAnim = this.sprite.animations.add("runHorizontal", [8, 9, 10]);
     this.runUpAnim = this.sprite.animations.add("runUp", [4, 5, 6, 7]);
+    
 }
 
 Demon.prototype.updateAnim = function() {
@@ -354,7 +355,7 @@ Demon.prototype.meleeAttack = function() {
             y += this.sprite.height/2;
             break;
     }
-    var slash = new Slash(x, y, this);
+    var slash = new Slash(x, y, this, this.lastDirection);
     game.time.events.add(Phaser.Timer.SECOND * 0.5, function() {this.attacking = false;}, this);
     return slash;
 }
@@ -387,4 +388,17 @@ Demon.prototype.rangeAttack = function() {
 
 Demon.prototype.hit = function() {
     //TODO
+    this.blink(4);
+}
+
+Demon.prototype.blink = function(times) {
+    this.blinkbool = false;
+    game.time.events.repeat(Phaser.Timer.SECOND*0.1, times, function() {
+        this.blinkbool = !this.blinkbool;
+        if (this.blinkbool) {
+            this.sprite.tint = 0x00ff00;
+        } else {
+            this.sprite.tint = 0xffffff;
+        }
+    }, this);
 }

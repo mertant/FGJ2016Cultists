@@ -74,7 +74,7 @@ Game.prototype = {
             right: game.input.keyboard.addKey(Phaser.KeyCode.L)
         };
 
-        this.clockStart = 15;
+        this.clockStart = 60;
         this.clock = this.clockStart;
         game.time.events.loop(Phaser.Timer.SECOND, this.updateCounter, this);
 
@@ -707,10 +707,6 @@ Game.prototype = {
             (tileX > 4 && tileX < 14 && tileY > 3 && tileY < 9));
 
             resource.drop(x, y);
-            //resource.sprite.x = x;
-            //resource.sprite.y = y;
-            //resource.visible = true;
-            //this.map.add(x,y, new Resource(x,y, resource.spriteName));
             this.map.add(x, y, resource);
         }
 

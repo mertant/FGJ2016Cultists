@@ -318,7 +318,7 @@ Game.prototype = {
                     break;
                 case 'chicken':
                     this.demon1.armorStrength += 1;
-                    this.demon1.maxHealth += 3;
+                    this.demon1.maxHealth += 5;
                     break;
                 case 'mercury':
                     this.demon1.wingStrength += 1;
@@ -339,7 +339,7 @@ Game.prototype = {
                     break;
                 case 'chicken':
                     this.demon2.armorStrength += 1;
-                    this.demon2.maxHealth += 3;
+                    this.demon2.maxHealth += 5;
                     break;
                 case 'mercury':
                     this.demon2.wingStrength += 1;

@@ -27,6 +27,19 @@ Altar.prototype.give = function(items) {
     this.items = this.items.concat(items);
 }
 
+Altar.prototype.statsum = function() {
+    var totalspeedimprov = 0
+    var totalhealthimprov = 0
+    var totaldamageimprov = 0
+    var totalrangedimprov = 0
+    for (var i = 0; i < this.items.length; i++) {
+      totalspeedimprov += this.items[i].speedImprovement
+      totalhealthimprov += this.items[i].healthImprovement
+      totaldamageimprov += this.items[i].damageImprovement
+      totalrangedimprov += this.items[i].rangedDamageImprovement
+    }
+}
+
 Altar.prototype.update = function() {
     radius = 32+8;
     altarOffset = 32;

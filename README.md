@@ -10,6 +10,8 @@ Visager - Pyramid Level -  CC-BY 4.0
 
 Visager - Title Theme - CC-BY 4.0
 
+t3h rave - A Boring Halloween - CC-BY-NC-SA 3.0 
+
 
 Stage 1: gather materials for your summoning
 

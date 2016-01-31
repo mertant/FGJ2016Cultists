@@ -403,7 +403,7 @@ Demon.prototype.hit = function(sourceStr, sourceObj) {
         this.health -= dmgTaken;
     } else {
         var dmgTaken = sourceDemon.range;
-        this.health -= dmgTaken;
+        this.health -= dmgTaken / 2;
     }
 }
 

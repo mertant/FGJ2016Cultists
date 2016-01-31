@@ -16,6 +16,12 @@ Victory.prototype = {
             game.world.alpha = 1.0;
         }, 10);
 
+        track1.stop();
+        track2.stop();
+        track3.stop();
+
+        track4.play('',0,1,true);
+
 
         this.gram = game.add.sprite(game.width/2, game.height*3/4, "grammi");
         this.gram.anchor.setTo(0.5, 0.46);

@@ -74,7 +74,7 @@ Game.prototype = {
             right: game.input.keyboard.addKey(Phaser.KeyCode.L)
         };
 
-        this.clockStart = 60;
+        this.clockStart = 5;
         this.clock = this.clockStart;
         game.time.events.loop(Phaser.Timer.SECOND, this.updateCounter, this);
 
@@ -124,11 +124,12 @@ Game.prototype = {
         rescourcepickup = game.add.audio('rescourcepickup');
         rockhit = game.add.audio('rockhit');
         scream = game.add.audio('scream');
-        track1 = game.add.audio('track1');
-        track3 = game.add.audio('track3');
 
 
         //Le Musik PLayer
+        track2.stop();
+        track3.stop();
+        track4.stop();
         track1.play('',0,1,true);
 
         //BLood and Gore!!
@@ -296,6 +297,9 @@ Game.prototype = {
 
     spawnDemons: function() {
         game.physics.arcade.isPaused = false;
+        track1.stop();
+        track2.stop();
+        track4.stop();
         track3.play('',0,1,true);
         //demonlong.play();
 
@@ -399,6 +403,8 @@ Game.prototype = {
         }
         if (this.clock == 0) {
           track1.stop();
+          track2.stop();
+          track3.stop();
           this.preSpawnDemons();
           this.altar1.disableFlames();
           this.altar2.disableFlames();
@@ -569,7 +575,7 @@ Game.prototype = {
 
         if (this.demon1.health <= 0 || this.demon2.health <= 0) {
             this.gameEnded = true;
-            playerWon = this.demon1.health <= 0 ? "blue" : "red";
+            playerWon = this.demon2.health <= 0 ? "blue" : "red";
             //do death anim or smth
             game.time.events.add(Phaser.Timer.SECOND, function() {
                 game.state.start("Victory");

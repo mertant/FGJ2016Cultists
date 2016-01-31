@@ -5,6 +5,9 @@ function Demon(x, y, spritekeys) {
     this.melee = 1;
     this.range = 1;
 
+    this.meleeSpeed = 0.8;
+    this.rangeSpeed = 0.7;
+
     this.isDead = false;
 
     this.attacking = false;
@@ -363,7 +366,7 @@ Demon.prototype.meleeAttack = function() {
             break;
     }
     var slash = new Slash(x, y, this, this.lastDirection);
-    game.time.events.add(Phaser.Timer.SECOND * 0.5, function() {this.attacking = false;}, this);
+    game.time.events.add(Phaser.Timer.SECOND * this.meleeSpeed, function() {this.attacking = false;}, this);
     return slash;
 }
 
@@ -389,7 +392,7 @@ Demon.prototype.rangeAttack = function() {
             break;
     }
     var fireball = new Fireball(x, y, this, this.lastDirection);
-    game.time.events.add(Phaser.Timer.SECOND * 0.5, function() {this.attacking = false;}, this);
+    game.time.events.add(Phaser.Timer.SECOND * this.rangeSpeed, function() {this.attacking = false;}, this);
     return fireball;
 }
 

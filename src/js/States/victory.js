@@ -21,7 +21,7 @@ Victory.prototype = {
         this.gram.anchor.setTo(0.5, 0.46);
         this.gram.scale.setTo(0.5, 0.5);
         this.gram.alpha = 0.75;
-        
+
 
         var victoryPrefix = playerWon;
         var loserPrefix = playerWon == "blue" ? "red" : "blue";
@@ -46,7 +46,7 @@ Victory.prototype = {
         var deadCultist = game.add.sprite(game.width/2, game.height*3/4, loserPrefix + "acolyte");
         deadCultist.angle = 125;
         deadCultist.frame = 7;
-        deadCultist.anchor.setTo(0.5, 0.5); 
+        deadCultist.anchor.setTo(0.5, 0.5);
 
         // Goat head sprite
         this.goathead = game.add.sprite(game.world.centerX, 0.5 * game.world.centerY, "goaty");
@@ -70,16 +70,10 @@ Victory.prototype = {
     },
 
     backToMenu: function() {
-        track4.fadeOut(1000);
         game.add
             .tween(game.world).to({alpha: 0.0}, 1000, Phaser.Easing.Linear.Out, true)
             .onComplete.add(function() {
-                track1.stop();
-                track2.stop();
-                track3.stop();
-                track4.stop();
-                track2.play('',0,1,true);
-                game.state.start("Menu");
+                game.state.start("Credits");
             }, this);
     },
 };

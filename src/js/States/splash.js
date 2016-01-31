@@ -7,6 +7,7 @@ Splash.prototype = {
         game.load.script("GameScript", "js/States/game.js");
         game.load.script("TutorialScript", "js/States/tutorial.js");
         game.load.script("VictoryScript", "js/States/victory.js");
+        game.load.script("CreditsScript", "js/States/credits.js");
 
         game.load.script("WorldScript", "js/Objects/world.js");
         game.load.script("WallScript", "js/Objects/wall.js");
@@ -55,10 +56,10 @@ Splash.prototype = {
 
         game.load.image('background', 'content/bg/bg001.png');
         game.load.image("backgroundtrees", "content/bg/backgroundtrees.png");
+        game.load.image("credits", "content/bg/demoncolored.png");
 
         // Sprites
         game.load.image('demon', 'content/sprites/demon.png');
-
 
         game.load.image('boulder', 'content/sprites/boulder.png');
         game.load.image("chicken", "content/sprites/chicken.png");
@@ -139,6 +140,7 @@ Splash.prototype = {
         game.state.add("Tutorial", Tutorial);
         game.state.add("Game", Game);
         game.state.add("Victory", Victory);
+        game.state.add("Credits", Credits);
     },
 
     addGameMusic: function () {

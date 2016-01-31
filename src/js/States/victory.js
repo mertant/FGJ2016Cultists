@@ -43,9 +43,7 @@ Victory.prototype = {
             this.victoryCultists.add(cultist);
         }
 
-        var deadCultist = game.add.sprite(game.width/2, game.height*3/4, loserPrefix + "acolyte");
-        deadCultist.angle = 125;
-        deadCultist.frame = 7;
+        var deadCultist = game.add.sprite(game.width/2, game.height*3/4, "corpse");
         deadCultist.anchor.setTo(0.5, 0.5);
 
         // Goat head sprite

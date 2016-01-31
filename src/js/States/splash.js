@@ -96,6 +96,8 @@ Splash.prototype = {
         game.load.image('tutorial-throw', 'content/tutorials/tutorial_throw.png');
 
 
+        game.load.image("corpse", "content/sprites/corpse.png");
+
 
         //DEMON SPRITES
         /*

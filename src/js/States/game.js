@@ -206,8 +206,15 @@ Game.prototype = {
             this.map.add(x, y, boulder);
         }
 
+
+        this.clouds = [];
+
+        this.makeCloud(256, 256);
+
         // Active boulders to update
         this.activeWeapons = []; //list that contains any active/flying boulders
+
+        
 
         // Overlay trees
         this.trees = game.add.sprite(0, 0, 'backgroundtrees');
@@ -287,7 +294,7 @@ Game.prototype = {
         if (ItemSpawner666 == 1 && this.clock > 0){
           this.itemspawner();
         }
-        var BoulderSpawner666 = Math.floor((Math.random() * 7) + 1);
+        var BoulderSpawner666 = Math.floor((Math.random() * 17) + 1);
         if (BoulderSpawner666 == 1 && this.clock > 0){
           this.boulderspawner();
         }
@@ -414,6 +421,10 @@ Game.prototype = {
       resource.sprite.x = x;
       resource.sprite.y = y;
       this.map.add(x, y, resource);
+    },
+
+    makeCloud: function(x, y) {
+        this.clouds.push(new Cloud(x, y));
     },
 
     boulderspawner: function() {
@@ -569,6 +580,12 @@ Game.prototype = {
         this.altar1.update();
         this.altar2.update();
 
+        for (var i = 0; i < this.clouds.length; i++) {
+            if (this.clouds[i].anim.isFinished) {
+                var cloud = this.clouds.splice(i--, 1);
+            }
+        }
+        
     },
 
     render: function() {

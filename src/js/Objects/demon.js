@@ -1,5 +1,7 @@
 function Demon(x, y, spritekeys) {
+
     this.sprite = game.add.sprite(x, y, spritekeys[0]);
+    this.sprite.name = 'body';
 
     game.physics.arcade.enable(this.sprite);
 
@@ -11,24 +13,27 @@ function Demon(x, y, spritekeys) {
     this.sprite.smoothed = false;
     this.sprite.scale.x = 2;
     this.sprite.scale.y = 2;
-    this.sprite.alpha = 0.5;
 
     this.wingsSprite = game.add.sprite(x, y, spritekeys[1]);
+    this.wingsSprite.name = 'wings';
     this.wingsSprite.smoothed = false;
     this.wingsSprite.scale.x = 2;
     this.wingsSprite.scale.y = 2;
 
     this.hornsSprite = game.add.sprite(x, y, spritekeys[1]);
+    this.hornsSprite.name = 'horns';
     this.hornsSprite.smoothed = false;
     this.hornsSprite.scale.x = 2;
     this.hornsSprite.scale.y = 2;
 
     this.weaponSprite = game.add.sprite(x, y, spritekeys[1]);
+    this.weaponSprite.name = 'weapon';
     this.weaponSprite.smoothed = false;
     this.weaponSprite.scale.x = 2;
     this.weaponSprite.scale.y = 2;
 
     this.armorSprite = game.add.sprite(x, y, spritekeys[1]);
+    this.armorSprite.name = 'armor';
     this.armorSprite.smoothed = false;
     this.armorSprite.scale.x = 2;
     this.armorSprite.scale.y = 2;
@@ -172,8 +177,6 @@ Demon.prototype.updateAnim = function() {
         this.stepCount = 0;
         demonstep.play();
         }
-
-    //ja lopuksi tämä
     switch(this.lastDirection) {
         case this.directions.UP:
             this.moveUp();
@@ -197,18 +200,109 @@ Demon.prototype.start = function() {
 Demon.prototype.moveUp = function() {
     if (this.sprite.animations.currentAnim != this.runUpAnim) {
         this.runUpAnim.play(10, true);
+
+        var body;
+        var weapon;
+        var horns;
+        var armor;
+        var wings;
+        for (var i = 0; i < this.wholeGroup.children.length; i++) {
+            switch (this.wholeGroup.children[i].name) {
+                case 'body':
+                    body = this.wholeGroup.children[i];
+                    break;
+                case 'weapon':
+                    weapon = this.wholeGroup.children[i];
+                    break;
+                case 'horns':
+                    horns = this.wholeGroup.children[i];
+                    break;
+                case 'armor':
+                    armor = this.wholeGroup.children[i];
+                    break;
+                case 'wings':
+                    wings = this.wholeGroup.children[i];
+                    break;
+            }
+        }
+        this.wholeGroup.bringToTop(body);
+        this.wholeGroup.bringToTop(weapon);
+        this.wholeGroup.bringToTop(horns);
+        this.wholeGroup.bringToTop(armor);
+        this.wholeGroup.bringToTop(wings);
     }
+
 }
 
 Demon.prototype.moveDown = function() {
     if (this.sprite.animations.currentAnim != this.runDownAnim) {
         this.runDownAnim.play(10, true);
+
+        var body;
+        var weapon;
+        var horns;
+        var armor;
+        var wings;
+        for (var i = 0; i < this.wholeGroup.children.length; i++) {
+            switch (this.wholeGroup.children[i].name) {
+                case 'body':
+                    body = this.wholeGroup.children[i];
+                    break;
+                case 'weapon':
+                    weapon = this.wholeGroup.children[i];
+                    break;
+                case 'horns':
+                    horns = this.wholeGroup.children[i];
+                    break;
+                case 'armor':
+                    armor = this.wholeGroup.children[i];
+                    break;
+                case 'wings':
+                    wings = this.wholeGroup.children[i];
+                    break;
+            }
+        }
+        this.wholeGroup.bringToTop(wings);
+        this.wholeGroup.bringToTop(body);
+        this.wholeGroup.bringToTop(horns);
+        this.wholeGroup.bringToTop(armor);
+        this.wholeGroup.bringToTop(weapon);
     }
 }
 
 Demon.prototype.moveHorizontal = function() {
     if (this.sprite.animations.currentAnim != this.runHorizontalAnim) {
         this.runHorizontalAnim.play(10, true);
+
+        var body;
+        var weapon;
+        var horns;
+        var armor;
+        var wings;
+        for (var i = 0; i < this.wholeGroup.children.length; i++) {
+            switch (this.wholeGroup.children[i].name) {
+                case 'body':
+                    body = this.wholeGroup.children[i];
+                    break;
+                case 'weapon':
+                    weapon = this.wholeGroup.children[i];
+                    break;
+                case 'horns':
+                    horns = this.wholeGroup.children[i];
+                    break;
+                case 'armor':
+                    armor = this.wholeGroup.children[i];
+                    break;
+                case 'wings':
+                    wings = this.wholeGroup.children[i];
+                    break;
+            }
+        }
+        this.wholeGroup.bringToTop(wings);
+        this.wholeGroup.bringToTop(body);
+        this.wholeGroup.bringToTop(horns);
+        this.wholeGroup.bringToTop(armor);
+        this.wholeGroup.bringToTop(weapon);
     }
 }
 

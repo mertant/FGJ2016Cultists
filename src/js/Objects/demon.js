@@ -124,8 +124,9 @@ function Demon(x, y, spritekeys) {
         DOWN: 2,
         LEFT: 3
     }
+    this.stepCount = 0;
 
-    this.baseMovementSpeed = 160; //pixels per second
+    this.baseMovementSpeed = 120; //pixels per second
 
     //TODO select correct frames
     this.runDownAnim = this.sprite.animations.add("runDown", [0, 1, 2, 3]);
@@ -165,6 +166,12 @@ Demon.prototype.updateAnim = function() {
     this.armorSprite.x = this.sprite.x;
     this.armorSprite.y = this.sprite.y + this.getYOffset()*2;
 
+    // footstep soundsz
+    this.stepCount += Math.abs(this.sprite.body.velocity.x) + Math.abs(this.sprite.body.velocity.y);
+    if (this.stepCount > 3200) {
+        this.stepCount = 0;
+        demonstep.play();
+        }
 
     //ja lopuksi tämä
     switch(this.lastDirection) {

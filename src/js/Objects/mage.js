@@ -10,6 +10,7 @@ function Mage(x, y, spritekey) {
       DOWN: 2,
       LEFT: 3
     }
+    this.stepCount = 0;
 
     this.isStunned = false;
     this.stunLength = 2; //seconds
@@ -25,7 +26,7 @@ function Mage(x, y, spritekey) {
     this.runUpAnim = this.sprite.animations.add("runUp", [12, 13]);
     this.throwUpAnim = this.sprite.animations.add("throwUp", [14]);
 
-    this.baseMovementSpeed = 160; //pixels per second
+    this.baseMovementSpeed = 120; //pixels per second
 
     //constants
     this.maxMovementSpeedReductionCount = 10; //how many items will at most reduce hte movement speed
@@ -52,6 +53,12 @@ Mage.prototype.updateAnim = function() {
                 this.standDown();
         }
     } else {
+        this.stepCount += this.getMovementSpeed();
+        if (this.stepCount > 1400) {
+            this.stepCount = 0;
+            cultstep.play();
+            }
+
       switch(this.lastDirection) {
           case this.directions.UP:
               this.moveUp();

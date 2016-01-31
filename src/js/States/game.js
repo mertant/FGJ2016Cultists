@@ -113,6 +113,7 @@ Game.prototype = {
         cultstep = game.add.audio('cultstep');
         demonhit = game.add.audio('demonhit');
         demonroar = game.add.audio('demonroar');
+        demonlong = game.add.audio('demonlong');
         demonscream = game.add.audio('demonscream');
         demonstep = game.add.audio('demonstep');
         resconsume = game.add.audio('resconsume');
@@ -231,6 +232,7 @@ Game.prototype = {
     spawnDemons: function() {
         track1.stop();
         track3.play('',0,1,true);
+        demonlong.play();
         this.grave1 = game.add.sprite(this.mage1.sprite.x, this.mage1.sprite.y, 'grave');
         this.grave1.anchor.setTo(.5, .5);
         this.grave2 = game.add.sprite(this.mage2.sprite.x, this.mage2.sprite.y, 'grave');
@@ -493,6 +495,7 @@ Game.prototype = {
                 altar.give(items);
                 if (items.length != 0) {
                     console.log("oh shit you brought items HAVE SUM BLOD");
+                    resconsume.play();
                     that.BLOODemitter.x = altar.sprite.x+32;
                     that.BLOODemitter.y = altar.sprite.y+32;
                     that.BLOODemitter.start(true, 1000, null, 7*items.length);

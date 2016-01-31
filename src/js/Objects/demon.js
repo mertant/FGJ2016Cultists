@@ -1,5 +1,5 @@
 function Demon(x, y, spritekeys) {
-    this.maxHealth = 10;
+    this.maxHealth = 30;
     this.health = this.maxHealth;
     this.speed = 0;
     this.melee = 1;
@@ -149,7 +149,7 @@ function Demon(x, y, spritekeys) {
     this.runDownAnim = this.sprite.animations.add("runDown", [0, 1, 2, 3]);
     this.runHorizontalAnim = this.sprite.animations.add("runHorizontal", [8, 9, 10]);
     this.runUpAnim = this.sprite.animations.add("runUp", [4, 5, 6, 7]);
-    
+
 }
 
 Demon.prototype.updateAnim = function() {

@@ -96,6 +96,8 @@ Splash.prototype = {
         */
         game.load.spritesheet("demoncombined", "content/demon/demoncombined.png", 64, 64, 11);
         game.load.spritesheet("demonvariables", "content/demon/variablescombined.png", 64, 64, 39);
+        game.load.spritesheet("bluedemoncombined", "content/demon/bluedemoncombined.png", 64, 64, 11);
+        game.load.spritesheet("bluedemonvariables", "content/demon/bluevariablescombined.png", 64, 64, 39);
 
 
         //ESIMERKKI: game.load.spritesheet(key, sprite file, frame width, frame height, frame count);
@@ -139,7 +141,7 @@ Splash.prototype = {
         this.addGameStates();
         this.addGameMusic();
         window.setTimeout(function() {
-            game.state.start("Menu");
+            game.state.start("Game");
         }, 1000);
     },
 

@@ -11,6 +11,9 @@ Menu.prototype = {
     },
 
     create: function() {
+        window.setTimeout(function() {
+            game.world.alpha = 1.0;
+        }, 10);
         // Pentagram
         this.gram = game.add.sprite(game.world.centerX, 0.5 * game.world.centerY, "grammi");
         this.gram.anchor.setTo(0.5, 0.46);

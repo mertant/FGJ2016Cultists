@@ -1,5 +1,6 @@
 var Game = function () {};
 
+var playerWon = null;
 
 Game.prototype = {
 
@@ -210,12 +211,15 @@ Game.prototype = {
         this.clouds = [];
         this.slashes = [];
 
-        this.makeCloud(256, 256);
+        //this.makeCloud(256, 256);
 
         // Active boulders to update
         this.activeWeapons = []; //list that contains any active/flying boulders
 
+        this.gameEnded = false;
 
+        //this.demon1.maxHealth = -10;
+        //this.demon1.health = -10;
 
         // Overlay trees
         this.trees = game.add.sprite(0, 0, 'backgroundtrees');
@@ -524,6 +528,18 @@ Game.prototype = {
 
     update: function() {
         game.world.bringToTop(this.players);
+
+        if (this.demon1.health <= 0 || this.demon2.health <= 0) {
+            this.gameEnded = true;
+            playerWon = this.demon1.health <= 0 ? "blue" : "red";
+            //do death anim or smth
+            game.time.events.add(Phaser.Timer.SECOND, function() {
+                game.state.start("Victory");
+            }, this);
+        }
+        // Update stun stars if they are visible
+        this.mage1.updateStunStars();
+        this.mage2.updateStunStars();
 
         //Update flying objects
         for (var i = 0; i < this.activeWeapons.length; i++) {

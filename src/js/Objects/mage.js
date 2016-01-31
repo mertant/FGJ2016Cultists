@@ -14,6 +14,10 @@ function Mage(x, y, spritekey) {
     this.isStunned = false;
     this.stunLength = 2; //seconds
 
+    this.stunStars = [];
+    this.stunStarAngle =  0;
+    this.numStunStars = 5;
+
     //Animations
     this.standDownAnim = this.sprite.animations.add("standDown", [0, 0, 0, 1]);
     this.runDownAnim = this.sprite.animations.add("runDown", [2, 3]);
@@ -152,9 +156,48 @@ Mage.prototype.getMovementSpeed = function() {
 Mage.prototype.stun = function() {
     this.isStunned = true;
 
+    for (var i = 0; i < this.numStunStars; ++i) {
+        var starSprite = game.add.sprite(this.sprite.x, this.sprite.y, 'star');
+        starSprite.scale.setTo(0.5, 0.5);
+        starSprite.anchor.set(0.5);
+        this.stunStars.push(starSprite);
+    }
+
+    //drop half of items
+    var dropCount = this.inventory.length/2;
+
+    var dropArray = this.dumpItems();
+
+    for (var i = 0; i < dropCount; i++) {
+        var temp = dropArray[0];
+        dropArray.splice(0, 1);
+        this.pickUp(temp);
+    }
+
     game.time.events.add(Phaser.Timer.SECOND * this.stunLength, this.unstun, this);
 }
 
 Mage.prototype.unstun = function() {
     this.isStunned = false;
+
+    for (var i = 0; i < this.numStunStars; ++i) {
+        this.stunStars[i].destroy();
+    }
+    this.stunStars = [];
+}
+
+Mage.prototype.updateStunStars = function() {
+    if (this.isStunned == false) {
+        return;
+    }
+
+    this.stunStarAngle += 1.5;
+    var radius = 20;
+    var verticalOffset = 10;
+    for (var i = 0; i < this.stunStars.length; ++i) {
+        this.stunStars[i].bringToTop();
+        var angle = (this.stunStarAngle - i * (360 / this.stunStars.length)) * Math.PI / 180;
+        this.stunStars[i].x = this.sprite.x + radius * Math.cos(angle);
+        this.stunStars[i].y = this.sprite.y + 0.5 * radius * Math.sin(angle) - verticalOffset;
+    }
 }

@@ -1,5 +1,7 @@
 function Altar(x, y, img) {
     this.sprite = game.add.sprite(x, y, img);
+    this.sprite.animations.add('flamingAltar', [1, 2, 3, 4, 5, 6]);
+    this.sprite.animations.play('flamingAltar', 10, true)
 
     this.items = [];
     this.orbs = [];

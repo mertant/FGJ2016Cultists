@@ -71,7 +71,7 @@ Game.prototype = {
             right: game.input.keyboard.addKey(Phaser.KeyCode.L)
         };
 
-        this.clockStart = 60;
+        this.clockStart = 5;
         this.clock = this.clockStart;
         game.time.events.loop(Phaser.Timer.SECOND, this.updateCounter, this);
 
@@ -251,9 +251,9 @@ Game.prototype = {
     },
 
     spawnDemons: function() {
-        track1.stop();
+        game.physics.arcade.isPaused = false;
         track3.play('',0,1,true);
-        demonlong.play();
+        //demonlong.play();
         this.grave1 = game.add.sprite(this.mage1.sprite.x, this.mage1.sprite.y, 'grave');
         this.grave1.anchor.setTo(.5, .5);
         this.grave2 = game.add.sprite(this.mage2.sprite.x, this.mage2.sprite.y, 'grave');
@@ -363,7 +363,10 @@ Game.prototype = {
           this.timehud.scale.x = 0;
         }
         if (this.clock == 0) {
-          this.spawnDemons();
+          track1.stop();
+          bell.play();
+          game.physics.arcade.isPaused = true;
+          game.time.events.add(Phaser.Timer.SECOND * 3, this.spawnDemons, this);
         }
         var ItemSpawner666 =  Math.floor((Math.random() * 6) + 1);
         if (ItemSpawner666 == 1 && this.clock > 0){
@@ -419,6 +422,7 @@ Game.prototype = {
                     }
                     if (obj != null && obj.constructor.name == "Boulder") {
                         if (curMage.weapon == null) { //can only pick up if not already carrying
+                            demonhit.play();
                             curMage.pickWeapon(obj);
                             this.map.remove(obj);
                             obj.pick(curMage); //NOTE: Boulder.pick

@@ -354,13 +354,37 @@ Demon.prototype.meleeAttack = function() {
             y += this.sprite.height/2;
             break;
     }
-    var slash = new Slash(x, y);
+    var slash = new Slash(x, y, this);
     game.time.events.add(Phaser.Timer.SECOND * 0.5, function() {this.attacking = false;}, this);
     return slash;
 }
 
 Demon.prototype.rangeAttack = function() {
     this.attacking = true;
+    var x = this.sprite.body.x;
+    var y = this.sprite.body.y;
+    switch (this.lastDirection) {
+        case 0:
+            x += Math.abs(this.sprite.width/2)+16;
+            y -= this.sprite.height/4-16;
+            break;
+        case 1:
+            x += this.sprite.width+16;
+            y += this.sprite.height/2;
+            break;
+        case 2:
+            x += Math.abs(this.sprite.width/2)+16;
+            y += this.sprite.height;
+            break;
+        case 3:
+            y += this.sprite.height/2;
+            break;
+    }
+    var fireball = new Fireball(x, y, this, this.lastDirection);
+    game.time.events.add(Phaser.Timer.SECOND * 0.5, function() {this.attacking = false;}, this);
+    return fireball;
+}
 
-    this.attacking = false;
+Demon.prototype.hit = function() {
+    //TODO
 }

@@ -210,6 +210,7 @@ Game.prototype = {
 
         this.clouds = [];
         this.slashes = [];
+        this.fireballs = [];
 
         //this.makeCloud(256, 256);
 
@@ -472,7 +473,7 @@ Game.prototype = {
                         this.slashes.push(curDemon.meleeAttack());
                     }
                     if (curKeys.toss.isDown) {
-                        curDemon.rangeAttack();
+                        this.fireballs.push(curDemon.rangeAttack());
                     }
                 }
                 curDemon.updateAnim();
@@ -607,6 +608,52 @@ Game.prototype = {
                     rockhit.play();
                     droppedItems = this.mage2.stun();
                 }
+            }
+        }
+
+        for (var i = 0; i < this.slashes.length; i++) {
+            if (!this.slashes[i].destroyed && this.slashes[i].owner != this.demon1) {
+                var wasHit = checkOverlap(this.demon1.sprite, this.slashes[i].sprite);
+                if (wasHit) {
+                    this.slashes[i].destroy();
+                    this.demon1.hit("melee");
+                }
+            }
+            if (!this.slashes[i].destroyed && this.slashes[i].owner != this.demon2) {
+                var wasHit = checkOverlap(this.demon2.sprite, this.slashes[i].sprite);
+                if (wasHit) {
+                    this.slashes[i].destroy();
+                    this.demon2.hit("melee");
+                }
+            }
+        }
+
+        for (var i = 0; i < this.fireballs.length; i++) {
+            if (!this.fireballs[i].destroyed && this.fireballs[i].owner != this.demon1) {
+                var wasHit = checkOverlap(this.demon1.sprite, this.fireballs[i].sprite);
+                if (wasHit) {
+                    this.fireballs[i].destroy();
+                    this.demon1.hit("range");
+                }
+            }
+            if (!this.fireballs[i].destroyed && this.fireballs[i].owner != this.demon2) {
+                var wasHit = checkOverlap(this.demon2.sprite, this.fireballs[i].sprite);
+                if (wasHit) {
+                    this.fireballs[i].destroy();
+                    this.demon2.hit("range");
+                }
+            }
+        }
+
+        for (var i = 0; i < this.slashes.length; i++) {
+            if (this.slashes[i].destroyed) {
+                var slash = this.slashes.splice(i--, 1);
+            }
+        }
+
+        for (var i = 0; i < this.fireballs.length; i++) {
+            if (this.fireballs[i].destroyed) {
+                var slash = this.fireballs.splice(i--, 1);
             }
         }
 

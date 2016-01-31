@@ -23,6 +23,7 @@ Splash.prototype = {
 
         game.load.script("CloudScript", "js/Objects/cloud.js");
         game.load.script("SlashScript", "js/Objects/slash.js");
+        game.load.script("FireballScript", "js/Objects/fireball.js");
     },
 
     loadBgm: function () {

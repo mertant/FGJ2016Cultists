@@ -19,12 +19,12 @@ function Altar(x, y, img) {
 }
 
 Altar.prototype.give = function(items) {
-    this.items = this.items.concat(items);
-
     for (var i = this.orbs.length; i < this.items.length; i++) {
         orb = game.add.sprite(this.sprite.x,this.sprite.y+64,this.dropimg);
         this.orbs.push(orb);
     }
+
+    this.items = this.items.concat(items);
 }
 
 Altar.prototype.update = function() {

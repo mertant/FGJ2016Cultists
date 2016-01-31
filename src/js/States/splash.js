@@ -6,6 +6,7 @@ Splash.prototype = {
         game.load.script("MenuScript", "js/States/menu.js");
         game.load.script("GameScript", "js/States/game.js");
         game.load.script("TutorialScript", "js/States/tutorial.js");
+        game.load.script("VictoryScript", "js/States/victory.js");
 
         game.load.script("WorldScript", "js/Objects/world.js");
         game.load.script("WallScript", "js/Objects/wall.js");
@@ -107,8 +108,6 @@ Splash.prototype = {
         game.load.spritesheet("cloud", "content/sprites/cloud.png", 32, 32, 9);
 
         //ESIMERKKI: game.load.spritesheet(key, sprite file, frame width, frame height, frame count);
-        //TEMP
-        game.load.spritesheet("test_spritesheet", "content/sprites/test_spritesheet.png", 32, 32, 2);
         game.load.spritesheet("redacolyte", "content/sprites/redacolyte.png", 32, 32, 15);
         game.load.spritesheet("blueacolyte", "content/sprites/blueacolyte.png", 32, 32, 15);
     },
@@ -134,6 +133,7 @@ Splash.prototype = {
         game.state.add("Menu", Menu);
         game.state.add("Tutorial", Tutorial);
         game.state.add("Game", Game);
+        game.state.add("Victory", Victory);
     },
 
     addGameMusic: function () {

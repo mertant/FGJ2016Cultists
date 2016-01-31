@@ -12,6 +12,7 @@ Music:
 ## Game summary
 
 Stage 1: gather materials for your summoning
+
 Stage 2: fight with your demons
 
 ### Demon combat

@@ -108,6 +108,8 @@ Splash.prototype = {
 
         game.load.spritesheet("slash", "content/sprites/slash.png", 32, 32, 2);
         game.load.spritesheet("cloud", "content/sprites/cloud.png", 32, 32, 9);
+        game.load.spritesheet("bluealtar", "content/sprites/bluealtar.png", 64, 64, 7);
+        game.load.spritesheet("redaltar", "content/sprites/redaltar.png", 64, 64, 7);
 
         //ESIMERKKI: game.load.spritesheet(key, sprite file, frame width, frame height, frame count);
         game.load.spritesheet("redacolyte", "content/sprites/redacolyte.png", 32, 32, 15);

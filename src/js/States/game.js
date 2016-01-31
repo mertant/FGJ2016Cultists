@@ -207,7 +207,7 @@ Game.prototype = {
             this.map.add(x, y, boulder);
         }
 
-
+        this.cloudGroup = game.add.group();
         this.clouds = [];
         this.slashes = [];
 
@@ -255,10 +255,16 @@ Game.prototype = {
         track1.stop();
         track3.play('',0,1,true);
         demonlong.play();
+
         this.grave1 = game.add.sprite(this.mage1.sprite.x, this.mage1.sprite.y, 'grave');
         this.grave1.anchor.setTo(.5, .5);
         this.grave2 = game.add.sprite(this.mage2.sprite.x, this.mage2.sprite.y, 'grave');
         this.grave2.anchor.setTo(.5, .5);
+
+        this.makeCloud(this.mage1.sprite.x, this.mage1.sprite.y, 2);
+        this.makeCloud(this.mage2.sprite.x, this.mage2.sprite.y, 2);
+        this.makeCloud(310, 290, 4);
+        this.makeCloud(490, 290, 4);
 
         this.demon1.start();
         this.demon2.start();
@@ -366,13 +372,9 @@ Game.prototype = {
         if (this.clock == 0) {
           this.spawnDemons();
         }
-        var ItemSpawner666 =  Math.floor((Math.random() * 6) + 1);
+        var ItemSpawner666 =  Math.floor((Math.random() * 5) + 1);
         if (ItemSpawner666 == 1 && this.clock > 0){
           this.itemspawner();
-        }
-        var BoulderSpawner666 = Math.floor((Math.random() * 17) + 1);
-        if (BoulderSpawner666 == 1 && this.clock > 0){
-          this.boulderspawner();
         }
     },
 
@@ -504,10 +506,13 @@ Game.prototype = {
       resource.sprite.x = x;
       resource.sprite.y = y;
       this.map.add(x, y, resource);
+      this.makeCloud(x+16, y+16, 2);
     },
 
-    makeCloud: function(x, y) {
-        this.clouds.push(new Cloud(x, y));
+    makeCloud: function(x, y, s) {
+        var c = new Cloud(x, y, s);
+        this.cloudGroup.add(c.sprite);
+        this.clouds.push(c);
     },
 
     boulderspawner: function() {
@@ -528,6 +533,7 @@ Game.prototype = {
 
     update: function() {
         game.world.bringToTop(this.players);
+        game.world.bringToTop(this.cloudGroup);
 
         if (this.demon1.health <= 0 || this.demon2.health <= 0) {
             this.gameEnded = true;
@@ -548,7 +554,6 @@ Game.prototype = {
             if (!this.activeWeapons[i].flying) {
                 rockhit.play();
                 this.map.add(0,0, this.activeWeapons[i]);
-                console.log("this rock aint goddam null");
                 this.activeWeapons.splice(i--, 1);
                 continue;
             }
@@ -616,7 +621,6 @@ Game.prototype = {
             // Generate random coordinates until an empty spot is found
             var resource = droppedItems[i];
             var x,y;
-            //console.log(resource);
             do {
               var tileX = Math.floor(Math.random() * 2 + droppedX/this.map.tilesize - 2);
               var tileY = Math.floor(Math.random() * 2 + droppedY/this.map.tilesize  - 2);
@@ -631,7 +635,6 @@ Game.prototype = {
             //resource.sprite.y = y;
             //resource.visible = true;
             //this.map.add(x,y, new Resource(x,y, resource.spriteName));
-            console.log(resource.sprite, resource.sprite.x, resource.sprite.y);
             this.map.add(x, y, resource);
         }
 
@@ -659,7 +662,6 @@ Game.prototype = {
                 var items = mage.dumpItems();
                 altar.give(items);
                 if (items.length != 0) {
-                    console.log("oh shit you brought items HAVE SUM BLOD");
                     resconsume.play();
                     that.BLOODemitter.x = altar.sprite.x+32;
                     that.BLOODemitter.y = altar.sprite.y+32;

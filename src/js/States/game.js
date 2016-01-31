@@ -169,7 +169,7 @@ Game.prototype = {
         ];
 
         // Generate initial resources on the map
-        for (var i = 0; i < 20; ++i) {
+        for (var i = 0; i < 6; ++i) {
             var x = 0;
             var y = 0;
             var resourceInfo = resourceInfos[Math.floor(Math.random() * resourceInfos.length)];
@@ -262,7 +262,7 @@ Game.prototype = {
     },
 
     updateCounter: function() {
-        this.clock--;
+        this.clock++;
         if (this.clock >= 0) {
             this.timebar.scale.x = this.clock/this.clockStart;
         } else {
@@ -271,6 +271,10 @@ Game.prototype = {
         }
         if (this.clock == 0) {
           this.spawnDemons();
+        }
+        var ItemSpawner666 =  Math.floor((Math.random() * 6) + 1);
+        if (ItemSpawner666 == 1){
+          this.itemspawner();
         }
     },
 
@@ -371,6 +375,32 @@ Game.prototype = {
         }
     },
 
+    itemspawner: function() {
+      var resourceInfos = [
+          new Skull(),
+          new Mercury(),
+          new Sulphur(),
+          new Chicken(),
+      ];
+      var x = 0;
+      var y = 0;
+      var resourceInfo = resourceInfos[Math.floor(Math.random() * resourceInfos.length)];
+      var resource = new Resource(x, y, resourceInfo);
+
+      // Generate random coordinates until an empty spot is found
+      do {
+          var tileX = Math.floor(Math.random() * this.map.width);
+          var tileY = Math.floor(Math.random() * this.map.height);
+
+          var x = tileX * this.map.tilesize + this.map.x;
+          var y = tileY * this.map.tilesize + this.map.y;
+      } while (this.map.fitsIn(x, y, resource.sprite.width, resource.sprite.height) == false ||
+      (tileX > 4 && tileX < 14 && tileY > 3 && tileY < 9));
+      resource.sprite.x = x;
+      resource.sprite.y = y;
+      this.map.add(x, y, resource);
+    },
+
     update: function() {
         game.world.bringToTop(this.players);
 
@@ -382,7 +412,7 @@ Game.prototype = {
             if (!this.activeWeapons[i].flying || this.activeWeapons[i].destroyed) {
                 this.activeWeapons.splice(i--, 1);
             }
-           
+
         }
         this.controls();
 

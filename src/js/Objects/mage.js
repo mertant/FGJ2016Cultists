@@ -159,7 +159,20 @@ Mage.prototype.getMovementSpeed = function() {
 Mage.prototype.stun = function() {
     this.isStunned = true;
 
+    //drop half of items
+    var dropCount = this.inventory.length/2;
+
+    var dropArray = this.dumpItems();
+
+    for (var i = 0; i < dropCount; i++) {
+        var temp = dropArray[0];
+        dropArray = dropArray.splice(0, 1);
+        this.pickUp(temp);
+    }
+
     game.time.events.add(Phaser.Timer.SECOND * this.stunLength, this.unstun, this);
+
+    return dropArray;
 }
 
 Mage.prototype.unstun = function() {

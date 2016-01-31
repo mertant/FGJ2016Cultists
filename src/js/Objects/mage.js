@@ -145,7 +145,7 @@ Mage.prototype.pickUp = function(resource) {
             break;
     }
 
-    var miniItem = game.add.sprite(0,0, miniSprite);
+    var miniItem = game.add.sprite(this.sprite.body.x+16,this.sprite.body.y+24, miniSprite);
     this.itemSprites.push(miniItem);
     this.oldX.unshift(this.sprite.body.x+16);
     this.oldY.unshift(this.sprite.body.y+24);

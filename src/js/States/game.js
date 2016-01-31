@@ -209,6 +209,8 @@ Game.prototype = {
 
 
         this.clouds = [];
+        this.slashes = [];
+        this.fireballs = [];
 
         //this.makeCloud(256, 256);
 
@@ -454,23 +456,30 @@ Game.prototype = {
                 curDemon.sprite.body.velocity.y = 0;
 
                 var curDemonVelocity = curDemon.getMovementSpeed();
-                if (curKeys.up.isDown) {
-                    curDemon.sprite.body.velocity.y = -curDemonVelocity; //PIXELS PER SECOND
-                    curDemon.lastDirection = curDemon.directions.UP;
-                } else if (curKeys.down.isDown) {
-                    curDemon.sprite.body.velocity.y = curDemonVelocity;
-                    curDemon.lastDirection = curDemon.directions.DOWN;
+                if (!curDemon.attacking) {
+                    if (curKeys.up.isDown) {
+                        curDemon.sprite.body.velocity.y = -curDemonVelocity; //PIXELS PER SECOND
+                        curDemon.lastDirection = curDemon.directions.UP;
+                    } else if (curKeys.down.isDown) {
+                        curDemon.sprite.body.velocity.y = curDemonVelocity;
+                        curDemon.lastDirection = curDemon.directions.DOWN;
+                    }
+                    if (curKeys.left.isDown) {
+                        curDemon.sprite.body.velocity.x = -curDemonVelocity;
+                        curDemon.wholeGroup.setAll("scale.x", -2);
+                        curDemon.lastDirection = curDemon.directions.LEFT;
+                    } else if (curKeys.right.isDown) {
+                        curDemon.sprite.body.velocity.x = curDemonVelocity;
+                        curDemon.wholeGroup.setAll("scale.x", 2);
+                        curDemon.lastDirection = curDemon.directions.RIGHT;
+                    }
+                    if (curKeys.pick.isDown) {
+                        this.slashes.push(curDemon.meleeAttack());
+                    }
+                    if (curKeys.toss.isDown) {
+                        this.fireballs.push(curDemon.rangeAttack());
+                    }
                 }
-                if (curKeys.left.isDown) {
-                    curDemon.sprite.body.velocity.x = -curDemonVelocity;
-                    curDemon.wholeGroup.setAll("scale.x", -2);
-                    curDemon.lastDirection = curDemon.directions.LEFT;
-                } else if (curKeys.right.isDown) {
-                    curDemon.sprite.body.velocity.x = curDemonVelocity;
-                    curDemon.wholeGroup.setAll("scale.x", 2);
-                    curDemon.lastDirection = curDemon.directions.RIGHT;
-                }
-
                 curDemon.updateAnim();
             }
         }
@@ -544,7 +553,6 @@ Game.prototype = {
             if (!this.activeWeapons[i].flying) {
                 rockhit.play();
                 this.map.add(0,0, this.activeWeapons[i]);
-                console.log("this rock aint goddam null");
                 this.activeWeapons.splice(i--, 1);
                 continue;
             }
@@ -607,16 +615,61 @@ Game.prototype = {
             }
         }
 
+        for (var i = 0; i < this.slashes.length; i++) {
+            if (!this.slashes[i].destroyed && this.slashes[i].owner != this.demon1) {
+                var wasHit = checkOverlap(this.demon1.sprite, this.slashes[i].sprite);
+                if (wasHit) {
+                    this.slashes[i].destroy();
+                    this.demon1.hit("melee");
+                }
+            }
+            if (!this.slashes[i].destroyed && this.slashes[i].owner != this.demon2) {
+                var wasHit = checkOverlap(this.demon2.sprite, this.slashes[i].sprite);
+                if (wasHit) {
+                    this.slashes[i].destroy();
+                    this.demon2.hit("melee");
+                }
+            }
+        }
+
+        for (var i = 0; i < this.fireballs.length; i++) {
+            if (!this.fireballs[i].destroyed && this.fireballs[i].owner != this.demon1) {
+                var wasHit = checkOverlap(this.demon1.sprite, this.fireballs[i].sprite);
+                if (wasHit) {
+                    this.fireballs[i].destroy();
+                    this.demon1.hit("range");
+                }
+            }
+            if (!this.fireballs[i].destroyed && this.fireballs[i].owner != this.demon2) {
+                var wasHit = checkOverlap(this.demon2.sprite, this.fireballs[i].sprite);
+                if (wasHit) {
+                    this.fireballs[i].destroy();
+                    this.demon2.hit("range");
+                }
+            }
+        }
+
+        for (var i = 0; i < this.slashes.length; i++) {
+            if (this.slashes[i].destroyed) {
+                var slash = this.slashes.splice(i--, 1);
+            }
+        }
+
+        for (var i = 0; i < this.fireballs.length; i++) {
+            if (this.fireballs[i].destroyed) {
+                var slash = this.fireballs.splice(i--, 1);
+            }
+        }
+
         // Throw dropped items around
         for (var i = 0; i < droppedItems.length; i++) {
-            console.log("fuckin items gettin dropped in herez");
             // Generate random coordinates until an empty spot is found
             var resource = droppedItems[i];
             var x,y;
             //console.log(resource);
             do {
-              var tileX = Math.floor(Math.random() * 2 + droppedX/this.map.tilesize - 2);
-              var tileY = Math.floor(Math.random() * 2 + droppedY/this.map.tilesize  - 2);
+              var tileX = Math.floor(Math.random() * 4 + droppedX/this.map.tilesize - 2);
+              var tileY = Math.floor(Math.random() * 4 + droppedY/this.map.tilesize  - 2);
 
               x = tileX * this.map.tilesize;// + this.map.x;
               y = tileY * this.map.tilesize;//+ this.map.y;
@@ -628,7 +681,6 @@ Game.prototype = {
             //resource.sprite.y = y;
             //resource.visible = true;
             //this.map.add(x,y, new Resource(x,y, resource.spriteName));
-            console.log(resource.sprite, resource.sprite.x, resource.sprite.y);
             this.map.add(x, y, resource);
         }
 
@@ -656,7 +708,6 @@ Game.prototype = {
                 var items = mage.dumpItems();
                 altar.give(items);
                 if (items.length != 0) {
-                    console.log("oh shit you brought items HAVE SUM BLOD");
                     resconsume.play();
                     that.BLOODemitter.x = altar.sprite.x+32;
                     that.BLOODemitter.y = altar.sprite.y+32;
@@ -682,9 +733,10 @@ Game.prototype = {
     render: function() {
         //game.debug.cameraInfo(game.camera, 32, 32);
 
+        //game.debug.spriteInfo(this.demon1.sprite, 32, 32);
         //for custom rendering and debug, no need to render each sprite etc.
         //game.debug.spriteInfo(this.mage1.sprite, 32, 32);
-    }
+    },
 
 
 }

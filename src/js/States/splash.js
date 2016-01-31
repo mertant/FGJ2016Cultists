@@ -22,6 +22,8 @@ Splash.prototype = {
         game.load.script("ChickenResource", "js/Resources/chicken.js");
 
         game.load.script("CloudScript", "js/Objects/cloud.js");
+        game.load.script("SlashScript", "js/Objects/slash.js");
+        game.load.script("FireballScript", "js/Objects/fireball.js");
     },
 
     loadBgm: function () {
@@ -104,8 +106,10 @@ Splash.prototype = {
         game.load.spritesheet("bluedemoncombined", "content/demon/bluedemoncombined.png", 64, 64, 11);
         game.load.spritesheet("bluedemonvariables", "content/demon/bluevariablescombined.png", 64, 64, 39);
 
-
+        game.load.spritesheet("slash", "content/sprites/slash.png", 32, 32, 2);
         game.load.spritesheet("cloud", "content/sprites/cloud.png", 32, 32, 9);
+        game.load.spritesheet("fireball", "content/sprites/fireball.png", 32, 32, 4);
+        game.load.spritesheet("kana", "content/sprites/kana.png", 32, 32, 3);
 
         //ESIMERKKI: game.load.spritesheet(key, sprite file, frame width, frame height, frame count);
         game.load.spritesheet("redacolyte", "content/sprites/redacolyte.png", 32, 32, 15);
@@ -117,6 +121,7 @@ Splash.prototype = {
     },
 
     init: function () {
+
     },
 
     // Preload game assets
@@ -147,7 +152,7 @@ Splash.prototype = {
         this.addGameStates();
         this.addGameMusic();
         window.setTimeout(function() {
-            game.state.start("Menu");
+            game.state.start("Game");
         }, 1000);
     },
 

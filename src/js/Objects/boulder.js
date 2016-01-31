@@ -65,7 +65,6 @@ Boulder.prototype.update = function() {
 }
 
 Boulder.prototype.stop = function() {
-    console.log("fuckin stopped motherfucker");
     this.sprite.body.velocity.x = 0;
     this.sprite.body.velocity.y = 0;
     this.flying = false;

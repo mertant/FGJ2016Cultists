@@ -175,6 +175,8 @@ Mage.prototype.stun = function() {
     }
 
     game.time.events.add(Phaser.Timer.SECOND * this.stunLength, this.unstun, this);
+
+    return dropArray;
 }
 
 Mage.prototype.unstun = function() {

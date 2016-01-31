@@ -5,6 +5,8 @@ function Demon(x, y, spritekeys) {
     this.melee = 1;
     this.range = 1;
 
+    this.isDead = false;
+
     this.attacking = false;
 
     this.sprite = game.add.sprite(x, y, spritekeys[0]);
@@ -144,9 +146,15 @@ function Demon(x, y, spritekeys) {
     this.runDownAnim = this.sprite.animations.add("runDown", [0, 1, 2, 3]);
     this.runHorizontalAnim = this.sprite.animations.add("runHorizontal", [8, 9, 10]);
     this.runUpAnim = this.sprite.animations.add("runUp", [4, 5, 6, 7]);
+    
 }
 
 Demon.prototype.updateAnim = function() {
+
+    if (this.health <= 0) {
+        this.isDead = true;
+        this.health = 0;
+    }
 
     var animSetIndex = this.getAnimationSetIndex();
 
@@ -354,7 +362,7 @@ Demon.prototype.meleeAttack = function() {
             y += this.sprite.height/2;
             break;
     }
-    var slash = new Slash(x, y, this);
+    var slash = new Slash(x, y, this, this.lastDirection);
     game.time.events.add(Phaser.Timer.SECOND * 0.5, function() {this.attacking = false;}, this);
     return slash;
 }
@@ -385,6 +393,28 @@ Demon.prototype.rangeAttack = function() {
     return fireball;
 }
 
-Demon.prototype.hit = function() {
-    //TODO
+Demon.prototype.hit = function(sourceStr, sourceObj) {
+    this.blink(4);
+
+    var sourceDemon = sourceObj.owner;
+
+    if (sourceStr == "melee") {
+        var dmgTaken = sourceDemon.melee;
+        this.health -= dmgTaken;
+    } else {
+        var dmgTaken = sourceDemon.range;
+        this.health -= dmgTaken / 2;
+    }
+}
+
+Demon.prototype.blink = function(times) {
+    this.blinkbool = false;
+    game.time.events.repeat(Phaser.Timer.SECOND*0.1, times, function() {
+        this.blinkbool = !this.blinkbool;
+        if (this.blinkbool) {
+            this.sprite.tint = 0x00ff00;
+        } else {
+            this.sprite.tint = 0xffffff;
+        }
+    }, this);
 }

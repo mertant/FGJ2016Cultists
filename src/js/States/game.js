@@ -70,7 +70,7 @@ Game.prototype = {
             right: game.input.keyboard.addKey(Phaser.KeyCode.L)
         };
 
-        this.clockStart = 2;
+        this.clockStart = 20;
         this.clock = this.clockStart;
         game.time.events.loop(Phaser.Timer.SECOND, this.updateCounter, this);
 
@@ -129,7 +129,7 @@ Game.prototype = {
         //BLood and Gore!!
         this.BLOODemitter = game.add.emitter(0, 0, 100);
 
-        this.BLOODemitter.makeParticles('blod');
+        this.BLOODemitter.makeParticles('drop');
 
         //STONE PARTICLES
         this.stoneBLOODemitter = game.add.emitter(0, 0, 100);
@@ -406,10 +406,17 @@ Game.prototype = {
 
         //Update flying objects
         for (var i = 0; i < this.activeWeapons.length; i++) {
-            this.activeWeapons[i].update();
+            var weapon = this.activeWeapons[i].update();
+
+            if (!this.activeWeapons[i].flying) {
+                this.map.add(0,0, this.activeWeapons[i]);
+                console.log("this rock aint goddam null");
+                this.activeWeapons.splice(i--, 1);
+                continue;
+            }
 
             game.physics.arcade.collide(this.activeWeapons[i].sprite, this.map.collideableGroup);
-            if (!this.activeWeapons[i].flying || this.activeWeapons[i].destroyed) {
+            if (this.activeWeapons[i].destroyed) {
                 this.activeWeapons.splice(i--, 1);
             }
 

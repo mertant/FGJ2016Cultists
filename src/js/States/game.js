@@ -582,10 +582,14 @@ Game.prototype = {
         }
 
         if (this.demon1.health <= 0 || this.demon2.health <= 0) {
-           
+
             playerWon = this.demon2.health <= 0 ? "blue" : "red";
             //do death anim or smth
             if (!this.gameEnded) {
+                this.demon1.sprite.body.velocity.x = 0;
+                this.demon1.sprite.body.velocity.y = 0;
+                this.demon2.sprite.body.velocity.x = 0;
+                this.demon2.sprite.body.velocity.y = 0;
                 this.gameEnded = true;
                 if (playerWon == 'blue'){
                   this.BLOODemitter.x = this.demon2.sprite.body.x + this.demon2.sprite.body.width / 2;

@@ -400,6 +400,8 @@ Game.prototype = {
         if (this.clock == 0) {
           track1.stop();
           this.preSpawnDemons();
+          this.altar1.disableFlames();
+          this.altar2.disableFlames();
         }
         var ItemSpawner666 =  Math.floor((Math.random() * 5) + 1);
         if (ItemSpawner666 == 1 && this.clock > 0){

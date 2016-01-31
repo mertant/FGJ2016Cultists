@@ -71,7 +71,7 @@ Game.prototype = {
             right: game.input.keyboard.addKey(Phaser.KeyCode.L)
         };
 
-        this.clockStart = 2;
+        this.clockStart = 5;
         this.clock = this.clockStart;
         game.time.events.loop(Phaser.Timer.SECOND, this.updateCounter, this);
 
@@ -210,6 +210,7 @@ Game.prototype = {
         this.cloudGroup = game.add.group();
         this.clouds = [];
         this.slashes = [];
+        this.fireballs = [];
 
         //this.makeCloud(256, 256);
 
@@ -252,9 +253,9 @@ Game.prototype = {
     },
 
     spawnDemons: function() {
-        track1.stop();
+        game.physics.arcade.isPaused = false;
         track3.play('',0,1,true);
-        demonlong.play();
+        //demonlong.play();
 
         this.grave1 = game.add.sprite(this.mage1.sprite.x, this.mage1.sprite.y, 'grave');
         this.grave1.anchor.setTo(.5, .5);
@@ -370,7 +371,10 @@ Game.prototype = {
           this.timehud.scale.x = 0;
         }
         if (this.clock == 0) {
-          this.spawnDemons();
+          track1.stop();
+          bell.play();
+          game.physics.arcade.isPaused = true;
+          game.time.events.add(Phaser.Timer.SECOND * 3, this.spawnDemons, this);
         }
         var ItemSpawner666 =  Math.floor((Math.random() * 5) + 1);
         if (ItemSpawner666 == 1 && this.clock > 0){
@@ -422,6 +426,7 @@ Game.prototype = {
                     }
                     if (obj != null && obj.constructor.name == "Boulder") {
                         if (curMage.weapon == null) { //can only pick up if not already carrying
+                            demonhit.play();
                             curMage.pickWeapon(obj);
                             this.map.remove(obj);
                             obj.pick(curMage); //NOTE: Boulder.pick
@@ -474,7 +479,7 @@ Game.prototype = {
                         this.slashes.push(curDemon.meleeAttack());
                     }
                     if (curKeys.toss.isDown) {
-                        curDemon.rangeAttack();
+                        this.fireballs.push(curDemon.rangeAttack());
                     }
                 }
                 curDemon.updateAnim();
@@ -616,14 +621,60 @@ Game.prototype = {
             }
         }
 
+        for (var i = 0; i < this.slashes.length; i++) {
+            if (!this.slashes[i].destroyed && this.slashes[i].owner != this.demon1) {
+                var wasHit = checkOverlap(this.demon1.sprite, this.slashes[i].sprite);
+                if (wasHit) {
+                    this.slashes[i].destroy();
+                    this.demon1.hit("melee");
+                }
+            }
+            if (!this.slashes[i].destroyed && this.slashes[i].owner != this.demon2) {
+                var wasHit = checkOverlap(this.demon2.sprite, this.slashes[i].sprite);
+                if (wasHit) {
+                    this.slashes[i].destroy();
+                    this.demon2.hit("melee");
+                }
+            }
+        }
+
+        for (var i = 0; i < this.fireballs.length; i++) {
+            if (!this.fireballs[i].destroyed && this.fireballs[i].owner != this.demon1) {
+                var wasHit = checkOverlap(this.demon1.sprite, this.fireballs[i].sprite);
+                if (wasHit) {
+                    this.fireballs[i].destroy();
+                    this.demon1.hit("range");
+                }
+            }
+            if (!this.fireballs[i].destroyed && this.fireballs[i].owner != this.demon2) {
+                var wasHit = checkOverlap(this.demon2.sprite, this.fireballs[i].sprite);
+                if (wasHit) {
+                    this.fireballs[i].destroy();
+                    this.demon2.hit("range");
+                }
+            }
+        }
+
+        for (var i = 0; i < this.slashes.length; i++) {
+            if (this.slashes[i].destroyed) {
+                var slash = this.slashes.splice(i--, 1);
+            }
+        }
+
+        for (var i = 0; i < this.fireballs.length; i++) {
+            if (this.fireballs[i].destroyed) {
+                var slash = this.fireballs.splice(i--, 1);
+            }
+        }
+
         // Throw dropped items around
         for (var i = 0; i < droppedItems.length; i++) {
             // Generate random coordinates until an empty spot is found
             var resource = droppedItems[i];
             var x,y;
             do {
-              var tileX = Math.floor(Math.random() * 2 + droppedX/this.map.tilesize - 2);
-              var tileY = Math.floor(Math.random() * 2 + droppedY/this.map.tilesize  - 2);
+              var tileX = Math.floor(Math.random() * 4 + droppedX/this.map.tilesize - 2);
+              var tileY = Math.floor(Math.random() * 4 + droppedY/this.map.tilesize  - 2);
 
               x = tileX * this.map.tilesize;// + this.map.x;
               y = tileY * this.map.tilesize;//+ this.map.y;

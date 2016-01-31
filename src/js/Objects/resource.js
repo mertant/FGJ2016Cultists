@@ -14,6 +14,7 @@ Resource.prototype.pick = function() {
 }
 
 Resource.prototype.drop = function(x, y) {
+    console.log("ah shit i've fallen");
     this.sprite.visible = true;
     this.sprite.x = x;
     this.sprite.y = y;

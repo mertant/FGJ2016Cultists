@@ -19,6 +19,8 @@ Splash.prototype = {
         game.load.script("MercuryResource", "js/Resources/mercury.js");
         game.load.script("SulphurResource", "js/Resources/sulphur.js");
         game.load.script("ChickenResource", "js/Resources/chicken.js");
+
+        game.load.script("CloudScript", "js/Objects/cloud.js");
     },
 
     loadBgm: function () {
@@ -101,6 +103,8 @@ Splash.prototype = {
         game.load.spritesheet("bluedemoncombined", "content/demon/bluedemoncombined.png", 64, 64, 11);
         game.load.spritesheet("bluedemonvariables", "content/demon/bluevariablescombined.png", 64, 64, 39);
 
+
+        game.load.spritesheet("cloud", "content/sprites/cloud.png", 32, 32, 9);
 
         //ESIMERKKI: game.load.spritesheet(key, sprite file, frame width, frame height, frame count);
         //TEMP

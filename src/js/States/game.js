@@ -195,8 +195,15 @@ Game.prototype = {
         var boulder = new Boulder(160, 160);
         this.map.add(160, 160, boulder);
 
+
+        this.clouds = [];
+
+        this.makeCloud(256, 256);
+
         // Active boulders to update
         this.activeWeapons = []; //list that contains any active/flying boulders
+
+        
 
         // Overlay trees
         this.trees = game.add.sprite(0, 0, 'backgroundtrees');
@@ -400,6 +407,10 @@ Game.prototype = {
       this.map.add(x, y, resource);
     },
 
+    makeCloud: function(x, y) {
+        this.clouds.push(new Cloud(x, y));
+    },
+
     update: function() {
         game.world.bringToTop(this.players);
 
@@ -505,6 +516,12 @@ Game.prototype = {
 
         this.altar1.update();
         this.altar2.update();
+
+        for (var i = 0; i < this.clouds.length; i++) {
+            if (this.clouds[i].anim.isFinished) {
+                var cloud = this.clouds.splice(i--, 1);
+            }
+        }
         
     },
 

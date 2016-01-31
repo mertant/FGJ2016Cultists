@@ -70,7 +70,7 @@ Game.prototype = {
             right: game.input.keyboard.addKey(Phaser.KeyCode.L)
         };
 
-        this.clockStart = 15;
+        this.clockStart = 40;
         this.clock = this.clockStart;
         game.time.events.loop(Phaser.Timer.SECOND, this.updateCounter, this);
 
@@ -471,33 +471,63 @@ Game.prototype = {
         game.physics.arcade.collide(this.mage2.sprite, this.map.collideableGroup);
 
         //check boulder <-> player collision
+        var droppedItems = [];
+        var droppedX = null;
+        var droppedY = null;
         for (var i = 0; i < this.activeWeapons.length; i++) {
             if (!this.activeWeapons[i].destroyed && this.activeWeapons[i].thrower != this.mage1) {
                 var wasHit = checkOverlap(this.mage1.sprite, this.activeWeapons[i].sprite);
                 if (wasHit) {
                     this.activeWeapons[i].destroy();
-                    //TODO sound effect and gfx(dust?)
-                    this.stoneBLOODemitter.x = this.mage1.sprite.x;
-                    this.stoneBLOODemitter.y = this.mage1.sprite.y;
+                    droppedX = this.mage1.sprite.x;
+                    droppedY = this.mage1.sprite.y;
+                    this.stoneBLOODemitter.x = droppedX
+                    this.stoneBLOODemitter.y = droppedY;
                     this.stoneBLOODemitter.start(true, 1000, null, 7);
                     culthurt.play();
                     rockhit.play();
-                    var droppedItems = this.mage1.stun();
+                    droppedItems = this.mage1.stun();
                 }
             }
             if (!this.activeWeapons[i].destroyed && this.activeWeapons[i].thrower != this.mage2) {
                 var wasHit = checkOverlap(this.mage2.sprite, this.activeWeapons[i].sprite);
                 if (wasHit) {
                     this.activeWeapons[i].destroy();
-                    //TODO sound effect and gfx(dust?)
-                    this.stoneBLOODemitter.x = this.mage2.sprite.x;
-                    this.stoneBLOODemitter.y = this.mage2.sprite.y;
+                    droppedX = this.mage2.sprite.x;
+                    droppedY = this.mage2.sprite.y;
+                    this.stoneBLOODemitter.x = droppedX
+                    this.stoneBLOODemitter.y = droppedY;
                     this.stoneBLOODemitter.start(true, 1000, null, 7);
                     culthurt.play();
                     rockhit.play();
-                    var droppedItems = this.mage2.stun();
+                    droppedItems = this.mage2.stun();
                 }
             }
+        }
+
+        // Throw dropped items around
+        for (var i = 0; i < droppedItems.length; i++) {
+            console.log("fuckin items gettin dropped in herez");
+            // Generate random coordinates until an empty spot is found
+            var resource = droppedItems[i];
+            var x,y;
+            //console.log(resource);
+            do {
+              var tileX = Math.floor(Math.random() * 2 + droppedX/this.map.tilesize - 2);
+              var tileY = Math.floor(Math.random() * 2 + droppedY/this.map.tilesize  - 2);
+
+              x = tileX * this.map.tilesize;// + this.map.x;
+              y = tileY * this.map.tilesize;//+ this.map.y;
+            } while (this.map.fitsIn(x, y, resource.sprite.width, resource.sprite.height) == false ||
+            (tileX > 4 && tileX < 14 && tileY > 3 && tileY < 9));
+            
+            resource.drop(x, y);
+            //resource.sprite.x = x;
+            //resource.sprite.y = y;
+            //resource.visible = true;
+            //this.map.add(x,y, new Resource(x,y, resource.spriteName));
+            console.log(resource.sprite, resource.sprite.x, resource.sprite.y);
+            this.map.add(x, y, resource);
         }
 
 

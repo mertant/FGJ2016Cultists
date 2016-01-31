@@ -166,7 +166,7 @@ Mage.prototype.stun = function() {
 
     for (var i = 0; i < dropCount; i++) {
         var temp = dropArray[0];
-        dropArray = dropArray.splice(0, 1);
+        dropArray.splice(0, 1);
         this.pickUp(temp);
     }
 

@@ -71,7 +71,7 @@ Game.prototype = {
             right: game.input.keyboard.addKey(Phaser.KeyCode.L)
         };
 
-        this.clockStart = 5;
+        this.clockStart = 50;
         this.clock = this.clockStart;
         game.time.events.loop(Phaser.Timer.SECOND, this.updateCounter, this);
 
@@ -662,26 +662,25 @@ Game.prototype = {
         }
 
         // Throw dropped items around
-        for (var i = 0; i < droppedItems.length; i++) {
-            // Generate random coordinates until an empty spot is found
-            var resource = droppedItems[i];
-            var x,y;
-            //console.log(resource);
-            do {
-              var tileX = Math.floor(Math.random() * 4 + droppedX/this.map.tilesize - 2);
-              var tileY = Math.floor(Math.random() * 4 + droppedY/this.map.tilesize  - 2);
+        console.log(droppedItems);
+        if (droppedItems.length != 0) {
+            for (var i = 0; i < droppedItems.length; i++) {
+                // Generate random coordinates until an empty spot is found
+                var resource = droppedItems[i];
+                var x,y;
+                //console.log(resource);
+                do {
+                  var tileX = Math.floor(Math.random() * 4 + droppedX/this.map.tilesize - 2);
+                  var tileY = Math.floor(Math.random() * 4 + droppedY/this.map.tilesize  - 2);
 
-              x = tileX * this.map.tilesize;// + this.map.x;
-              y = tileY * this.map.tilesize;//+ this.map.y;
-            } while (this.map.fitsIn(x, y, resource.sprite.width, resource.sprite.height) == false ||
-            (tileX > 4 && tileX < 14 && tileY > 3 && tileY < 9));
+                  x = tileX * this.map.tilesize;
+                  y = tileY * this.map.tilesize;
+                } while (this.map.fitsIn(x, y, resource.sprite.width, resource.sprite.height) == false ||
+                (tileX > 4 && tileX < 14 && tileY > 3 && tileY < 9));
 
-            resource.drop(x, y);
-            //resource.sprite.x = x;
-            //resource.sprite.y = y;
-            //resource.visible = true;
-            //this.map.add(x,y, new Resource(x,y, resource.spriteName));
-            this.map.add(x, y, resource);
+                resource.drop(x, y);
+                this.map.add(x, y, resource);
+            }
         }
 
 

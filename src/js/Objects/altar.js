@@ -4,13 +4,25 @@ function Altar(x, y, img) {
     this.items = [];
     this.orbs = [];
     this.orbsAngle = 0;
+
+    var color = null;
+    var dropimg = null;
+
+    if (img == 'blueAltar') {
+        this.color = 'blue';
+        this.dropimg = 'drop2';
+    }
+    else {
+        this.color = 'red';
+        this.dropimg = 'drop'
+        }
 }
 
 Altar.prototype.give = function(items) {
     this.items = this.items.concat(items);
 
     for (var i = this.orbs.length; i < this.items.length; i++) {
-        orb = game.add.sprite(this.sprite.x,this.sprite.y+64,'stoneblod');
+        orb = game.add.sprite(this.sprite.x,this.sprite.y+64,this.dropimg);
         this.orbs.push(orb);
     }
 }

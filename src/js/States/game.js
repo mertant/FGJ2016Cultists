@@ -70,7 +70,7 @@ Game.prototype = {
             right: game.input.keyboard.addKey(Phaser.KeyCode.L)
         };
 
-        this.clockStart = 2;
+        this.clockStart = 20;
         this.clock = this.clockStart;
         game.time.events.loop(Phaser.Timer.SECOND, this.updateCounter, this);
 
@@ -129,7 +129,7 @@ Game.prototype = {
         //BLood and Gore!!
         this.BLOODemitter = game.add.emitter(0, 0, 100);
 
-        this.BLOODemitter.makeParticles('blod');
+        this.BLOODemitter.makeParticles('drop');
 
         //STONE PARTICLES
         this.stoneBLOODemitter = game.add.emitter(0, 0, 100);

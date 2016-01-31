@@ -480,7 +480,7 @@ Game.prototype = {
                     this.stoneBLOODemitter.start(true, 1000, null, 7);
                     culthurt.play();
                     rockhit.play();
-                    this.mage1.stun();
+                    var droppedItems = this.mage1.stun();
                 }
             }
             if (!this.activeWeapons[i].destroyed && this.activeWeapons[i].thrower != this.mage2) {
@@ -493,7 +493,7 @@ Game.prototype = {
                     this.stoneBLOODemitter.start(true, 1000, null, 7);
                     culthurt.play();
                     rockhit.play();
-                    this.mage2.stun();
+                    var droppedItems = this.mage2.stun();
                 }
             }
         }

@@ -42,10 +42,15 @@ Tutorial.prototype = {
             return;
         }, this);
 
+        this.enterKeySprite = game.add.sprite(720, 510, 'enter-key');
+        game.add.tween(this.enterKeySprite).
+            to({y: '+10'}, 800, Phaser.Easing.Sinusoidal.InOut, true, delay = 0, repeat = -1, yoyo = true);
+
         game.input.keyboard.addKeyCapture([Phaser.Keyboard.ENTER, Phaser.Keyboard.ESC]);
     },
 
     update: function() {
+        this.enterKeySprite.bringToTop();
     },
 
     setImage: function(imageName) {

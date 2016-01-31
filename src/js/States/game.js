@@ -70,7 +70,7 @@ Game.prototype = {
             right: game.input.keyboard.addKey(Phaser.KeyCode.L)
         };
 
-        this.clockStart = 40;
+        this.clockStart = 60;
         this.clock = this.clockStart;
         game.time.events.loop(Phaser.Timer.SECOND, this.updateCounter, this);
 
@@ -214,7 +214,7 @@ Game.prototype = {
         // Active boulders to update
         this.activeWeapons = []; //list that contains any active/flying boulders
 
-        
+
 
         // Overlay trees
         this.trees = game.add.sprite(0, 0, 'backgroundtrees');
@@ -276,6 +276,77 @@ Game.prototype = {
         this.timeflames7.visible = true;
         this.timeflames8.visible = true;
         this.timeflames9.visible = true;
+
+        for (var i = 0; i < this.altar1.items.length; i++) {
+            switch (this.altar1.items[i].sprite.key) {
+                case 'sulphur':
+                    this.demon1.hornStrength += 1;
+                    this.demon1.range += 1;
+                    break;
+                case 'chicken':
+                    this.demon1.armorStrength += 1;
+                    this.demon1.maxHealth += 3;
+                    break;
+                case 'mercury':
+                    this.demon1.wingStrength += 1;
+                    this.demon1.speed += 50;
+                    break;
+                case 'skull':
+                    this.demon1.weaponStrength += 1;
+                    this.demon1.melee += 1;
+                    break;
+            }
+        }
+
+        for (var i = 0; i < this.altar2.items.length; i++) {
+            switch (this.altar2.items[i].sprite.key) {
+                case 'sulphur':
+                    this.demon2.hornStrength += 1;
+                    this.demon2.range += 1;
+                    break;
+                case 'chicken':
+                    this.demon2.armorStrength += 1;
+                    this.demon2.maxHealth += 3;
+                    break;
+                case 'mercury':
+                    this.demon2.wingStrength += 1;
+                    this.demon2.speed += 50;
+                    break;
+                case 'skull':
+                    this.demon2.weaponStrength += 1;
+                    this.demon2.melee += 1;
+                    break;
+            }
+        }
+
+        if (this.demon1.wingStrength >= 2) {
+          this.demon1.wingStrength = 2;
+        }
+        if (this.demon1.hornStrength >= 2) {
+          this.demon1.hornStrength = 2;
+        }
+        if (this.demon1.weaponStrength >= 2) {
+          this.demon1.weaponStrength = 2;
+        }
+        if (this.demon1.armorStrength >= 2) {
+          this.demon1.armorStrength = 2;
+        }
+
+        if (this.demon2.wingStrength >= 2) {
+          this.demon2.wingStrength = 2;
+        }
+        if (this.demon2.hornStrength >= 2) {
+          this.demon2.hornStrength = 2;
+        }
+        if (this.demon2.weaponStrength >= 2) {
+          this.demon2.weaponStrength = 2;
+        }
+        if (this.demon2.armorStrength >= 2) {
+          this.demon2.armorStrength = 2;
+        }
+
+        this.demon1.health = this.demon1.maxHealth;
+        this.demon2.health = this.demon2.maxHealth;
 
     },
 
@@ -531,7 +602,7 @@ Game.prototype = {
               y = tileY * this.map.tilesize;//+ this.map.y;
             } while (this.map.fitsIn(x, y, resource.sprite.width, resource.sprite.height) == false ||
             (tileX > 4 && tileX < 14 && tileY > 3 && tileY < 9));
-            
+
             resource.drop(x, y);
             //resource.sprite.x = x;
             //resource.sprite.y = y;
@@ -585,7 +656,7 @@ Game.prototype = {
                 var cloud = this.clouds.splice(i--, 1);
             }
         }
-        
+
     },
 
     render: function() {

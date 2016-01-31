@@ -1,14 +1,19 @@
 function Demon(x, y, spritekeys) {
+    this.maxHealth = 10;
+    this.health = this.maxHealth;
+    this.speed = 0;
+    this.melee = 1;
+    this.range = 1;
 
     this.sprite = game.add.sprite(x, y, spritekeys[0]);
     this.sprite.name = 'body';
 
     game.physics.arcade.enable(this.sprite);
 
-    this.wingStrength = Math.floor(Math.random()*3); //0 tai 1 tai 2
-    this.hornStrength = Math.floor(Math.random()*3); //0 tai 1 tai 2
-    this.weaponStrength = Math.floor(Math.random()*3); //0 tai 1 tai 2
-    this.armorStrength = Math.floor(Math.random()*3); //0 tai 1 tai 2
+    this.wingStrength = 0; //0 tai 1 tai 2
+    this.hornStrength = 0; //0 tai 1 tai 2
+    this.weaponStrength = 0; //0 tai 1 tai 2
+    this.armorStrength = 0; //0 tai 1 tai 2
 
     this.sprite.smoothed = false;
     this.sprite.scale.x = 2;
@@ -307,7 +312,7 @@ Demon.prototype.moveHorizontal = function() {
 }
 
 Demon.prototype.getMovementSpeed = function() {
-    return this.baseMovementSpeed;
+    return this.baseMovementSpeed + this.speed;
 }
 
 Demon.prototype.getAnimationSetIndex = function() {

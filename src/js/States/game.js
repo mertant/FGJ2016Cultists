@@ -521,7 +521,6 @@ Game.prototype = {
     update: function() {
         game.world.bringToTop(this.players);
 
-
         if (this.demon1.health <= 0 || this.demon2.health <= 0) {
             this.gameEnded = true;
             playerWon = this.demon1.health <= 0 ? "blue" : "red";
@@ -530,6 +529,9 @@ Game.prototype = {
                 game.state.start("Victory");
             }, this);
         }
+        // Update stun stars if they are visible
+        this.mage1.updateStunStars();
+        this.mage2.updateStunStars();
 
         //Update flying objects
         for (var i = 0; i < this.activeWeapons.length; i++) {

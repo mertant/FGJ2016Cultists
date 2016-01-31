@@ -219,6 +219,10 @@ Mage.prototype.getMovementSpeed = function() {
 }
 
 Mage.prototype.stun = function() {
+    if (this.isStunned == true) {
+        return [];
+    }
+
     this.isStunned = true;
 
     for (var i = 0; i < this.numStunStars; ++i) {
@@ -246,6 +250,10 @@ Mage.prototype.stun = function() {
 }
 
 Mage.prototype.unstun = function() {
+    if (this.isStunned == false) {
+        return;
+    }
+
     this.isStunned = false;
 
     for (var i = 0; i < this.numStunStars; ++i) {

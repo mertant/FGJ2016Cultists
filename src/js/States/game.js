@@ -27,8 +27,8 @@ Game.prototype = {
         this.mage2.sprite.smoothed = false;
 
         //And demons
-        this.demon1 = new Demon(96+8*32, 96+6*32, ["bluedemoncombined", "bluedemonvariables"]);
-        this.demon2 = new Demon(96+11*32, 96+7*32, ["demoncombined", "demonvariables"]);
+        this.demon1 = new Demon(96+2*32, 96+1*32, ["bluedemoncombined", "bluedemonvariables"]);
+        this.demon2 = new Demon(96+7*32, 96+1*32, ["demoncombined", "demonvariables"]);
 
         //Altars
         this.altar1 = new Altar(96+7*32, 96+5*32, 'blueAltar');
@@ -128,7 +128,6 @@ Game.prototype = {
 
         //BLood and Gore!!
         this.BLOODemitter = game.add.emitter(0, 0, 100);
-
         this.BLOODemitter.makeParticles('drop');
 
         //STONE PARTICLES
@@ -273,7 +272,7 @@ Game.prototype = {
           this.spawnDemons();
         }
         var ItemSpawner666 =  Math.floor((Math.random() * 6) + 1);
-        if (ItemSpawner666 == 1){
+        if (ItemSpawner666 == 1 && this.clock > 0){
           this.itemspawner();
         }
     },
@@ -409,6 +408,7 @@ Game.prototype = {
             var weapon = this.activeWeapons[i].update();
 
             if (!this.activeWeapons[i].flying) {
+                rockhit.play();
                 this.map.add(0,0, this.activeWeapons[i]);
                 console.log("this rock aint goddam null");
                 this.activeWeapons.splice(i--, 1);
@@ -448,6 +448,7 @@ Game.prototype = {
                     this.stoneBLOODemitter.x = this.mage1.sprite.x;
                     this.stoneBLOODemitter.y = this.mage1.sprite.y;
                     this.stoneBLOODemitter.start(true, 1000, null, 7);
+                    culthurt.play();
                     rockhit.play();
                     var droppedItems = this.mage1.stun();
                 }
@@ -460,6 +461,7 @@ Game.prototype = {
                     this.stoneBLOODemitter.x = this.mage2.sprite.x;
                     this.stoneBLOODemitter.y = this.mage2.sprite.y;
                     this.stoneBLOODemitter.start(true, 1000, null, 7);
+                    culthurt.play();
                     rockhit.play();
                     var droppedItems = this.mage2.stun();
                 }
@@ -485,18 +487,25 @@ Game.prototype = {
 
         // le altar code
 
-        //drop items at altar
-        if (checkOverlap(this.mage1.sprite, this.altar1.sprite)) {
-            this.altar1.give(this.mage1.dumpItems());
+        var checkAltar = function(mage, altar, that) {
+            if (checkOverlap(mage.sprite, altar.sprite)) {
+                var items = mage.dumpItems();
+                altar.give(items);
+                if (items.length != 0) {
+                    console.log("oh shit you brought items HAVE SUM BLOD");
+                    that.BLOODemitter.x = altar.sprite.x+32;
+                    that.BLOODemitter.y = altar.sprite.y+32;
+                    that.BLOODemitter.start(true, 1000, null, 7*items.length);
+                }
+            }
         }
 
-        if (checkOverlap(this.mage2.sprite, this.altar2.sprite)) {
-            this.altar2.give(this.mage2.dumpItems());
-        }
+        checkAltar(this.mage1, this.altar1, this);
+        checkAltar(this.mage2, this.altar2, this);
 
         this.altar1.update();
         this.altar2.update();
-
+        
     },
 
     render: function() {

@@ -64,10 +64,14 @@ Tutorial.prototype = {
     },
 
     startGame: function() {
+        track2.fadeOut(1000);
         game.add
             .tween(game.world).to({alpha: 0.0}, 1000, Phaser.Easing.Linear.Out, true)
             .onComplete.add(function() {
+                    stopAudio();
+                    track1.play('',0,1,true);
                 game.state.start("Game");
             }, this);
     },
 };
+

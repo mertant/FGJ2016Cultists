@@ -580,6 +580,34 @@ Game.prototype = {
         game.physics.arcade.collide(this.mage1.sprite, this.map.collideableGroup);
         game.physics.arcade.collide(this.mage2.sprite, this.map.collideableGroup);
 
+        //Lorder Heller Boulder Killer
+        if (this.clock < 0) {
+        demon1collideable = checkOverlap(this.demon1.sprite, this.map.collideableGroup);
+        demon2collideable = checkOverlap(this.demon2.sprite, this.map.collideableGroup);
+        if (demon1collideable) {
+          var obj = this.map.getAt(this.demon1.sprite.body.x + this.demon1.sprite.body.width / 2, this.demon1.sprite.body.y + this.demon1.sprite.body.height / 2 + 30)
+          if (obj != null){
+          this.stoneBLOODemitter.x = obj.sprite.x;
+          this.stoneBLOODemitter.y = obj.sprite.y;
+          this.map.remove(obj);
+          obj.sprite.destroy();
+          rockhit.play();
+          this.stoneBLOODemitter.start(true, 1000, null, 7);
+        }
+        }
+        if (demon2collideable) {
+          var obj = this.map.getAt(this.demon2.sprite.body.x + this.demon2.sprite.body.width / 2, this.demon2.sprite.body.y + this.demon2.sprite.body.height / 2 + 30)
+          if (obj != null){
+          this.stoneBLOODemitter.x = obj.sprite.x;
+          this.stoneBLOODemitter.y = obj.sprite.y;
+          this.map.remove(obj);
+          obj.sprite.destroy();
+          rockhit.play();
+          this.stoneBLOODemitter.start(true, 1000, null, 7);
+        }
+        }
+      }
+
         //check boulder <-> player collision
         var droppedItems = [];
         var droppedX = null;

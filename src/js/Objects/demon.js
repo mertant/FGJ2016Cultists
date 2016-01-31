@@ -3,10 +3,10 @@ function Demon(x, y, spritekeys) {
 
     game.physics.arcade.enable(this.sprite);
 
-    this.wingStrength = 0; //0 tai 1 tai 2
-    this.hornStrength = 0; //0 tai 1 tai 2
-    this.weaponStrength = 0; //0 tai 1 tai 2
-    this.armorStrength = 0; //0 tai 1 tai 2
+    this.wingStrength = Math.floor(Math.random()*3); //0 tai 1 tai 2
+    this.hornStrength = Math.floor(Math.random()*3); //0 tai 1 tai 2
+    this.weaponStrength = Math.floor(Math.random()*3); //0 tai 1 tai 2
+    this.armorStrength = Math.floor(Math.random()*3); //0 tai 1 tai 2
 
     this.sprite.smoothed = false;
     this.sprite.scale.x = 2;

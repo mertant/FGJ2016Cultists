@@ -273,7 +273,7 @@ Game.prototype = {
           this.spawnDemons();
         }
         var ItemSpawner666 =  Math.floor((Math.random() * 6) + 1);
-        if (ItemSpawner666 == 1){
+        if (ItemSpawner666 == 1 && this.clock > 0){
           this.itemspawner();
         }
     },

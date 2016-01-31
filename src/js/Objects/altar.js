@@ -14,7 +14,7 @@ function Altar(x, y, img) {
     }
     else {
         this.color = 'red';
-        this.dropimg = 'drop'
+        this.dropimg = 'drop';
         }
 }
 

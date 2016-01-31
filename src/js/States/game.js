@@ -552,6 +552,10 @@ Game.prototype = {
         this.mage1.updateStunStars();
         this.mage2.updateStunStars();
 
+        // update yoshi eggs (note: Yoshi(C) is a registered trademark of Nintendo Corporation(TM))
+        this.mage1.updateMinisprites();
+        this.mage2.updateMinisprites();
+
         //Update flying objects
         for (var i = 0; i < this.activeWeapons.length; i++) {
             var weapon = this.activeWeapons[i].update();
@@ -674,15 +678,18 @@ Game.prototype = {
             var x,y;
             do {
               var tileX = Math.floor(Math.random() * 4 + droppedX/this.map.tilesize - 2);
-              var tileY = Math.floor(Math.random() * 4 + droppedY/this.map.tilesize  - 2);
+              var tileY = Math.floor(Math.random() * 4 + droppedY/this.map.tilesize - 2);
 
-              x = tileX * this.map.tilesize;// + this.map.x;
-              y = tileY * this.map.tilesize;//+ this.map.y;
+              x = tileX * this.map.tilesize;
+              y = tileY * this.map.tilesize;
             } while (this.map.fitsIn(x, y, resource.sprite.width, resource.sprite.height) == false ||
             (tileX > 4 && tileX < 14 && tileY > 3 && tileY < 9));
 
             resource.drop(x, y);
             this.map.add(x, y, resource);
+            //droppedItemTween = game.add.tween(resource);
+            //droppedItemTween.to({y: '+500'}, 1000, Phaser.Easing.Linear.Out, true, yoyo = true);
+            //console.log("oh shit tweening ", droppedItemTween);
         }
 
 

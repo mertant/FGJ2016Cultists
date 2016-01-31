@@ -61,7 +61,7 @@ Splash.prototype = {
 
 
         game.load.image('boulder', 'content/sprites/boulder.png');
-        game.load.image("chicken", "content/sprites/chicken.png");
+        //game.load.image("chicken", "content/sprites/chicken.png");
         game.load.image("mercury", "content/sprites/mercury.png");
         game.load.image("orb", "content/sprites/orb.png");
         game.load.image("orb2", "content/sprites/orb2.png");
@@ -75,6 +75,11 @@ Splash.prototype = {
         game.load.image("goaty", "content/sprites/goaty-small.png");
         game.load.image("grammi", "content/sprites/grammi.png");
         game.load.image("enter-key", "content/sprites/enter-key-small.png")
+
+        game.load.image("minichicken", "content/sprites/minichicken.png");
+        game.load.image("minimercury", "content/sprites/minimercury.png");
+        game.load.image("miniskull", "content/sprites/miniskull.png");
+        game.load.image("minisulfur", "content/sprites/minisulfurfire.png");
 
         game.load.image('drop', 'content/sprites/drop.png');
         game.load.image('drop2', 'content/sprites/drop2.png');

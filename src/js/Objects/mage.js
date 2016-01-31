@@ -18,6 +18,19 @@ function Mage(x, y, spritekey) {
     this.stunStarAngle =  0;
     this.numStunStars = 5;
 
+    this.itemSprites = [];
+    this.oldX = [];
+    this.oldY = [];
+    this.invisibleTailLength = 300;
+    for (var i = 0; i < this.invisibleTailLength; i++){
+        this.oldX.push(0);
+        this.oldY.push(0);
+        }
+
+    this.miniItemUpdateCounterMax = 1;
+    this.miniItemUpdateCounter = this.miniItemUpdateCounterMax;
+
+
     //Animations
     this.standDownAnim = this.sprite.animations.add("standDown", [0, 0, 0, 1]);
     this.runDownAnim = this.sprite.animations.add("runDown", [2, 3]);
@@ -114,6 +127,47 @@ Mage.prototype.standHorizontal = function() {
 Mage.prototype.pickUp = function(resource) {
     //picks up the given resource to the inventory
     this.inventory.push(resource);
+
+    // add little following yoshi things
+    var miniSprite;
+    switch (resource.sprite.key) {
+            case 'sulphur':
+            miniSprite = 'minisulfur';
+            break;
+            case 'kana':
+            miniSprite = 'minichicken';
+            break;
+            case 'mercury':
+            miniSprite = 'minimercury';
+            break;
+            case 'skull':
+            miniSprite = 'miniskull';
+            break;
+    }
+    
+    var miniItem = game.add.sprite(0,0, miniSprite);
+    this.itemSprites.push(miniItem);
+    this.oldX.unshift(this.sprite.body.x+16);
+    this.oldY.unshift(this.sprite.body.y+24);
+}
+
+Mage.prototype.updateMinisprites = function() {
+    for (var i = 0; i < this.itemSprites.length; i++) {
+        var miniItem = this.itemSprites[i];
+        miniItem.x = this.oldX[3*i];
+        miniItem.y = this.oldY[3*i];
+    }
+
+    this.miniItemUpdateCounter -= 1;
+
+    if (this.miniItemUpdateCounter <= 0) {
+        this.miniItemUpdateCounter = this.miniItemUpdateCounterMax;
+        this.oldX.pop();
+        this.oldY.pop();
+        this.oldX.unshift(this.sprite.body.x+16);
+        this.oldY.unshift(this.sprite.body.y+24);
+        console.log(this.oldX[this.oldX.length-1]);
+    }
 }
 
 Mage.prototype.dumpItems = function() {
@@ -122,9 +176,18 @@ Mage.prototype.dumpItems = function() {
     for (var i = 0; i < this.inventory.length; i++) {
         if (this.inventory[i] != null) {
             temparray.push(this.inventory[i]);
+            this.itemSprites[i].destroy();
         }
     }
     this.inventory = [];
+    this.itemSprites = [];
+    this.oldX = [];
+    this.oldY = [];
+    this.invisibleTailLength = 300;
+    for (var i = 0; i < this.invisibleTailLength; i++){
+        this.oldX.push(0);
+        this.oldY.push(0);
+        }
     return temparray;
 }
 
@@ -171,6 +234,7 @@ Mage.prototype.stun = function() {
     for (var i = 0; i < dropCount; i++) {
         var temp = dropArray[0];
         dropArray.splice(0, 1);
+        this.itemSprites.splice(0,1);
         this.pickUp(temp);
     }
 

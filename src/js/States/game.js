@@ -538,7 +538,6 @@ Game.prototype = {
             if (!this.activeWeapons[i].flying) {
                 rockhit.play();
                 this.map.add(0,0, this.activeWeapons[i]);
-                console.log("this rock aint goddam null");
                 this.activeWeapons.splice(i--, 1);
                 continue;
             }
@@ -603,14 +602,13 @@ Game.prototype = {
 
         // Throw dropped items around
         for (var i = 0; i < droppedItems.length; i++) {
-            console.log("fuckin items gettin dropped in herez");
             // Generate random coordinates until an empty spot is found
             var resource = droppedItems[i];
             var x,y;
             //console.log(resource);
             do {
-              var tileX = Math.floor(Math.random() * 2 + droppedX/this.map.tilesize - 2);
-              var tileY = Math.floor(Math.random() * 2 + droppedY/this.map.tilesize  - 2);
+              var tileX = Math.floor(Math.random() * 4 + droppedX/this.map.tilesize - 2);
+              var tileY = Math.floor(Math.random() * 4 + droppedY/this.map.tilesize  - 2);
 
               x = tileX * this.map.tilesize;// + this.map.x;
               y = tileY * this.map.tilesize;//+ this.map.y;
@@ -622,7 +620,6 @@ Game.prototype = {
             //resource.sprite.y = y;
             //resource.visible = true;
             //this.map.add(x,y, new Resource(x,y, resource.spriteName));
-            console.log(resource.sprite, resource.sprite.x, resource.sprite.y);
             this.map.add(x, y, resource);
         }
 
@@ -650,7 +647,6 @@ Game.prototype = {
                 var items = mage.dumpItems();
                 altar.give(items);
                 if (items.length != 0) {
-                    console.log("oh shit you brought items HAVE SUM BLOD");
                     resconsume.play();
                     that.BLOODemitter.x = altar.sprite.x+32;
                     that.BLOODemitter.y = altar.sprite.y+32;

@@ -1,7 +1,5 @@
 var Menu = function () {};
 
-var track1, track2, track3, track4;
-
 Menu.prototype = {
 
     init: function () {
@@ -39,10 +37,6 @@ Menu.prototype = {
         this.enterKey = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
 
         //Main menu music
-        track1 = game.add.audio('track1');
-        track2 = game.add.audio('track2');
-        track3 = game.add.audio('track3');
-        track4 = game.add.audio('track4');
         track2.play('',0,1,true);
     },
 
@@ -58,4 +52,12 @@ Menu.prototype = {
                 }, this);
         }
     },
+}
+
+
+stopAudio = function() {
+    track1.stop();
+    track2.stop();
+    track3.stop();
+    track4.stop();
 }

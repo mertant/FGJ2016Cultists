@@ -74,10 +74,7 @@ Victory.prototype = {
         game.add
             .tween(game.world).to({alpha: 0.0}, 1000, Phaser.Easing.Linear.Out, true)
             .onComplete.add(function() {
-                track1.stop();
-                track2.stop();
-                track3.stop();
-                track4.stop();
+                stopAudio();
                 track2.play('',0,1,true);
                 game.state.start("Menu");
             }, this);

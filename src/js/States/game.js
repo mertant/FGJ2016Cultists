@@ -225,6 +225,17 @@ Game.prototype = {
         // Overlay trees
         this.trees = game.add.sprite(0, 0, 'backgroundtrees');
 
+        //health skulls
+        this.healthskull1 = game.add.sprite(48, 48, "healthskull");
+        this.healthskull2 = game.add.sprite(800-48, 48, "healthskull");
+        this.healthskull1.anchor.setTo(0.5, 0.5);
+        this.healthskull2.anchor.setTo(0.5, 0.5);
+
+        this.healthskull1.scale.x = -1;
+
+        this.healthskull1.visible = false;
+        this.healthskull2.visible = false;
+
         //timethings
         this.timebar = game.add.sprite(80, 10, 'timebar');
         this.timehud = game.add.sprite(80, 10, 'timehud');
@@ -293,12 +304,12 @@ Game.prototype = {
 
     spawnDemons: function() {
         game.physics.arcade.isPaused = false;
-        track1.stop();
-        track2.stop();
-        track3.stop();
-        track4.stop();
+        stopAudio();
         track3.play('',0,1,true);
         //demonlong.play();
+
+        this.healthskull1.visible = true;
+        this.healthskull2.visible = true;
 
         this.demon1.start();
         this.demon2.start();
@@ -399,9 +410,7 @@ Game.prototype = {
           this.timehud.scale.x = 0;
         }
         if (this.clock == 0) {
-          track1.stop();
-          track2.stop();
-          track3.stop();
+          stopAudio();
           this.preSpawnDemons();
           this.altar1.disableFlames();
           this.altar2.disableFlames();
@@ -570,16 +579,33 @@ Game.prototype = {
         game.world.bringToTop(this.players);
         game.world.bringToTop(this.cloudGroup);
 
+        if (this.demon1.health <= this.demon1.maxHealth && this.demon1.health > this.demon1.maxHealth*2/3) {
+            this.healthskull1.frame = 0;
+        }
+        if (this.demon1.health <= this.demon1.maxHealth*2/3 && this.demon1.health > this.demon1.maxHealth*1/3) {
+            this.healthskull1.frame = 1;
+        }
+        if (this.demon1.health <= this.demon1.maxHealth*1/3 && this.demon1.health >= 0) {
+            this.healthskull1.frame = 2;
+        }
+
+        if (this.demon2.health <= this.demon2.maxHealth && this.demon2.health > this.demon2.maxHealth*2/3) {
+            this.healthskull2.frame = 0;
+        }
+        if (this.demon2.health <= this.demon2.maxHealth*2/3 && this.demon2.health > this.demon2.maxHealth*1/3) {
+            this.healthskull2.frame = 1;
+        }
+        if (this.demon2.health <= this.demon2.maxHealth*1/3 && this.demon2.health >= 0) {
+            this.healthskull2.frame = 2;
+        }
+
         if (this.demon1.health <= 0 || this.demon2.health <= 0) {
             this.gameEnded = true;
             playerWon = this.demon2.health <= 0 ? "blue" : "red";
             //do death anim or smth
             game.time.events.add(Phaser.Timer.SECOND, function() {
 
-                track1.stop();
-                track2.stop();
-                track3.stop();
-                track4.stop();
+                stopAudio();
                 track4.play('',0,1,true);
                 game.state.start("Victory");
             }, this);

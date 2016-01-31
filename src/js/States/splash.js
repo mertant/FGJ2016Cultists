@@ -1,5 +1,7 @@
 var Splash = function () {};
 
+var track1, track2, track3, track4;
+
 Splash.prototype = {
 
     loadScripts: function () {
@@ -111,6 +113,8 @@ Splash.prototype = {
         game.load.spritesheet("fireball", "content/sprites/fireball.png", 32, 32, 4);
         game.load.spritesheet("kana", "content/sprites/kana.png", 32, 32, 3);
 
+        game.load.spritesheet("healthskull", "content/sprites/kana.png", 32, 32, 3);
+
         //ESIMERKKI: game.load.spritesheet(key, sprite file, frame width, frame height, frame count);
         game.load.spritesheet("redacolyte", "content/sprites/redacolyte.png", 32, 32, 15);
         game.load.spritesheet("blueacolyte", "content/sprites/blueacolyte.png", 32, 32, 15);
@@ -132,6 +136,7 @@ Splash.prototype = {
         this.loadImages();
         this.loadFonts();
         this.loadBgm();
+
     },
 
     addGameStates: function () {
@@ -152,6 +157,10 @@ Splash.prototype = {
         this.addGameStates();
         this.addGameMusic();
         window.setTimeout(function() {
+                track1 = game.add.audio('track1');
+                track2 = game.add.audio('track2');
+                track3 = game.add.audio('track3');
+                track4 = game.add.audio('track4');
             game.state.start("Menu");
         }, 1000);
     },

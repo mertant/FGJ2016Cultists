@@ -174,6 +174,9 @@ Mage.prototype.dumpItems = function() {
     // Makes the mage drop all of their items, and returns them in an array
     var temparray = [];
     for (var i = 0; i < this.inventory.length; i++) {
+        if (typeof this.inventory[i] === "undefined") {
+            this.inventory[i] = null;
+        }
         if (this.inventory[i] != null) {
             temparray.push(this.inventory[i]);
             this.itemSprites[i].destroy();

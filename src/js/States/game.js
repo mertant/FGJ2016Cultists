@@ -600,26 +600,30 @@ Game.prototype = {
         }
 
         if (this.demon1.health <= 0 || this.demon2.health <= 0) {
-            this.gameEnded = true;
+           
             playerWon = this.demon2.health <= 0 ? "blue" : "red";
             //do death anim or smth
-            if (playerWon == 'blue'){
-              this.BLOODemitter.x = this.demon2.sprite.body.x + this.demon2.sprite.body.width / 2;
-              this.BLOODemitter.y = this.demon2.sprite.body.y + this.demon2.sprite.body.height / 2;
-              this.BLOODemitter.start(true, 4000, null, 666);
-              demonscream.play();
+            if (!this.gameEnded) {
+                this.gameEnded = true;
+                if (playerWon == 'blue'){
+                  this.BLOODemitter.x = this.demon2.sprite.body.x + this.demon2.sprite.body.width / 2;
+                  this.BLOODemitter.y = this.demon2.sprite.body.y + this.demon2.sprite.body.height / 2;
+                  this.BLOODemitter.start(true, 4000, null, 666);
+                  game.time.events.repeat(Phaser.Timer.SECOND*0.4, 3, function() {demonscream.play();}, this);
+                }
+                if (playerWon == 'red'){
+                  this.BLOODemitter.x = this.demon1.sprite.body.x + this.demon1.sprite.body.width / 2;
+                  this.BLOODemitter.y = this.demon1.sprite.body.y + this.demon1.sprite.body.height / 2;
+                  this.BLOODemitter.start(true, 4000, null, 666);
+                  game.time.events.repeat(Phaser.Timer.SECOND*0.4, 3, function() {demonscream.play();}, this);
+                }
+                game.time.events.add(Phaser.Timer.SECOND*4, function() {
+                    stopAudio();
+                    track4.play('',0,1,true);
+                    game.state.start("Victory");
+                }, this);
             }
-            if (playerWon == 'red'){
-              this.BLOODemitter.x = this.demon1.sprite.body.x + this.demon1.sprite.body.width / 2;
-              this.BLOODemitter.y = this.demon1.sprite.body.y + this.demon1.sprite.body.height / 2;
-              this.BLOODemitter.start(true, 4000, null, 666);
-              demonscream.play();
-            }
-            game.time.events.add(Phaser.Timer.SECOND*4, function() {
-                stopAudio();
-                track4.play('',0,1,true);
-                game.state.start("Victory");
-            }, this);
+
         }
         // Update stun stars if they are visible
         this.mage1.updateStunStars();

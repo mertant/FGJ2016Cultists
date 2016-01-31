@@ -70,7 +70,7 @@ Game.prototype = {
             right: game.input.keyboard.addKey(Phaser.KeyCode.L)
         };
 
-        this.clockStart = 15;
+        this.clockStart = 2;
         this.clock = this.clockStart;
         game.time.events.loop(Phaser.Timer.SECOND, this.updateCounter, this);
 
@@ -505,7 +505,7 @@ Game.prototype = {
 
         this.altar1.update();
         this.altar2.update();
-        
+
     },
 
     render: function() {

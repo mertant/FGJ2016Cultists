@@ -43,11 +43,6 @@ Menu.prototype = {
         track2 = game.add.audio('track2');
         track3 = game.add.audio('track3');
         track4 = game.add.audio('track4');
-        
-        track1.stop();
-        track3.stop();
-        track4.stop();
-
         track2.play('',0,1,true);
     },
 
@@ -55,7 +50,7 @@ Menu.prototype = {
         this.gram.angle += 0.1;
         // Pressing the enter key starts the game
         if (this.enterKey.isDown) {
-            track2.fadeOut(1000);
+            //track2.fadeOut(1000);
             game.add
                 .tween(game.world).to({alpha: 0.0}, 1000, Phaser.Easing.Linear.Out, true)
                 .onComplete.add(function() {

@@ -16,12 +16,6 @@ Victory.prototype = {
             game.world.alpha = 1.0;
         }, 10);
 
-        track1.stop();
-        track2.stop();
-        track3.stop();
-
-        track4.play('',0,1,true);
-
 
         this.gram = game.add.sprite(game.width/2, game.height*3/4, "grammi");
         this.gram.anchor.setTo(0.5, 0.46);
@@ -76,9 +70,15 @@ Victory.prototype = {
     },
 
     backToMenu: function() {
+        track4.fadeOut(1000);
         game.add
             .tween(game.world).to({alpha: 0.0}, 1000, Phaser.Easing.Linear.Out, true)
             .onComplete.add(function() {
+                track1.stop();
+                track2.stop();
+                track3.stop();
+                track4.stop();
+                track2.play('',0,1,true);
                 game.state.start("Menu");
             }, this);
     },

@@ -127,10 +127,6 @@ Game.prototype = {
 
 
         //Le Musik PLayer
-        track2.stop();
-        track3.stop();
-        track4.stop();
-        track1.play('',0,1,true);
 
         //BLood and Gore!!
         this.BLOODemitter = game.add.emitter(0, 0, 100);
@@ -299,6 +295,7 @@ Game.prototype = {
         game.physics.arcade.isPaused = false;
         track1.stop();
         track2.stop();
+        track3.stop();
         track4.stop();
         track3.play('',0,1,true);
         //demonlong.play();
@@ -578,6 +575,12 @@ Game.prototype = {
             playerWon = this.demon2.health <= 0 ? "blue" : "red";
             //do death anim or smth
             game.time.events.add(Phaser.Timer.SECOND, function() {
+
+                track1.stop();
+                track2.stop();
+                track3.stop();
+                track4.stop();
+                track4.play('',0,1,true);
                 game.state.start("Victory");
             }, this);
         }

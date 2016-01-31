@@ -69,7 +69,9 @@ Splash.prototype = {
         game.load.image("grammi", "content/sprites/grammi.png");
         game.load.image("enter-key", "content/sprites/enter-key-small.png")
 
-        game.load.image('blod', 'content/sprites/drop.png');
+        game.load.image('drop', 'content/sprites/drop.png');
+        game.load.image('drop2', 'content/sprites/drop2.png');
+        game.load.image('star', 'content/sprites/star.png');
         game.load.image('stoneblod', 'content/sprites/stoneparticle.png');
         game.load.image('timebar', 'content/sprites/timebar.png');
         game.load.image('timehud', 'content/sprites/timehud.png');
@@ -94,6 +96,8 @@ Splash.prototype = {
         */
         game.load.spritesheet("demoncombined", "content/demon/demoncombined.png", 64, 64, 11);
         game.load.spritesheet("demonvariables", "content/demon/variablescombined.png", 64, 64, 39);
+        game.load.spritesheet("bluedemoncombined", "content/demon/bluedemoncombined.png", 64, 64, 11);
+        game.load.spritesheet("bluedemonvariables", "content/demon/bluevariablescombined.png", 64, 64, 39);
 
 
         //ESIMERKKI: game.load.spritesheet(key, sprite file, frame width, frame height, frame count);

@@ -1,5 +1,7 @@
 var Splash = function () {};
 
+var track1, track2, track3, track4;
+
 Splash.prototype = {
 
     loadScripts: function () {
@@ -7,6 +9,7 @@ Splash.prototype = {
         game.load.script("GameScript", "js/States/game.js");
         game.load.script("TutorialScript", "js/States/tutorial.js");
         game.load.script("VictoryScript", "js/States/victory.js");
+        game.load.script("CreditsScript", "js/States/credits.js");
 
         game.load.script("WorldScript", "js/Objects/world.js");
         game.load.script("WallScript", "js/Objects/wall.js");
@@ -55,10 +58,10 @@ Splash.prototype = {
 
         game.load.image('background', 'content/bg/bg001.png');
         game.load.image("backgroundtrees", "content/bg/backgroundtrees.png");
+        game.load.image("credits", "content/bg/demoncolored.png");
 
         // Sprites
         game.load.image('demon', 'content/sprites/demon.png');
-
 
         game.load.image('boulder', 'content/sprites/boulder.png');
         //game.load.image("chicken", "content/sprites/chicken.png");
@@ -69,8 +72,6 @@ Splash.prototype = {
         game.load.image("rock", "content/sprites/rock.png");
         game.load.image("skull", "content/sprites/skull.png");
         game.load.image("sulphur", "content/sprites/sulphur.png");
-        game.load.image("redAltar", "content/sprites/redAltar.png");
-        game.load.image("blueAltar", "content/sprites/blueAltar.png");
         game.load.image('grave', 'content/sprites/grave.png');
         game.load.image("goaty", "content/sprites/goaty-small.png");
         game.load.image("grammi", "content/sprites/grammi.png");
@@ -113,10 +114,12 @@ Splash.prototype = {
 
         game.load.spritesheet("slash", "content/sprites/slash.png", 32, 32, 2);
         game.load.spritesheet("cloud", "content/sprites/cloud.png", 32, 32, 9);
-        game.load.spritesheet("bluealtar", "content/sprites/bluealtar.png", 64, 64, 7);
-        game.load.spritesheet("redaltar", "content/sprites/redaltar.png", 64, 64, 7);
+        game.load.spritesheet("blueAltar", "content/sprites/blueAltar.png", 64, 64, 7);
+        game.load.spritesheet("redAltar", "content/sprites/redAltar.png", 64, 64, 7);
         game.load.spritesheet("fireball", "content/sprites/fireball.png", 32, 32, 4);
         game.load.spritesheet("kana", "content/sprites/kana.png", 32, 32, 3);
+
+        game.load.spritesheet("healthskull", "content/sprites/hpskull.png", 64, 64, 3);
 
         //ESIMERKKI: game.load.spritesheet(key, sprite file, frame width, frame height, frame count);
         game.load.spritesheet("redacolyte", "content/sprites/redacolyte.png", 32, 32, 15);
@@ -139,6 +142,7 @@ Splash.prototype = {
         this.loadImages();
         this.loadFonts();
         this.loadBgm();
+
     },
 
     addGameStates: function () {
@@ -146,6 +150,7 @@ Splash.prototype = {
         game.state.add("Tutorial", Tutorial);
         game.state.add("Game", Game);
         game.state.add("Victory", Victory);
+        game.state.add("Credits", Credits);
     },
 
     addGameMusic: function () {
@@ -159,7 +164,11 @@ Splash.prototype = {
         this.addGameStates();
         this.addGameMusic();
         window.setTimeout(function() {
-            game.state.start("Game");
+                track1 = game.add.audio('track1');
+                track2 = game.add.audio('track2');
+                track3 = game.add.audio('track3');
+                track4 = game.add.audio('track4');
+            game.state.start("Menu");
         }, 1000);
     },
 

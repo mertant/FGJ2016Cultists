@@ -31,6 +31,9 @@ Game.prototype = {
         this.demon1 = new Demon(96+2*32, 96+1*32, ["bluedemoncombined", "bluedemonvariables"]);
         this.demon2 = new Demon(96+7*32, 96+1*32, ["demoncombined", "demonvariables"]);
 
+        this.demon1.sprite.anchor.setTo(.5, .5);
+        this.demon2.sprite.anchor.setTo(.5, .5);
+
         //Altars
         this.altar1 = new Altar(96+7*32, 96+5*32, 'blueAltar');
         this.altar2 = new Altar(96+10*32, 96+6*32, 'redAltar');
@@ -71,7 +74,7 @@ Game.prototype = {
             right: game.input.keyboard.addKey(Phaser.KeyCode.L)
         };
 
-        this.clockStart = 50;
+        this.clockStart = 5;
         this.clock = this.clockStart;
         game.time.events.loop(Phaser.Timer.SECOND, this.updateCounter, this);
 
@@ -121,12 +124,9 @@ Game.prototype = {
         rescourcepickup = game.add.audio('rescourcepickup');
         rockhit = game.add.audio('rockhit');
         scream = game.add.audio('scream');
-        track1 = game.add.audio('track1');
-        track3 = game.add.audio('track3');
 
 
         //Le Musik PLayer
-        track1.play('',0,1,true);
 
         //BLood and Gore!!
         this.BLOODemitter = game.add.emitter(0, 0, 100);
@@ -225,6 +225,17 @@ Game.prototype = {
         // Overlay trees
         this.trees = game.add.sprite(0, 0, 'backgroundtrees');
 
+        //health skulls
+        this.healthskull1 = game.add.sprite(32, 32, "healthskull");
+        this.healthskull2 = game.add.sprite(800-32, 32, "healthskull");
+        this.healthskull1.anchor.setTo(0.5, 0.5);
+        this.healthskull2.anchor.setTo(0.5, 0.5);
+
+        this.healthskull2.scale.x = -1;
+
+        this.healthskull1.visible = false;
+        this.healthskull2.visible = false;
+
         //timethings
         this.timebar = game.add.sprite(80, 10, 'timebar');
         this.timehud = game.add.sprite(80, 10, 'timehud');
@@ -252,10 +263,12 @@ Game.prototype = {
 
     },
 
-    spawnDemons: function() {
-        game.physics.arcade.isPaused = false;
-        track3.play('',0,1,true);
-        //demonlong.play();
+    preSpawnDemons: function() {
+        bell.play();
+        game.physics.arcade.isPaused = true;
+
+        this.mage1.sprite.visible = false;
+        this.mage2.sprite.visible = false;
 
         this.grave1 = game.add.sprite(this.mage1.sprite.x, this.mage1.sprite.y, 'grave');
         this.grave1.anchor.setTo(.5, .5);
@@ -263,18 +276,44 @@ Game.prototype = {
         this.grave2.anchor.setTo(.5, .5);
 
         this.makeCloud(this.mage1.sprite.x, this.mage1.sprite.y, 2);
+        game.time.events.add(Phaser.Timer.SECOND * 1, function() {this.makeCloud(this.mage1.sprite.x, this.mage1.sprite.y, 2);}, this);
+        game.time.events.add(Phaser.Timer.SECOND * 2, function() {this.makeCloud(this.mage1.sprite.x, this.mage1.sprite.y, 2);}, this);
+        game.time.events.add(Phaser.Timer.SECOND * 0.5, function() {this.makeCloud(this.mage1.sprite.x, this.mage1.sprite.y, 2);}, this);
+        game.time.events.add(Phaser.Timer.SECOND * 1.5, function() {this.makeCloud(this.mage1.sprite.x, this.mage1.sprite.y, 2);}, this);
+
         this.makeCloud(this.mage2.sprite.x, this.mage2.sprite.y, 2);
-        this.makeCloud(310, 290, 4);
-        this.makeCloud(490, 290, 4);
+        game.time.events.add(Phaser.Timer.SECOND * 1, function() {this.makeCloud(this.mage2.sprite.x, this.mage2.sprite.y, 2);}, this);
+        game.time.events.add(Phaser.Timer.SECOND * 2, function() {this.makeCloud(this.mage2.sprite.x, this.mage2.sprite.y, 2);}, this);
+        game.time.events.add(Phaser.Timer.SECOND * 0.5, function() {this.makeCloud(this.mage2.sprite.x, this.mage2.sprite.y, 2);}, this);
+        game.time.events.add(Phaser.Timer.SECOND * 1.5, function() {this.makeCloud(this.mage2.sprite.x, this.mage2.sprite.y, 2);}, this);
+
+        this.makeCloud(96+8*32, 96+7*32, 4);
+        game.time.events.add(Phaser.Timer.SECOND * 1, function() {this.makeCloud(96+8*32, 96+7*32, 4);}, this);
+        game.time.events.add(Phaser.Timer.SECOND * 2, function() {this.makeCloud(96+8*32, 96+7*32, 4);}, this);
+        game.time.events.add(Phaser.Timer.SECOND * 0.5, function() {this.makeCloud(96+8*32, 96+7*32, 4);}, this);
+        game.time.events.add(Phaser.Timer.SECOND * 1.5, function() {this.makeCloud(96+8*32, 96+7*32, 4);}, this);
+
+        this.makeCloud(96+13*32, 96+7*32, 4);
+        game.time.events.add(Phaser.Timer.SECOND * 1, function() {this.makeCloud(96+13*32, 96+7*32, 4);}, this);
+        game.time.events.add(Phaser.Timer.SECOND * 2, function() {this.makeCloud(96+13*32, 96+7*32, 4);}, this);
+        game.time.events.add(Phaser.Timer.SECOND * 0.5, function() {this.makeCloud(96+13*32, 96+7*32, 4);}, this);
+        game.time.events.add(Phaser.Timer.SECOND * 1.5, function() {this.makeCloud(96+13*32, 96+7*32, 4);}, this);
+
+        game.time.events.add(Phaser.Timer.SECOND * 3, this.spawnDemons, this);
+    },
+
+    spawnDemons: function() {
+        game.physics.arcade.isPaused = false;
+        stopAudio();
+        track3.play('',0,1,true);
+        //demonlong.play();
+
+        this.healthskull1.visible = true;
+        this.healthskull2.visible = true;
 
         this.demon1.start();
         this.demon2.start();
 
-        this.demon1.sprite.anchor.setTo(.5, .5);
-        this.demon2.sprite.anchor.setTo(.5, .5);
-
-        this.mage1.sprite.visible = false;
-        this.mage2.sprite.visible = false;
         this.demon1.sprite.body.collideWorldBounds = true;
         this.demon2.sprite.body.collideWorldBounds = true;
 
@@ -371,10 +410,10 @@ Game.prototype = {
           this.timehud.scale.x = 0;
         }
         if (this.clock == 0) {
-          track1.stop();
-          bell.play();
-          game.physics.arcade.isPaused = true;
-          game.time.events.add(Phaser.Timer.SECOND * 3, this.spawnDemons, this);
+          stopAudio();
+          this.preSpawnDemons();
+          this.altar1.disableFlames();
+          this.altar2.disableFlames();
         }
         var ItemSpawner666 =  Math.floor((Math.random() * 5) + 1);
         if (ItemSpawner666 == 1 && this.clock > 0){
@@ -383,7 +422,7 @@ Game.prototype = {
     },
 
     controls: function() {
-        if (this.clock > 0) {
+        if (this.clock > 0 && !game.physics.arcade.isPaused) {
             var inputSystems = [[this.mage1, this.keys1], [this.mage2, this.keys2]];
             for (var i = 0; i < inputSystems.length; i++) {
                 var curMage = inputSystems[i][0];
@@ -448,7 +487,7 @@ Game.prototype = {
                     curMage.weapon.update();
                 }
             }
-        } else {
+        } else if (!game.physics.arcade.isPaused) {
             var inputSystems = [[this.demon1, this.keys1], [this.demon2, this.keys2]];
             for (var i = 0; i < inputSystems.length; i++) {
                 var curDemon = inputSystems[i][0];
@@ -540,11 +579,34 @@ Game.prototype = {
         game.world.bringToTop(this.players);
         game.world.bringToTop(this.cloudGroup);
 
+        if (this.demon1.health <= this.demon1.maxHealth && this.demon1.health > this.demon1.maxHealth*2/3) {
+            this.healthskull1.frame = 0;
+        }
+        if (this.demon1.health <= this.demon1.maxHealth*2/3 && this.demon1.health > this.demon1.maxHealth*1/3) {
+            this.healthskull1.frame = 1;
+        }
+        if (this.demon1.health <= this.demon1.maxHealth*1/3 && this.demon1.health >= 0) {
+            this.healthskull1.frame = 2;
+        }
+
+        if (this.demon2.health <= this.demon2.maxHealth && this.demon2.health > this.demon2.maxHealth*2/3) {
+            this.healthskull2.frame = 0;
+        }
+        if (this.demon2.health <= this.demon2.maxHealth*2/3 && this.demon2.health > this.demon2.maxHealth*1/3) {
+            this.healthskull2.frame = 1;
+        }
+        if (this.demon2.health <= this.demon2.maxHealth*1/3 && this.demon2.health >= 0) {
+            this.healthskull2.frame = 2;
+        }
+
         if (this.demon1.health <= 0 || this.demon2.health <= 0) {
             this.gameEnded = true;
-            playerWon = this.demon1.health <= 0 ? "blue" : "red";
+            playerWon = this.demon2.health <= 0 ? "blue" : "red";
             //do death anim or smth
             game.time.events.add(Phaser.Timer.SECOND, function() {
+
+                stopAudio();
+                track4.play('',0,1,true);
                 game.state.start("Victory");
             }, this);
         }
@@ -590,6 +652,34 @@ Game.prototype = {
         game.physics.arcade.collide(this.mage1.sprite, this.map.collideableGroup);
         game.physics.arcade.collide(this.mage2.sprite, this.map.collideableGroup);
 
+        //Lorder Heller Boulder Killer
+        if (this.clock < 0) {
+        demon1collideable = checkOverlap(this.demon1.sprite, this.map.collideableGroup);
+        demon2collideable = checkOverlap(this.demon2.sprite, this.map.collideableGroup);
+        if (demon1collideable) {
+          var obj = this.map.getAt(this.demon1.sprite.body.x + this.demon1.sprite.body.width / 2, this.demon1.sprite.body.y + this.demon1.sprite.body.height / 2 + 30)
+          if (obj != null){
+          this.stoneBLOODemitter.x = obj.sprite.x;
+          this.stoneBLOODemitter.y = obj.sprite.y;
+          this.map.remove(obj);
+          obj.sprite.destroy();
+          rockhit.play();
+          this.stoneBLOODemitter.start(true, 1000, null, 7);
+        }
+        }
+        if (demon2collideable) {
+          var obj = this.map.getAt(this.demon2.sprite.body.x + this.demon2.sprite.body.width / 2, this.demon2.sprite.body.y + this.demon2.sprite.body.height / 2 + 30)
+          if (obj != null){
+          this.stoneBLOODemitter.x = obj.sprite.x;
+          this.stoneBLOODemitter.y = obj.sprite.y;
+          this.map.remove(obj);
+          obj.sprite.destroy();
+          rockhit.play();
+          this.stoneBLOODemitter.start(true, 1000, null, 7);
+        }
+        }
+      }
+
         //check boulder <-> player collision
         var droppedItems = [];
         var droppedX = null;
@@ -630,14 +720,14 @@ Game.prototype = {
                 var wasHit = checkOverlap(this.demon1.sprite, this.slashes[i].sprite);
                 if (wasHit) {
                     this.slashes[i].destroy();
-                    this.demon1.hit("melee");
+                    this.demon1.hit("melee", this.slashes[i]);
                 }
             }
             if (!this.slashes[i].destroyed && this.slashes[i].owner != this.demon2) {
                 var wasHit = checkOverlap(this.demon2.sprite, this.slashes[i].sprite);
                 if (wasHit) {
                     this.slashes[i].destroy();
-                    this.demon2.hit("melee");
+                    this.demon2.hit("melee", this.slashes[i]);
                 }
             }
         }
@@ -646,15 +736,21 @@ Game.prototype = {
             if (!this.fireballs[i].destroyed && this.fireballs[i].owner != this.demon1) {
                 var wasHit = checkOverlap(this.demon1.sprite, this.fireballs[i].sprite);
                 if (wasHit) {
+                    this.makeCloud(this.demon1.sprite.body.x + this.demon1.sprite.body.width / 2.0,
+                        this.demon1.sprite.body.y + this.demon1.sprite.body.height / 2.0,
+                        2.0);
                     this.fireballs[i].destroy();
-                    this.demon1.hit("range");
+                    this.demon1.hit("range", this.fireballs[i]);
                 }
             }
             if (!this.fireballs[i].destroyed && this.fireballs[i].owner != this.demon2) {
                 var wasHit = checkOverlap(this.demon2.sprite, this.fireballs[i].sprite);
                 if (wasHit) {
+                    this.makeCloud(this.demon2.sprite.body.x + this.demon2.sprite.body.width / 2.0,
+                        this.demon2.sprite.body.y + this.demon2.sprite.body.height / 2.0,
+                        2.0);
                     this.fireballs[i].destroy();
-                    this.demon2.hit("range");
+                    this.demon2.hit("range", this.fireballs[i]);
                 }
             }
         }

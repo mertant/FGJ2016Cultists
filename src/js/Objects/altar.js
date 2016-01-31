@@ -1,5 +1,10 @@
 function Altar(x, y, img) {
     this.sprite = game.add.sprite(x, y, img);
+    // Setup animations
+    this.sprite.animations.add('flamingAltar', [1, 2, 3, 4, 5, 6]);
+    this.sprite.animations.add('nonFlamingAltar', [0]);
+
+    this.enableFlames();
 
     this.items = [];
     this.orbs = [];
@@ -16,6 +21,14 @@ function Altar(x, y, img) {
         this.color = 'red';
         this.dropimg = 'drop';
         }
+}
+
+Altar.prototype.enableFlames = function() {
+    this.sprite.animations.play('flamingAltar', 10, true)
+}
+
+Altar.prototype.disableFlames = function() {
+    this.sprite.animations.play('nonFlamingAltar', 1, false);
 }
 
 Altar.prototype.give = function(items) {

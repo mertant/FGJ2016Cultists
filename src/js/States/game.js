@@ -188,12 +188,22 @@ Game.prototype = {
             this.map.add(x, y, resource);
         }
 
-        //TEMP
-        //make a test boulder to toss
-        var boulder = new Boulder(128, 128);
-        this.map.add(128, 128, boulder);
-        var boulder = new Boulder(160, 160);
-        this.map.add(160, 160, boulder);
+        //bouldercreation
+        for (var i = 0; i < 6; ++i) {
+            var x = 0;
+            var y = 0;
+            // Generate random coordinates until an empty spot is found
+            do {
+                var tileX = Math.floor(Math.random() * this.map.width);
+                var tileY = Math.floor(Math.random() * this.map.height);
+
+                var x = tileX * this.map.tilesize + this.map.x;
+                var y = tileY * this.map.tilesize + this.map.y;
+            } while (this.map.fitsIn(x, y, 32, 32) == false ||
+            (tileX > 4 && tileX < 14 && tileY > 3 && tileY < 9));
+            var boulder = new Boulder(x, y);
+            this.map.add(x, y, boulder);
+        }
 
         // Active boulders to update
         this.activeWeapons = []; //list that contains any active/flying boulders
@@ -274,6 +284,10 @@ Game.prototype = {
         var ItemSpawner666 =  Math.floor((Math.random() * 6) + 1);
         if (ItemSpawner666 == 1 && this.clock > 0){
           this.itemspawner();
+        }
+        var BoulderSpawner666 = Math.floor((Math.random() * 7) + 1);
+        if (BoulderSpawner666 == 1 && this.clock > 0){
+          this.boulderspawner();
         }
     },
 
@@ -400,6 +414,22 @@ Game.prototype = {
       this.map.add(x, y, resource);
     },
 
+    boulderspawner: function() {
+      var x = 0;
+      var y = 0;
+      // Generate random coordinates until an empty spot is found
+      do {
+          var tileX = Math.floor(Math.random() * this.map.width);
+          var tileY = Math.floor(Math.random() * this.map.height);
+
+          var x = tileX * this.map.tilesize + this.map.x;
+          var y = tileY * this.map.tilesize + this.map.y;
+      } while (this.map.fitsIn(x, y, 32, 32) == false ||
+      (tileX > 4 && tileX < 14 && tileY > 3 && tileY < 9));
+      var boulder = new Boulder(x, y);
+      this.map.add(x, y, boulder);
+    },
+
     update: function() {
         game.world.bringToTop(this.players);
 
@@ -505,7 +535,7 @@ Game.prototype = {
 
         this.altar1.update();
         this.altar2.update();
-        
+
     },
 
     render: function() {

@@ -27,7 +27,7 @@ Game.prototype = {
         this.mage2.sprite.smoothed = false;
 
         //And demons
-        this.demon1 = new Demon(96+8*32, 96+6*32, ["demoncombined", "demonvariables"]);
+        this.demon1 = new Demon(96+8*32, 96+6*32, ["bluedemoncombined", "bluedemonvariables"]);
         this.demon2 = new Demon(96+11*32, 96+7*32, ["demoncombined", "demonvariables"]);
 
         //Altars

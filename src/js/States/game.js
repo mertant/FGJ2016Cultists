@@ -74,7 +74,7 @@ Game.prototype = {
             right: game.input.keyboard.addKey(Phaser.KeyCode.L)
         };
 
-        this.clockStart = 5;
+        this.clockStart = 20;
         this.clock = this.clockStart;
         game.time.events.loop(Phaser.Timer.SECOND, this.updateCounter, this);
 

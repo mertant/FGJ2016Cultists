@@ -52,13 +52,16 @@ Boulder.prototype.update = function() {
         if (this.flyDirection % 2 == 0) {
             if (Math.abs(this.flyStartY - this.sprite.y) > this.tossDistance) {
                 this.stop();
+                return this;
             }
         } else {
             if (Math.abs(this.flyStartX - this.sprite.x) > this.tossDistance) {
                 this.stop();
+                return this;
             }
         }
     }
+    return null;
 }
 
 Boulder.prototype.stop = function() {
